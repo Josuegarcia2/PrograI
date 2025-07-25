@@ -26,5 +26,26 @@ namespace miPrimerProyectoCsharp
         {
 
         }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnSaludar_Click(object sender, EventArgs e)
+        {
+            lblSaludo.Text = "¡Hola, " + txtNombre.Text + ", ¡Bienvenido a tu espacio de trabajo. " +
+                "Que sea una experiencia productiva y agradable!";
+        }
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

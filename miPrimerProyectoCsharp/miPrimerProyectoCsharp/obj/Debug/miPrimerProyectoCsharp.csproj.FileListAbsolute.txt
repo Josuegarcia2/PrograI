@@ -8,3 +8,4 @@ C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyec
 C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.csproj.CoreCompileInputs.cache
 C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.exe
 C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.pdb
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.exe.config
