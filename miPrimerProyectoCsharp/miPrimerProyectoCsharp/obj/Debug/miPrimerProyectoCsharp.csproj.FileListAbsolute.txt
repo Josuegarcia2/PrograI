@@ -1,0 +1,10 @@
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\bin\Debug\miPrimerProyectoCsharp.exe.config
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\bin\Debug\miPrimerProyectoCsharp.exe
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\bin\Debug\miPrimerProyectoCsharp.pdb
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.csproj.AssemblyReference.cache
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.Form1.resources
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.Properties.Resources.resources
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.csproj.GenerateResource.cache
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.csproj.CoreCompileInputs.cache
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.exe
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.pdb
