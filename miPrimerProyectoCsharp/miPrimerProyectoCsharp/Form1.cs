@@ -39,11 +39,20 @@ namespace miPrimerProyectoCsharp
 
         private void btnSaludar_Click(object sender, EventArgs e)
         {
-            lblSaludo.Text = "¡Hola, " + txtNombre.Text + ", ¡Bienvenido a tu espacio de trabajo. " +
-                "Que sea una experiencia productiva y agradable!";
+            string nombre = txtNombre.Text;
+            string horaActual = DateTime.Now.ToString("HH:mm:ss"); 
+            string fechaActual = DateTime.Now.ToLongDateString();
+
+            lblSaludo.Text = $"Hola {nombre}, ¡Saludos y que tengas un exelente dia!.";
+            lblFechaHora.Text = $"Hoy es  {fechaActual}, y son las  {horaActual}. ";
         }
 
         private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblFechaHora_Click(object sender, EventArgs e)
         {
 
         }

@@ -32,15 +32,17 @@
             this.btnSaludar = new System.Windows.Forms.Button();
             this.lblSaludo = new System.Windows.Forms.Label();
             this.txtNombre = new System.Windows.Forms.TextBox();
+            this.lblFechaHora = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblNombre
             // 
             this.lblNombre.AutoSize = true;
             this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombre.Location = new System.Drawing.Point(24, 54);
+            this.lblNombre.Location = new System.Drawing.Point(32, 66);
+            this.lblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(73, 18);
+            this.lblNombre.Size = new System.Drawing.Size(91, 24);
             this.lblNombre.TabIndex = 0;
             this.lblNombre.Text = "Nombre:";
             this.lblNombre.Click += new System.EventHandler(this.label1_Click_1);
@@ -48,9 +50,10 @@
             // btnSaludar
             // 
             this.btnSaludar.BackColor = System.Drawing.Color.Teal;
-            this.btnSaludar.Location = new System.Drawing.Point(253, 84);
+            this.btnSaludar.Location = new System.Drawing.Point(337, 103);
+            this.btnSaludar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSaludar.Name = "btnSaludar";
-            this.btnSaludar.Size = new System.Drawing.Size(86, 36);
+            this.btnSaludar.Size = new System.Drawing.Size(115, 44);
             this.btnSaludar.TabIndex = 1;
             this.btnSaludar.Text = "SALUDAR";
             this.btnSaludar.UseVisualStyleBackColor = false;
@@ -59,11 +62,12 @@
             // lblSaludo
             // 
             this.lblSaludo.AutoSize = true;
-            this.lblSaludo.Font = new System.Drawing.Font("Arial Black", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSaludo.Font = new System.Drawing.Font("Arial Narrow", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSaludo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lblSaludo.Location = new System.Drawing.Point(12, 174);
+            this.lblSaludo.Location = new System.Drawing.Point(16, 214);
+            this.lblSaludo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblSaludo.Name = "lblSaludo";
-            this.lblSaludo.Size = new System.Drawing.Size(60, 27);
+            this.lblSaludo.Size = new System.Drawing.Size(46, 24);
             this.lblSaludo.TabIndex = 2;
             this.lblSaludo.Text = "Hola";
             this.lblSaludo.Click += new System.EventHandler(this.label2_Click);
@@ -71,23 +75,38 @@
             // txtNombre
             // 
             this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombre.Location = new System.Drawing.Point(92, 54);
+            this.txtNombre.Location = new System.Drawing.Point(123, 66);
+            this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(424, 24);
+            this.txtNombre.Size = new System.Drawing.Size(564, 29);
             this.txtNombre.TabIndex = 3;
             this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
             // 
+            // lblFechaHora
+            // 
+            this.lblFechaHora.AutoSize = true;
+            this.lblFechaHora.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblFechaHora.ForeColor = System.Drawing.Color.Black;
+            this.lblFechaHora.Location = new System.Drawing.Point(13, 238);
+            this.lblFechaHora.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblFechaHora.Name = "lblFechaHora";
+            this.lblFechaHora.Size = new System.Drawing.Size(25, 24);
+            this.lblFechaHora.TabIndex = 4;
+            this.lblFechaHora.Text = "...";
+            this.lblFechaHora.Click += new System.EventHandler(this.lblFechaHora_Click);
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
-            this.ClientSize = new System.Drawing.Size(1055, 282);
+            this.ClientSize = new System.Drawing.Size(715, 347);
+            this.Controls.Add(this.lblFechaHora);
             this.Controls.Add(this.txtNombre);
             this.Controls.Add(this.lblSaludo);
             this.Controls.Add(this.btnSaludar);
             this.Controls.Add(this.lblNombre);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -102,6 +121,7 @@
         private System.Windows.Forms.Button btnSaludar;
         private System.Windows.Forms.Label lblSaludo;
         private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.Label lblFechaHora;
     }
 }
 
