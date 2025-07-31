@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Globalization;
 
 namespace miPrimerProyectoCsharp
 {
@@ -37,16 +38,6 @@ namespace miPrimerProyectoCsharp
 
         }
 
-        private void btnSaludar_Click(object sender, EventArgs e)
-        {
-            string nombre = txtNombre.Text;
-            string horaActual = DateTime.Now.ToString("HH:mm:ss"); 
-            string fechaActual = DateTime.Now.ToLongDateString();
-
-            lblSaludo.Text = $"Hola {nombre}, ¡Saludos y que tengas un exelente dia!.";
-            lblFechaHora.Text = $"Hoy es  {fechaActual}, y son las  {horaActual}. ";
-        }
-
         private void txtNombre_TextChanged(object sender, EventArgs e)
         {
 
@@ -55,6 +46,29 @@ namespace miPrimerProyectoCsharp
         private void lblFechaHora_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btncalcular_Click(object sender, EventArgs e)
+        {
+            double num1, num2, respuesta;
+
+            num1 = Double.Parse(txtnum1.Text);
+
+            num2 = Double.Parse(txtnum2.Text);
+
+            respuesta = num1 + num2;
+
+            lblrespuesta.Text = "La suma es: " + respuesta;
         }
     }
 }

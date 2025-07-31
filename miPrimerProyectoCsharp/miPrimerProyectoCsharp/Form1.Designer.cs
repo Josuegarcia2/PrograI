@@ -28,72 +28,66 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblNombre = new System.Windows.Forms.Label();
-            this.btnSaludar = new System.Windows.Forms.Button();
-            this.lblSaludo = new System.Windows.Forms.Label();
-            this.txtNombre = new System.Windows.Forms.TextBox();
-            this.lblFechaHora = new System.Windows.Forms.Label();
+            this.lblnum1 = new System.Windows.Forms.Label();
+            this.txtnum1 = new System.Windows.Forms.TextBox();
+            this.txtnum2 = new System.Windows.Forms.TextBox();
+            this.lblnum2 = new System.Windows.Forms.Label();
+            this.btncalcular = new System.Windows.Forms.Button();
+            this.lblrespuesta = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // lblNombre
+            // lblnum1
             // 
-            this.lblNombre.AutoSize = true;
-            this.lblNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNombre.Location = new System.Drawing.Point(32, 66);
-            this.lblNombre.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblNombre.Name = "lblNombre";
-            this.lblNombre.Size = new System.Drawing.Size(91, 24);
-            this.lblNombre.TabIndex = 0;
-            this.lblNombre.Text = "Nombre:";
-            this.lblNombre.Click += new System.EventHandler(this.label1_Click_1);
+            this.lblnum1.AutoSize = true;
+            this.lblnum1.Location = new System.Drawing.Point(82, 64);
+            this.lblnum1.Name = "lblnum1";
+            this.lblnum1.Size = new System.Drawing.Size(48, 16);
+            this.lblnum1.TabIndex = 0;
+            this.lblnum1.Text = "Num 1:";
             // 
-            // btnSaludar
+            // txtnum1
             // 
-            this.btnSaludar.BackColor = System.Drawing.Color.Teal;
-            this.btnSaludar.Location = new System.Drawing.Point(337, 103);
-            this.btnSaludar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSaludar.Name = "btnSaludar";
-            this.btnSaludar.Size = new System.Drawing.Size(115, 44);
-            this.btnSaludar.TabIndex = 1;
-            this.btnSaludar.Text = "SALUDAR";
-            this.btnSaludar.UseVisualStyleBackColor = false;
-            this.btnSaludar.Click += new System.EventHandler(this.btnSaludar_Click);
+            this.txtnum1.Location = new System.Drawing.Point(132, 61);
+            this.txtnum1.Name = "txtnum1";
+            this.txtnum1.Size = new System.Drawing.Size(100, 22);
+            this.txtnum1.TabIndex = 1;
             // 
-            // lblSaludo
+            // txtnum2
             // 
-            this.lblSaludo.AutoSize = true;
-            this.lblSaludo.Font = new System.Drawing.Font("Arial Narrow", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSaludo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
-            this.lblSaludo.Location = new System.Drawing.Point(16, 214);
-            this.lblSaludo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblSaludo.Name = "lblSaludo";
-            this.lblSaludo.Size = new System.Drawing.Size(46, 24);
-            this.lblSaludo.TabIndex = 2;
-            this.lblSaludo.Text = "Hola";
-            this.lblSaludo.Click += new System.EventHandler(this.label2_Click);
+            this.txtnum2.Location = new System.Drawing.Point(132, 89);
+            this.txtnum2.Name = "txtnum2";
+            this.txtnum2.Size = new System.Drawing.Size(100, 22);
+            this.txtnum2.TabIndex = 3;
+            this.txtnum2.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
-            // txtNombre
+            // lblnum2
             // 
-            this.txtNombre.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNombre.Location = new System.Drawing.Point(123, 66);
-            this.txtNombre.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtNombre.Name = "txtNombre";
-            this.txtNombre.Size = new System.Drawing.Size(564, 29);
-            this.txtNombre.TabIndex = 3;
-            this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
+            this.lblnum2.AutoSize = true;
+            this.lblnum2.Location = new System.Drawing.Point(82, 92);
+            this.lblnum2.Name = "lblnum2";
+            this.lblnum2.Size = new System.Drawing.Size(48, 16);
+            this.lblnum2.TabIndex = 2;
+            this.lblnum2.Text = "Num 2:";
+            this.lblnum2.Click += new System.EventHandler(this.label1_Click_2);
             // 
-            // lblFechaHora
+            // btncalcular
             // 
-            this.lblFechaHora.AutoSize = true;
-            this.lblFechaHora.Font = new System.Drawing.Font("Arial Narrow", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblFechaHora.ForeColor = System.Drawing.Color.Black;
-            this.lblFechaHora.Location = new System.Drawing.Point(13, 238);
-            this.lblFechaHora.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.lblFechaHora.Name = "lblFechaHora";
-            this.lblFechaHora.Size = new System.Drawing.Size(25, 24);
-            this.lblFechaHora.TabIndex = 4;
-            this.lblFechaHora.Text = "...";
-            this.lblFechaHora.Click += new System.EventHandler(this.lblFechaHora_Click);
+            this.btncalcular.Location = new System.Drawing.Point(269, 44);
+            this.btncalcular.Name = "btncalcular";
+            this.btncalcular.Size = new System.Drawing.Size(159, 86);
+            this.btncalcular.TabIndex = 4;
+            this.btncalcular.Text = "calcular";
+            this.btncalcular.UseVisualStyleBackColor = true;
+            this.btncalcular.Click += new System.EventHandler(this.btncalcular_Click);
+            // 
+            // lblrespuesta
+            // 
+            this.lblrespuesta.AutoSize = true;
+            this.lblrespuesta.Location = new System.Drawing.Point(82, 178);
+            this.lblrespuesta.Name = "lblrespuesta";
+            this.lblrespuesta.Size = new System.Drawing.Size(89, 16);
+            this.lblrespuesta.TabIndex = 5;
+            this.lblrespuesta.Text = "Respuesta:  ?";
             // 
             // Form1
             // 
@@ -101,11 +95,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.LightGray;
             this.ClientSize = new System.Drawing.Size(715, 347);
-            this.Controls.Add(this.lblFechaHora);
-            this.Controls.Add(this.txtNombre);
-            this.Controls.Add(this.lblSaludo);
-            this.Controls.Add(this.btnSaludar);
-            this.Controls.Add(this.lblNombre);
+            this.Controls.Add(this.lblrespuesta);
+            this.Controls.Add(this.btncalcular);
+            this.Controls.Add(this.txtnum2);
+            this.Controls.Add(this.lblnum2);
+            this.Controls.Add(this.txtnum1);
+            this.Controls.Add(this.lblnum1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -117,11 +112,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Label lblNombre;
-        private System.Windows.Forms.Button btnSaludar;
-        private System.Windows.Forms.Label lblSaludo;
-        private System.Windows.Forms.TextBox txtNombre;
-        private System.Windows.Forms.Label lblFechaHora;
+        private System.Windows.Forms.Label lblnum1;
+        private System.Windows.Forms.TextBox txtnum1;
+        private System.Windows.Forms.TextBox txtnum2;
+        private System.Windows.Forms.Label lblnum2;
+        private System.Windows.Forms.Button btncalcular;
+        private System.Windows.Forms.Label lblrespuesta;
     }
 }
 
