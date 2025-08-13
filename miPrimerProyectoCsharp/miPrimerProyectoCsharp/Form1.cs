@@ -60,15 +60,93 @@ namespace miPrimerProyectoCsharp
 
         private void btncalcular_Click(object sender, EventArgs e)
         {
-            double num1, num2, respuesta;
+            double num1, num2, respuesta = 0;
 
             num1 = Double.Parse(txtnum1.Text);
 
             num2 = Double.Parse(txtnum2.Text);
 
-            respuesta = num1 + num2;
+            if (optSuma.Checked)
+            {
+                respuesta = num1 + num2;
 
-            lblrespuesta.Text = "La suma es: " + respuesta;
+            }
+             if (optResta.Checked)
+            {
+                respuesta = num1 - num2;
+            }
+            
+             if (optMultiplicacion.Checked)  {
+                
+                respuesta = num1 * num2;
+
+
+             }
+
+             if (optDivision.Checked)  {
+                respuesta = num1 / num2;
+
+
+             }
+             if(optExponente.Checked)
+            {
+                respuesta = Math.Pow(num1, num2);
+
+            }
+
+             if (optPorcentaje.Checked)
+            {
+                respuesta = (num1 * num2) / 100;
+            }
+
+            
+            lblrespuesta.Text = "Respuesta:" + respuesta;
+        }
+
+        private void radioButton4_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCalcularOpciones_Click(object sender, EventArgs e)
+        {
+            double num1, num2, respuesta = 0;
+            num1 = Double.Parse(txtnum1.Text);
+            num2 = Double.Parse(txtnum2.Text);
+
+
+            switch (cboOpciones.SelectedIndex)
+            {
+                case 0:
+                    respuesta = num1 + num2;
+                    break;
+
+                case 1:
+                    respuesta = num1 - num2;
+                    break;
+
+                case 2:
+                    respuesta = num1 * num2;
+                    break;
+
+                case 3:
+                    respuesta = num1 / num2;
+                    break;
+
+                case 4:
+                    respuesta = Math.Pow(num1, num2);
+                    break;
+
+                case 5:
+                    respuesta = (num1 * num2) / 100;
+                    break;
+
+                case 6:
+                    respuesta = num1 % num2; // Módulo
+                    break;
+
+            }
+            lblrespuesta.Text = "respuesta" + respuesta;
         }
     }
 }
