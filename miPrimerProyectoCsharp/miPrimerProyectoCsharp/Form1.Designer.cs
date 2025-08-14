@@ -35,15 +35,16 @@
             this.btncalcular = new System.Windows.Forms.Button();
             this.lblrespuesta = new System.Windows.Forms.Label();
             this.grbOpciones = new System.Windows.Forms.GroupBox();
-            this.optSuma = new System.Windows.Forms.RadioButton();
-            this.optResta = new System.Windows.Forms.RadioButton();
-            this.optMultiplicacion = new System.Windows.Forms.RadioButton();
-            this.optDivision = new System.Windows.Forms.RadioButton();
-            this.optExponente = new System.Windows.Forms.RadioButton();
-            this.optPorcentaje = new System.Windows.Forms.RadioButton();
             this.optFactorial = new System.Windows.Forms.RadioButton();
+            this.optPorcentaje = new System.Windows.Forms.RadioButton();
+            this.optExponente = new System.Windows.Forms.RadioButton();
+            this.optDivision = new System.Windows.Forms.RadioButton();
+            this.optMultiplicacion = new System.Windows.Forms.RadioButton();
+            this.optResta = new System.Windows.Forms.RadioButton();
+            this.optSuma = new System.Windows.Forms.RadioButton();
             this.cboOpciones = new System.Windows.Forms.ComboBox();
             this.btnCalcularOpciones = new System.Windows.Forms.Button();
+            this.optPrimo = new System.Windows.Forms.RadioButton();
             this.grbOpciones.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,6 +103,7 @@
             // 
             // grbOpciones
             // 
+            this.grbOpciones.Controls.Add(this.optPrimo);
             this.grbOpciones.Controls.Add(this.optFactorial);
             this.grbOpciones.Controls.Add(this.optPorcentaje);
             this.grbOpciones.Controls.Add(this.optExponente);
@@ -116,38 +118,39 @@
             this.grbOpciones.TabStop = false;
             this.grbOpciones.Text = "Opciones";
             // 
-            // optSuma
+            // optFactorial
             // 
-            this.optSuma.AutoSize = true;
-            this.optSuma.Location = new System.Drawing.Point(16, 61);
-            this.optSuma.Name = "optSuma";
-            this.optSuma.Size = new System.Drawing.Size(63, 20);
-            this.optSuma.TabIndex = 7;
-            this.optSuma.TabStop = true;
-            this.optSuma.Text = "Suma";
-            this.optSuma.UseVisualStyleBackColor = true;
+            this.optFactorial.AutoSize = true;
+            this.optFactorial.Location = new System.Drawing.Point(17, 246);
+            this.optFactorial.Name = "optFactorial";
+            this.optFactorial.Size = new System.Drawing.Size(80, 20);
+            this.optFactorial.TabIndex = 13;
+            this.optFactorial.TabStop = true;
+            this.optFactorial.Text = "Factorial";
+            this.optFactorial.UseVisualStyleBackColor = true;
             // 
-            // optResta
+            // optPorcentaje
             // 
-            this.optResta.AutoSize = true;
-            this.optResta.Location = new System.Drawing.Point(16, 87);
-            this.optResta.Name = "optResta";
-            this.optResta.Size = new System.Drawing.Size(64, 20);
-            this.optResta.TabIndex = 8;
-            this.optResta.TabStop = true;
-            this.optResta.Text = "Resta";
-            this.optResta.UseVisualStyleBackColor = true;
+            this.optPorcentaje.AutoSize = true;
+            this.optPorcentaje.Location = new System.Drawing.Point(16, 193);
+            this.optPorcentaje.Name = "optPorcentaje";
+            this.optPorcentaje.Size = new System.Drawing.Size(93, 20);
+            this.optPorcentaje.TabIndex = 12;
+            this.optPorcentaje.TabStop = true;
+            this.optPorcentaje.Text = "Porcentaje";
+            this.optPorcentaje.UseVisualStyleBackColor = true;
+            this.optPorcentaje.CheckedChanged += new System.EventHandler(this.optPorcentaje_CheckedChanged);
             // 
-            // optMultiplicacion
+            // optExponente
             // 
-            this.optMultiplicacion.AutoSize = true;
-            this.optMultiplicacion.Location = new System.Drawing.Point(16, 113);
-            this.optMultiplicacion.Name = "optMultiplicacion";
-            this.optMultiplicacion.Size = new System.Drawing.Size(109, 20);
-            this.optMultiplicacion.TabIndex = 9;
-            this.optMultiplicacion.TabStop = true;
-            this.optMultiplicacion.Text = "Multiplicacion";
-            this.optMultiplicacion.UseVisualStyleBackColor = true;
+            this.optExponente.AutoSize = true;
+            this.optExponente.Location = new System.Drawing.Point(16, 167);
+            this.optExponente.Name = "optExponente";
+            this.optExponente.Size = new System.Drawing.Size(92, 20);
+            this.optExponente.TabIndex = 11;
+            this.optExponente.TabStop = true;
+            this.optExponente.Text = "Exponente";
+            this.optExponente.UseVisualStyleBackColor = true;
             // 
             // optDivision
             // 
@@ -161,38 +164,38 @@
             this.optDivision.UseVisualStyleBackColor = true;
             this.optDivision.CheckedChanged += new System.EventHandler(this.radioButton4_CheckedChanged);
             // 
-            // optExponente
+            // optMultiplicacion
             // 
-            this.optExponente.AutoSize = true;
-            this.optExponente.Location = new System.Drawing.Point(16, 167);
-            this.optExponente.Name = "optExponente";
-            this.optExponente.Size = new System.Drawing.Size(92, 20);
-            this.optExponente.TabIndex = 11;
-            this.optExponente.TabStop = true;
-            this.optExponente.Text = "Exponente";
-            this.optExponente.UseVisualStyleBackColor = true;
+            this.optMultiplicacion.AutoSize = true;
+            this.optMultiplicacion.Location = new System.Drawing.Point(16, 113);
+            this.optMultiplicacion.Name = "optMultiplicacion";
+            this.optMultiplicacion.Size = new System.Drawing.Size(109, 20);
+            this.optMultiplicacion.TabIndex = 9;
+            this.optMultiplicacion.TabStop = true;
+            this.optMultiplicacion.Text = "Multiplicacion";
+            this.optMultiplicacion.UseVisualStyleBackColor = true;
             // 
-            // optPorcentaje
+            // optResta
             // 
-            this.optPorcentaje.AutoSize = true;
-            this.optPorcentaje.Location = new System.Drawing.Point(16, 193);
-            this.optPorcentaje.Name = "optPorcentaje";
-            this.optPorcentaje.Size = new System.Drawing.Size(93, 20);
-            this.optPorcentaje.TabIndex = 12;
-            this.optPorcentaje.TabStop = true;
-            this.optPorcentaje.Text = "Porcentaje";
-            this.optPorcentaje.UseVisualStyleBackColor = true;
+            this.optResta.AutoSize = true;
+            this.optResta.Location = new System.Drawing.Point(16, 87);
+            this.optResta.Name = "optResta";
+            this.optResta.Size = new System.Drawing.Size(64, 20);
+            this.optResta.TabIndex = 8;
+            this.optResta.TabStop = true;
+            this.optResta.Text = "Resta";
+            this.optResta.UseVisualStyleBackColor = true;
             // 
-            // optFactorial
+            // optSuma
             // 
-            this.optFactorial.AutoSize = true;
-            this.optFactorial.Location = new System.Drawing.Point(16, 219);
-            this.optFactorial.Name = "optFactorial";
-            this.optFactorial.Size = new System.Drawing.Size(80, 20);
-            this.optFactorial.TabIndex = 13;
-            this.optFactorial.TabStop = true;
-            this.optFactorial.Text = "Factorial";
-            this.optFactorial.UseVisualStyleBackColor = true;
+            this.optSuma.AutoSize = true;
+            this.optSuma.Location = new System.Drawing.Point(16, 61);
+            this.optSuma.Name = "optSuma";
+            this.optSuma.Size = new System.Drawing.Size(63, 20);
+            this.optSuma.TabIndex = 7;
+            this.optSuma.TabStop = true;
+            this.optSuma.Text = "Suma";
+            this.optSuma.UseVisualStyleBackColor = true;
             // 
             // cboOpciones
             // 
@@ -203,7 +206,9 @@
             "Multiplicacion",
             "Division",
             "Exponente",
-            "Porcentaje"});
+            "Porcentaje",
+            "Primo",
+            "Factorial"});
             this.cboOpciones.Location = new System.Drawing.Point(578, 84);
             this.cboOpciones.Name = "cboOpciones";
             this.cboOpciones.Size = new System.Drawing.Size(234, 24);
@@ -218,6 +223,17 @@
             this.btnCalcularOpciones.Text = "calcular";
             this.btnCalcularOpciones.UseVisualStyleBackColor = true;
             this.btnCalcularOpciones.Click += new System.EventHandler(this.btnCalcularOpciones_Click);
+            // 
+            // optPrimo
+            // 
+            this.optPrimo.AutoSize = true;
+            this.optPrimo.Location = new System.Drawing.Point(17, 219);
+            this.optPrimo.Name = "optPrimo";
+            this.optPrimo.Size = new System.Drawing.Size(63, 20);
+            this.optPrimo.TabIndex = 14;
+            this.optPrimo.TabStop = true;
+            this.optPrimo.Text = "Primo";
+            this.optPrimo.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -263,6 +279,7 @@
         private System.Windows.Forms.RadioButton optFactorial;
         private System.Windows.Forms.ComboBox cboOpciones;
         private System.Windows.Forms.Button btnCalcularOpciones;
+        private System.Windows.Forms.RadioButton optPrimo;
     }
 }
 

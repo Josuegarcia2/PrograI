@@ -94,14 +94,60 @@ namespace miPrimerProyectoCsharp
 
             }
 
-             if (optPorcentaje.Checked)
+             if (optFactorial.Checked)
+            {
+                int factorial = (int) num1;
+                for (int i =(int) num1 -1; i > 1; i--)
+                {
+                    factorial *= i ;
+                }
+                respuesta = factorial;
+
+
+
+                if (optPorcentaje.Checked)
             {
                 respuesta = (num1 * num2) / 100;
             }
-
-            
             lblrespuesta.Text = "Respuesta:" + respuesta;
-        }
+            }
+
+            if (optPrimo.Checked)
+                {
+                    int i = 1, acum = 0;
+                    while (i <= num1 && acum < 3)
+                    {
+                        if (num1 % i == 0)
+                        {
+                            acum++; //acumular = acum + 1
+                        }
+                        i++;
+                    }
+                    if (acum <= 2)
+                    {
+                        lblrespuesta.Text = "Respuesta:  " + num1 + " es primo";
+                    }
+                    else
+                    {
+                        lblrespuesta.Text = "Respuesta: " + num1 + " No es primo";
+                    }
+             
+                }
+             }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void radioButton4_CheckedChanged(object sender, EventArgs e)
         {
@@ -141,12 +187,19 @@ namespace miPrimerProyectoCsharp
                     respuesta = (num1 * num2) / 100;
                     break;
 
-                case 6:
-                    respuesta = num1 % num2; // Módulo
-                    break;
+                
+                    
+
+                    
+
 
             }
             lblrespuesta.Text = "respuesta" + respuesta;
+        }
+
+        private void optPorcentaje_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
