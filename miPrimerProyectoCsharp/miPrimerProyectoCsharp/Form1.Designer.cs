@@ -49,7 +49,7 @@
             this.label1.ForeColor = System.Drawing.SystemColors.Desktop;
             this.label1.Location = new System.Drawing.Point(178, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(206, 40);
+            this.label1.Size = new System.Drawing.Size(201, 40);
             this.label1.TabIndex = 0;
             this.label1.Text = "CONVERSOR ";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -138,13 +138,14 @@
             // lblResultado
             // 
             this.lblResultado.AutoSize = true;
-            this.lblResultado.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblResultado.Font = new System.Drawing.Font("Century", 13.8F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblResultado.ForeColor = System.Drawing.Color.Navy;
             this.lblResultado.Location = new System.Drawing.Point(32, 308);
             this.lblResultado.Name = "lblResultado";
-            this.lblResultado.Size = new System.Drawing.Size(138, 29);
+            this.lblResultado.Size = new System.Drawing.Size(136, 28);
             this.lblResultado.TabIndex = 9;
             this.lblResultado.Text = "Resultado:";
+            this.lblResultado.Click += new System.EventHandler(this.lblResultado_Click);
             // 
             // lblTipodeConversor
             // 

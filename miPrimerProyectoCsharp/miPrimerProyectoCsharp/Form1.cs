@@ -21,10 +21,7 @@ namespace miPrimerProyectoCsharp
             InitializeComponent();
         }
 
-        private void convertirMasa()
-        { 
         
-        }
 
 
         private void Form1_Load(object sender, EventArgs e)
@@ -97,35 +94,35 @@ namespace miPrimerProyectoCsharp
                     case "USD":
                         switch (monedaDestino)
                         {
-                            case "USD":
-                                respuesta = cantidad; // USD a USD
+                            case "EUR":
+                                respuesta = cantidad * 0.85; // USD a EUR
                                 break;
-                            case "EUR": 
-                                respuesta = cantidad * 0.86; // USD a EUR
-                                break;
-                            case "GBP": 
+                            case "GBP":
                                 respuesta = cantidad * 0.74; // USD a Libra Esterlina
                                 break;
                             case "JPY":
-                                respuesta = cantidad * 147.73; // USD a Yen Japonés
+                                respuesta = cantidad * 146.32; // USD a Yen Japonés
                                 break;
-                            case "MXN": 
-                                respuesta = cantidad * 18.80; // USD a Peso Mexicano
+                            case "MXN":
+                                respuesta = cantidad * 18.50; // USD a Peso Mexicano
                                 break;
-                            case "COP": 
-                                respuesta = cantidad * 4053.41; // USD a Peso Colombiano
+                            case "COP":
+                                respuesta = cantidad * 3990.00; // USD a Peso Colombiano
                                 break;
                             case "ARS":
-                                respuesta = cantidad * 1298.50; // USD a Peso Argentino
+                                respuesta = cantidad * 1280.00; // USD a Peso Argentino
                                 break;
                             case "GTQ":
-                                respuesta = cantidad * 7.66; // USD a Quetzal Guatemalteco
+                                respuesta = cantidad * 7.80; // USD a Quetzal Guatemalteco
                                 break;
-                            case "SAR": 
+                            case "CRC":
+                                respuesta = cantidad * 525.00; // USD a Colón Costarricense
+                                break;
+                            case "SAR":
                                 respuesta = cantidad * 3.75; // USD a Riyal Saudí
                                 break;
-                            case "CRC": 
-                                respuesta = cantidad * 504.94; // USD a Colón Costarricense 
+                            case "USD":
+                                respuesta = cantidad; // USD a USD
                                 break;
                         }
                         break;
@@ -133,47 +130,48 @@ namespace miPrimerProyectoCsharp
                     case "EUR":
                         switch (monedaDestino)
                         {
-                            case "USD": 
-                                respuesta = cantidad * 1.16; // EUR a USD
+                            case "USD":
+                                respuesta = cantidad * 1.18; // EUR a USD
                                 break;
-                            case "EUR": 
-                                respuesta = cantidad; // EUR a EUR
-                                break; 
-                            case "GBP": 
-                                respuesta = cantidad * 0.86; // EUR a Libra Esterlina
+                            case "GBP":
+                                respuesta = cantidad * 0.87; // EUR a Libra Esterlina
                                 break;
-                            case "JPY": 
-                                respuesta = cantidad * 172.00; // EUR a Yen Japonés
+                            case "JPY":
+                                 respuesta = cantidad * 173.20; // EUR a Yen Japonés
                                 break;
-                            case "MXN": 
-                                respuesta = cantidad * 21.91;  // EUR a Peso Mexicano
+                            case "MXN":
+                                respuesta = cantidad * 21.80; // EUR a Peso Mexicano
                                 break;
-                            case "COP": 
-                                respuesta = cantidad * 4712.21; // EUR a Peso Colombiano
+                            case "COP":
+                                respuesta = cantidad * 4680.00; // EUR a Peso Colombiano
                                 break;
                             case "ARS":
-                                respuesta = cantidad * 1512.43; // EUR a Peso Argentino
+                                respuesta = cantidad * 1500.00; // EUR a Peso Argentino
                                 break;
                             case "GTQ":
-                                respuesta = cantidad * 8.97; // EUR a Quetzal Guatemalteco
-                                break;
-                            case "SAR": 
-                                respuesta = cantidad * 4.37; // EUR a Riyal Saudí
+                                respuesta = cantidad * 9.10; // EUR a Quetzal Guatemalteco
                                 break;
                             case "CRC":
-                                respuesta = cantidad * 591.40; // EUR a Colón Costarricense
+                                respuesta = cantidad * 610.00; // EUR a Colón Costarricense
+                                break;
+                            case "SAR":
+                                respuesta = cantidad * 4.35; // EUR a Riyal Saudí
+                                break;
+                            case "EUR":
+                                respuesta = cantidad; // EUR a EUR
                                 break;
                         }
                         break;
+
 
                     case "GBP":
                         switch (monedaDestino)
                         {
                             case "USD": 
-                                respuesta = cantidad / 1.35; // Libra Esterlina a USD
+                                respuesta = cantidad * 1.35; // Libra Esterlina a USD
                                 break;
                             case "EUR": 
-                                respuesta = cantidad / 1.16; // Libra Esterlina a EUR
+                                respuesta = cantidad * 1.16; // Libra Esterlina a EUR
                                 break;
                             case "GBP":
                                 respuesta = cantidad; // Libra Esterlina a Libra Esterlina
@@ -206,13 +204,13 @@ namespace miPrimerProyectoCsharp
                         switch (monedaDestino)
                         {
                             case "USD": 
-                                respuesta = cantidad / 0.0068; // Yen Japonés a USD
+                                respuesta = cantidad * 0.0068; // Yen Japonés a USD
                                 break;
                             case "EUR": 
-                                respuesta = cantidad / 0.0058; // Yen Japonés a EUR
+                                respuesta = cantidad * 0.0058; // Yen Japonés a EUR
                                 break;
                             case "GBP": 
-                                respuesta = cantidad / 0.0050; // Yen Japonés a Libra Esterlina
+                                respuesta = cantidad * 0.0050; // Yen Japonés a Libra Esterlina
                                 break;
                             case "JPY":
                                 respuesta = cantidad; // Yen Japonés a Yen Japonés
@@ -242,15 +240,15 @@ namespace miPrimerProyectoCsharp
                         switch (monedaDestino)
                         {
                             case "USD": 
-                                respuesta = cantidad / 0.053; // Peso Mexicano a USD
+                                respuesta = cantidad * 0.053; // Peso Mexicano a USD
                                 break;
                             case "EUR": 
-                                respuesta = cantidad / 0.046; // Peso Mexicano a EUR
+                                respuesta = cantidad * 0.046; // Peso Mexicano a EUR
                                 break;
-                            case "GBP": respuesta = cantidad / 0.039; // Peso Mexicano a Libra Esterlina
+                            case "GBP": respuesta = cantidad * 0.039; // Peso Mexicano a Libra Esterlina
                                 break;
                             case "JPY":
-                                respuesta = cantidad / 7.86; /// Peso Mexicano a Yen Japonés
+                                respuesta = cantidad * 7.86; /// Peso Mexicano a Yen Japonés
                                 break;
                             case "MXN": 
                                 respuesta = cantidad; // Peso Mexicano a Peso Mexicano
@@ -277,19 +275,19 @@ namespace miPrimerProyectoCsharp
                         switch (monedaDestino)
                         {
                             case "USD":
-                                respuesta = cantidad / 0.00025;  // Peso Colombiano a USD
+                                respuesta = cantidad * 0.00025;  // Peso Colombiano a USD
                                 break;
                             case "EUR": 
-                                respuesta = cantidad / 0.00021; // Peso Colombiano a EUR
+                                respuesta = cantidad * 0.00021; // Peso Colombiano a EUR
                                 break;
                             case "GBP": 
-                                respuesta = cantidad / 0.00018; // Peso Colombiano a Libra Esterlina
+                                respuesta = cantidad ; // Peso Colombiano a Libra Esterlina
                                 break;
                             case "JPY": 
-                                respuesta = cantidad / 0.037; // Peso Colombiano a Yen Japonés
+                                respuesta = cantidad * 0.037; // Peso Colombiano a Yen Japonés
                                 break;
                             case "MXN": 
-                                respuesta = cantidad / 0.0046; // Peso Colombiano a Peso Mexicano
+                                respuesta = cantidad * 0.0046; // Peso Colombiano a Peso Mexicano
                                 break;
                             case "COP":
                                 respuesta = cantidad;  // Peso Colombiano a Peso Colombiano
@@ -313,22 +311,22 @@ namespace miPrimerProyectoCsharp
                         switch (monedaDestino)
                         {
                             case "USD": 
-                                respuesta = cantidad / 0.00077; // Peso Argentino a USD
+                                respuesta = cantidad * 0.00077; // Peso Argentino a USD
                                 break;
                             case "EUR":
-                                respuesta = cantidad / 0.00066;  // Peso Argentino a EUR
+                                respuesta = cantidad * 0.00066;  // Peso Argentino a EUR
                                 break;
                             case "GBP":
-                                respuesta = cantidad / 0.00057; // Peso Argentino a Libra Esterlina
+                                respuesta = cantidad * 0.00057; // Peso Argentino a Libra Esterlina
                                 break;
                             case "JPY": 
-                                respuesta = cantidad / 0.11; // Peso Argentino a Yen Japonés
+                                respuesta = cantidad * 0.11; // Peso Argentino a Yen Japonés
                                 break;
                             case "MXN": 
-                                respuesta = cantidad / 0.014; // Peso Argentino a Peso Mexicano
+                                respuesta = cantidad * 0.014; // Peso Argentino a Peso Mexicano
                                 break;
                             case "COP": 
-                                respuesta = cantidad / 3.07; // Peso Argentino a Peso Colombiano
+                                respuesta = cantidad * 3.07; // Peso Argentino a Peso Colombiano
                                 break;
                             case "ARS":
                                 respuesta = cantidad; // Peso Argentino a Peso Argentino
@@ -349,25 +347,25 @@ namespace miPrimerProyectoCsharp
                         switch (monedaDestino)
                         {
                             case "USD": 
-                                respuesta = cantidad / 0.13; // Quetzal Guatemalteco a USD
+                                respuesta = cantidad * 0.13; // Quetzal Guatemalteco a USD
                                 break;
                             case "EUR":
-                                respuesta = cantidad / 0.11; // Quetzal Guatemalteco a EUR
+                                respuesta = cantidad * 0.11; // Quetzal Guatemalteco a EUR
                                 break;
                             case "GBP":
-                                respuesta = cantidad / 0.096;  // Quetzal Guatemalteco a Libra Esterlina
+                                respuesta = cantidad * 0.096;  // Quetzal Guatemalteco a Libra Esterlina
                                 break;
                             case "JPY": 
-                                respuesta = cantidad / 19.25; // Quetzal Guatemalteco a Yen Japonés
+                                respuesta = cantidad * 19.25; // Quetzal Guatemalteco a Yen Japonés
                                 break;
                             case "MXN": 
-                                respuesta = cantidad / 2.45;  // Quetzal Guatemalteco a Peso Mexicano
+                                respuesta = cantidad * 2.45;  // Quetzal Guatemalteco a Peso Mexicano
                                 break;
                             case "COP":
-                                respuesta = cantidad / 528.23; // Quetzal Guatemalteco a Peso Colombiano
+                                respuesta = cantidad * 528.23; // Quetzal Guatemalteco a Peso Colombiano
                                 break;
                             case "ARS": 
-                                respuesta = cantidad / 169.31; // Quetzal Guatemalteco a Peso Argentino
+                                respuesta = cantidad * 169.31; // Quetzal Guatemalteco a Peso Argentino
                                 break;
                             case "GTQ": 
                                 respuesta = cantidad; // Quetzal Guatemalteco a Quetzal Guatemalteco
@@ -385,27 +383,27 @@ namespace miPrimerProyectoCsharp
                         switch (monedaDestino)
                         {
                             case "USD": 
-                                respuesta = cantidad / 0.27; // Riyal Saudí a USD
+                                respuesta = cantidad * 0.27; // Riyal Saudí a USD
                                 break;
                             case "EUR": 
-                                respuesta = cantidad / 0.23; // Riyal Saudí a EUR
+                                respuesta = cantidad * 0.23; // Riyal Saudí a EUR
                                 break;
                             case "GBP": 
-                                respuesta = cantidad / 0.20; // Riyal Saudí a Libra Esterlina
+                                respuesta = cantidad * 0.20; // Riyal Saudí a Libra Esterlina
                                 break;
                             case "JPY": 
-                                respuesta = cantidad / 39.34; // Riyal Saudí a Yen Japonés
+                                respuesta = cantidad * 39.34; // Riyal Saudí a Yen Japonés
                                 break;
                             case "MXN":
-                                respuesta = cantidad / 5.01; // Riyal Saudí a Peso Mexicano
+                                respuesta = cantidad * 5.01; // Riyal Saudí a Peso Mexicano
                                 break;
                             case "COP": 
-                                respuesta = cantidad / 1079.62;  // Riyal Saudí a Peso Colombiano
+                                respuesta = cantidad * 1079.62;  // Riyal Saudí a Peso Colombiano
                                 break;
                             case "ARS": 
-                                respuesta = cantidad / 346.05;  // Riyal Saudí a Peso Argentino
+                                respuesta = cantidad * 346.05;  // Riyal Saudí a Peso Argentino
                                 break;
-                            case "GTQ": respuesta = cantidad / 2.04; 
+                            case "GTQ": respuesta = cantidad * 2.04; // Riyal Saudí a Quetzal Guatemalteco
                                 break;
                             case "SAR": 
                                 respuesta = cantidad; // Riyal Saudí a Riyal Saudí
@@ -420,30 +418,30 @@ namespace miPrimerProyectoCsharp
                         switch (monedaDestino)
                         {
                             case "USD": 
-                                respuesta = cantidad / 0.0020; // Colón Costarricense a USD
+                                respuesta = cantidad * 0.0020; // Colón Costarricense a USD
                                 break;
                             case "EUR":
-                                respuesta = cantidad / 0.0017;  // Colón Costarricense a EUR
+                                respuesta = cantidad * 0.0017;  // Colón Costarricense a EUR
                                 break;
                             case "GBP": 
-                                respuesta = cantidad / 0.0015;  // Colón Costarricense a Libra Esterlina
+                                respuesta = cantidad * 0.0015;  // Colón Costarricense a Libra Esterlina
                                 break;
                             case "JPY":
-                                respuesta = cantidad / 0.29; // Colón Costarricense a Yen Japonés
+                                respuesta = cantidad * 0.29; // Colón Costarricense a Yen Japonés
                                 break;
                             case "MXN": 
-                                respuesta = cantidad / 0.037; // Colón Costarricense a Peso Mexicano
+                                respuesta = cantidad * 0.037; // Colón Costarricense a Peso Mexicano
                                 break;
-                            case "COP": respuesta = cantidad / 8.01; // Colón Costarricense a Peso Colombiano
+                            case "COP": respuesta = cantidad * 8.01; // Colón Costarricense a Peso Colombiano
                                 break;
                             case "ARS": 
-                                respuesta = cantidad / 2.57;  // Colón Costarricense a Peso Argentino
+                                respuesta = cantidad * 2.57;  // Colón Costarricense a Peso Argentino
                                 break;
                             case "GTQ": 
-                                respuesta = cantidad / 0.015; // Colón Costarricense a Quetzal Guatemalteco
+                                respuesta = cantidad * 0.015; // Colón Costarricense a Quetzal Guatemalteco
                                 break;
                             case "SAR": 
-                                respuesta = cantidad / 0.0074; // Colón Costarricense a Riyal Saudí
+                                respuesta = cantidad * 0.0074; // Colón Costarricense a Riyal Saudí
                                 break;
                             case "CRC":
                                 respuesta = cantidad; // Colón Costarricense a Colón Costarricense
@@ -452,8 +450,8 @@ namespace miPrimerProyectoCsharp
                         break;
                 }
 
-              
-                lblResultado.Text = string.Format( "{0:N2} {1} = {2:N3} {3}", cantidad, monedaOrigen, respuesta, monedaDestino);
+                lblResultado.Text = string.Format(CultureInfo.InvariantCulture, "{0:N2} {1} = {2:N2} {3}",cantidad, monedaOrigen, respuesta, monedaDestino);
+
 
             }
             catch
@@ -853,7 +851,7 @@ namespace miPrimerProyectoCsharp
 
                 }
 
-                lblResultado.Text = string.Format("{0:N3} {1} = {2:N3} {3}", cantidad, unidadOrigen, respuesta, unidadDestino);
+                lblResultado.Text = string.Format(CultureInfo.InvariantCulture, "{0:N2} {1} = {2:N2} {3}", cantidad, unidadOrigen, respuesta, unidadDestino);
 
             }
 
@@ -893,7 +891,7 @@ namespace miPrimerProyectoCsharp
                                 respuesta = cantidad * 100; // Litros a Centilitros
                                 break;
                             case "Galones":
-                                respuesta = cantidad / 3.785; //Litros a Galones
+                                respuesta = cantidad / 3785.41; //Litros a Galones
                                 break;
                             case "Pintas":
                                 respuesta = cantidad * 2.113; // Litros a Pintas
@@ -930,7 +928,7 @@ namespace miPrimerProyectoCsharp
                                 respuesta = cantidad / 10; // Mililitros a Centilitros
                                 break;
                             case "Galones":
-                                respuesta = cantidad / 3.785; //Mililitros a Galones
+                                respuesta = cantidad / 3785.41; //Mililitros a Galones
                                 break;
                             case "Pintas":
                                 respuesta = cantidad / 473.2; // Mililitros a Pintas
@@ -1033,7 +1031,7 @@ namespace miPrimerProyectoCsharp
 
                         {
                             case "Litros":
-                                respuesta = cantidad * 2.113; //    Pintas a Litros 
+                                respuesta = cantidad / 2113; //    Pintas a Litros 
                                 break;
                             case "Mililitros":
                                 respuesta = cantidad * 473.2; // Pintas a Mililitros 
@@ -1259,7 +1257,7 @@ namespace miPrimerProyectoCsharp
 
                 }
 
-                 lblResultado.Text = string.Format("{0:N2} {1} = {2:N3} {3}", cantidad, unidadOrigen, respuesta, unidadDestino);
+                 lblResultado.Text = $"{cantidad:N2} {unidadOrigen} = {respuesta:N3} {unidadDestino}";
             }
                         catch
                         {
@@ -2401,7 +2399,7 @@ namespace miPrimerProyectoCsharp
                         }
                         break;
                 }
-                lblResultado.Text = string.Format("{0:N2} {1} = {2:N3} {3}", cantidad, unidadOrigen, respuesta, unidadDestino);
+                lblResultado.Text = string.Format("{0:N2} {1} = {2:N15} {3}", cantidad, unidadOrigen, respuesta, unidadDestino);
 
             }
 
@@ -2416,54 +2414,6 @@ namespace miPrimerProyectoCsharp
     
         
            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -2543,6 +2493,11 @@ namespace miPrimerProyectoCsharp
             int tempIndex = cmbDe.SelectedIndex;
             cmbDe.SelectedIndex = cmbA.SelectedIndex;
             cmbA.SelectedIndex = tempIndex;
+        }
+
+        private void lblResultado_Click(object sender, EventArgs e)
+        {
+
         }
     }
     
