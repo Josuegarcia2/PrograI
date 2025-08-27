@@ -62,8 +62,9 @@
             "Masa",
             "Volumen",
             "Almacenamiento",
-            "Tiempo"});
-            this.cboTipoConversor.Location = new System.Drawing.Point(99, 66);
+            "Tiempo",
+            "Area"});
+            this.cboTipoConversor.Location = new System.Drawing.Point(99, 63);
             this.cboTipoConversor.Name = "cboTipoConversor";
             this.cboTipoConversor.Size = new System.Drawing.Size(248, 28);
             this.cboTipoConversor.TabIndex = 1;
