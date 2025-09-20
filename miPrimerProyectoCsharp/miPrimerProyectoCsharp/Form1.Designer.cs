@@ -28,74 +28,74 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.grbDatosAlumnos = new System.Windows.Forms.GroupBox();
+            this.grbDatosDocentes = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
-            this.idAlumno = new System.Windows.Forms.Label();
-            this.txtTelefonoAlumno = new System.Windows.Forms.TextBox();
-            this.lblTelefonoAlumno = new System.Windows.Forms.Label();
-            this.lblDireccionAlumno = new System.Windows.Forms.Label();
-            this.txtDireccionAlumno = new System.Windows.Forms.TextBox();
-            this.txtNombreAlumno = new System.Windows.Forms.TextBox();
-            this.lblNombreAlumno = new System.Windows.Forms.Label();
-            this.lblCodigoAlumno = new System.Windows.Forms.Label();
-            this.txtCodigoAlumno = new System.Windows.Forms.TextBox();
-            this.lblIdAlumno = new System.Windows.Forms.Label();
+            this.idDocente = new System.Windows.Forms.Label();
+            this.txtTelefonoDocente = new System.Windows.Forms.TextBox();
+            this.lblTelefonoDocente = new System.Windows.Forms.Label();
+            this.lblDireccionDocente = new System.Windows.Forms.Label();
+            this.txtDireccionDocente = new System.Windows.Forms.TextBox();
+            this.txtNombreDocente = new System.Windows.Forms.TextBox();
+            this.lblNombreDocente = new System.Windows.Forms.Label();
+            this.lblCodigoDocente = new System.Windows.Forms.Label();
+            this.txtCodigoDocente = new System.Windows.Forms.TextBox();
+            this.lblIdDocente = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.grbNavegacionAlumno = new System.Windows.Forms.GroupBox();
-            this.lblnRegistrosAlumno = new System.Windows.Forms.Label();
-            this.btnUltimoAlumno = new System.Windows.Forms.Button();
-            this.btnSiguienteAlumno = new System.Windows.Forms.Button();
-            this.btnAnteriorAlumno = new System.Windows.Forms.Button();
-            this.btnPrimerAlumno = new System.Windows.Forms.Button();
+            this.grbNavegacionDocente = new System.Windows.Forms.GroupBox();
+            this.lblnRegistrosDocente = new System.Windows.Forms.Label();
+            this.btnUltimoDocente = new System.Windows.Forms.Button();
+            this.btnSiguienteDocente = new System.Windows.Forms.Button();
+            this.btnAnteriorDocente = new System.Windows.Forms.Button();
+            this.btnPrimerDocente = new System.Windows.Forms.Button();
             this.grbEditar = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
             this.button8 = new System.Windows.Forms.Button();
-            this.btnEliminarAlumno = new System.Windows.Forms.Button();
-            this.btnModificarAlumno = new System.Windows.Forms.Button();
-            this.btnAgregarAlumno = new System.Windows.Forms.Button();
-            this.grbBusquedaAlumno = new System.Windows.Forms.GroupBox();
-            this.txtBuscarAlumnos = new System.Windows.Forms.TextBox();
-            this.grdAlumnos = new System.Windows.Forms.DataGridView();
+            this.btnEliminarDocente = new System.Windows.Forms.Button();
+            this.btnModificarDocente = new System.Windows.Forms.Button();
+            this.btnAgregarDocente = new System.Windows.Forms.Button();
+            this.grbBusquedaDocente = new System.Windows.Forms.GroupBox();
+            this.grdDocentes = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.codigo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.direccionn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.telefono = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.grbDatosAlumnos.SuspendLayout();
+            this.txtBuscarDocentes = new System.Windows.Forms.TextBox();
+            this.grbDatosDocentes.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.grbNavegacionAlumno.SuspendLayout();
+            this.grbNavegacionDocente.SuspendLayout();
             this.grbEditar.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.grbBusquedaAlumno.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdAlumnos)).BeginInit();
+            this.grbBusquedaDocente.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdDocentes)).BeginInit();
             this.SuspendLayout();
             // 
-            // grbDatosAlumnos
+            // grbDatosDocentes
             // 
-            this.grbDatosAlumnos.Controls.Add(this.groupBox1);
-            this.grbDatosAlumnos.Controls.Add(this.idAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.txtTelefonoAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.lblTelefonoAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.lblDireccionAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.txtDireccionAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.txtNombreAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.lblNombreAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.lblCodigoAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.txtCodigoAlumno);
-            this.grbDatosAlumnos.Controls.Add(this.lblIdAlumno);
-            this.grbDatosAlumnos.Enabled = false;
-            this.grbDatosAlumnos.Location = new System.Drawing.Point(12, 26);
-            this.grbDatosAlumnos.Name = "grbDatosAlumnos";
-            this.grbDatosAlumnos.Size = new System.Drawing.Size(480, 345);
-            this.grbDatosAlumnos.TabIndex = 0;
-            this.grbDatosAlumnos.TabStop = false;
-            this.grbDatosAlumnos.Text = "DATOS";
+            this.grbDatosDocentes.Controls.Add(this.groupBox1);
+            this.grbDatosDocentes.Controls.Add(this.idDocente);
+            this.grbDatosDocentes.Controls.Add(this.txtTelefonoDocente);
+            this.grbDatosDocentes.Controls.Add(this.lblTelefonoDocente);
+            this.grbDatosDocentes.Controls.Add(this.lblDireccionDocente);
+            this.grbDatosDocentes.Controls.Add(this.txtDireccionDocente);
+            this.grbDatosDocentes.Controls.Add(this.txtNombreDocente);
+            this.grbDatosDocentes.Controls.Add(this.lblNombreDocente);
+            this.grbDatosDocentes.Controls.Add(this.lblCodigoDocente);
+            this.grbDatosDocentes.Controls.Add(this.txtCodigoDocente);
+            this.grbDatosDocentes.Controls.Add(this.lblIdDocente);
+            this.grbDatosDocentes.Enabled = false;
+            this.grbDatosDocentes.Location = new System.Drawing.Point(12, 26);
+            this.grbDatosDocentes.Name = "grbDatosDocentes";
+            this.grbDatosDocentes.Size = new System.Drawing.Size(480, 345);
+            this.grbDatosDocentes.TabIndex = 0;
+            this.grbDatosDocentes.TabStop = false;
+            this.grbDatosDocentes.Text = "DATOS";
             // 
             // groupBox1
             // 
@@ -138,161 +138,160 @@
             this.button3.Text = "<";
             this.button3.UseVisualStyleBackColor = true;
             // 
-            // idAlumno
+            // idDocente
             // 
-            this.idAlumno.AutoSize = true;
-            this.idAlumno.Location = new System.Drawing.Point(116, 36);
-            this.idAlumno.Name = "idAlumno";
-            this.idAlumno.Size = new System.Drawing.Size(44, 16);
-            this.idAlumno.TabIndex = 9;
-            this.idAlumno.Text = "label1";
+            this.idDocente.AutoSize = true;
+            this.idDocente.Location = new System.Drawing.Point(116, 36);
+            this.idDocente.Name = "idDocente";
+            this.idDocente.Size = new System.Drawing.Size(44, 16);
+            this.idDocente.TabIndex = 9;
+            this.idDocente.Text = "label1";
             // 
-            // txtTelefonoAlumno
+            // txtTelefonoDocente
             // 
-            this.txtTelefonoAlumno.Location = new System.Drawing.Point(119, 200);
-            this.txtTelefonoAlumno.Name = "txtTelefonoAlumno";
-            this.txtTelefonoAlumno.Size = new System.Drawing.Size(120, 22);
-            this.txtTelefonoAlumno.TabIndex = 8;
+            this.txtTelefonoDocente.Location = new System.Drawing.Point(119, 200);
+            this.txtTelefonoDocente.Name = "txtTelefonoDocente";
+            this.txtTelefonoDocente.Size = new System.Drawing.Size(120, 22);
+            this.txtTelefonoDocente.TabIndex = 8;
             // 
-            // lblTelefonoAlumno
+            // lblTelefonoDocente
             // 
-            this.lblTelefonoAlumno.AutoSize = true;
-            this.lblTelefonoAlumno.Location = new System.Drawing.Point(19, 200);
-            this.lblTelefonoAlumno.Name = "lblTelefonoAlumno";
-            this.lblTelefonoAlumno.Size = new System.Drawing.Size(82, 16);
-            this.lblTelefonoAlumno.TabIndex = 7;
-            this.lblTelefonoAlumno.Text = "TELEFONO:";
+            this.lblTelefonoDocente.AutoSize = true;
+            this.lblTelefonoDocente.Location = new System.Drawing.Point(19, 200);
+            this.lblTelefonoDocente.Name = "lblTelefonoDocente";
+            this.lblTelefonoDocente.Size = new System.Drawing.Size(82, 16);
+            this.lblTelefonoDocente.TabIndex = 7;
+            this.lblTelefonoDocente.Text = "TELEFONO:";
             // 
-            // lblDireccionAlumno
+            // lblDireccionDocente
             // 
-            this.lblDireccionAlumno.AutoSize = true;
-            this.lblDireccionAlumno.Location = new System.Drawing.Point(19, 154);
-            this.lblDireccionAlumno.Name = "lblDireccionAlumno";
-            this.lblDireccionAlumno.Size = new System.Drawing.Size(83, 16);
-            this.lblDireccionAlumno.TabIndex = 6;
-            this.lblDireccionAlumno.Text = "DIRECCION:";
+            this.lblDireccionDocente.AutoSize = true;
+            this.lblDireccionDocente.Location = new System.Drawing.Point(19, 154);
+            this.lblDireccionDocente.Name = "lblDireccionDocente";
+            this.lblDireccionDocente.Size = new System.Drawing.Size(83, 16);
+            this.lblDireccionDocente.TabIndex = 6;
+            this.lblDireccionDocente.Text = "DIRECCION:";
             // 
-            // txtDireccionAlumno
+            // txtDireccionDocente
             // 
-            this.txtDireccionAlumno.Location = new System.Drawing.Point(119, 154);
-            this.txtDireccionAlumno.Name = "txtDireccionAlumno";
-            this.txtDireccionAlumno.Size = new System.Drawing.Size(343, 22);
-            this.txtDireccionAlumno.TabIndex = 5;
+            this.txtDireccionDocente.Location = new System.Drawing.Point(119, 154);
+            this.txtDireccionDocente.Name = "txtDireccionDocente";
+            this.txtDireccionDocente.Size = new System.Drawing.Size(343, 22);
+            this.txtDireccionDocente.TabIndex = 5;
             // 
-            // txtNombreAlumno
+            // txtNombreDocente
             // 
-            this.txtNombreAlumno.Location = new System.Drawing.Point(119, 112);
-            this.txtNombreAlumno.Name = "txtNombreAlumno";
-            this.txtNombreAlumno.Size = new System.Drawing.Size(220, 22);
-            this.txtNombreAlumno.TabIndex = 4;
+            this.txtNombreDocente.Location = new System.Drawing.Point(119, 112);
+            this.txtNombreDocente.Name = "txtNombreDocente";
+            this.txtNombreDocente.Size = new System.Drawing.Size(220, 22);
+            this.txtNombreDocente.TabIndex = 4;
             // 
-            // lblNombreAlumno
+            // lblNombreDocente
             // 
-            this.lblNombreAlumno.AutoSize = true;
-            this.lblNombreAlumno.Location = new System.Drawing.Point(20, 112);
-            this.lblNombreAlumno.Name = "lblNombreAlumno";
-            this.lblNombreAlumno.Size = new System.Drawing.Size(69, 16);
-            this.lblNombreAlumno.TabIndex = 3;
-            this.lblNombreAlumno.Text = "NOMBRE:";
+            this.lblNombreDocente.AutoSize = true;
+            this.lblNombreDocente.Location = new System.Drawing.Point(20, 112);
+            this.lblNombreDocente.Name = "lblNombreDocente";
+            this.lblNombreDocente.Size = new System.Drawing.Size(69, 16);
+            this.lblNombreDocente.TabIndex = 3;
+            this.lblNombreDocente.Text = "NOMBRE:";
             // 
-            // lblCodigoAlumno
+            // lblCodigoDocente
             // 
-            this.lblCodigoAlumno.AutoSize = true;
-            this.lblCodigoAlumno.Location = new System.Drawing.Point(19, 69);
-            this.lblCodigoAlumno.Name = "lblCodigoAlumno";
-            this.lblCodigoAlumno.Size = new System.Drawing.Size(62, 16);
-            this.lblCodigoAlumno.TabIndex = 2;
-            this.lblCodigoAlumno.Text = "CODIGO:";
+            this.lblCodigoDocente.AutoSize = true;
+            this.lblCodigoDocente.Location = new System.Drawing.Point(19, 69);
+            this.lblCodigoDocente.Name = "lblCodigoDocente";
+            this.lblCodigoDocente.Size = new System.Drawing.Size(62, 16);
+            this.lblCodigoDocente.TabIndex = 2;
+            this.lblCodigoDocente.Text = "CODIGO:";
             // 
-            // txtCodigoAlumno
+            // txtCodigoDocente
             // 
-            this.txtCodigoAlumno.Location = new System.Drawing.Point(119, 69);
-            this.txtCodigoAlumno.Name = "txtCodigoAlumno";
-            this.txtCodigoAlumno.Size = new System.Drawing.Size(165, 22);
-            this.txtCodigoAlumno.TabIndex = 1;
+            this.txtCodigoDocente.Location = new System.Drawing.Point(119, 69);
+            this.txtCodigoDocente.Name = "txtCodigoDocente";
+            this.txtCodigoDocente.Size = new System.Drawing.Size(165, 22);
+            this.txtCodigoDocente.TabIndex = 1;
             // 
-            // lblIdAlumno
+            // lblIdDocente
             // 
-            this.lblIdAlumno.AutoSize = true;
-            this.lblIdAlumno.Location = new System.Drawing.Point(20, 36);
-            this.lblIdAlumno.Name = "lblIdAlumno";
-            this.lblIdAlumno.Size = new System.Drawing.Size(23, 16);
-            this.lblIdAlumno.TabIndex = 0;
-            this.lblIdAlumno.Text = "ID:";
+            this.lblIdDocente.AutoSize = true;
+            this.lblIdDocente.Location = new System.Drawing.Point(20, 36);
+            this.lblIdDocente.Name = "lblIdDocente";
+            this.lblIdDocente.Size = new System.Drawing.Size(23, 16);
+            this.lblIdDocente.TabIndex = 0;
+            this.lblIdDocente.Text = "ID:";
             // 
-            // grbNavegacionAlumno
+            // grbNavegacionDocente
             // 
-            this.grbNavegacionAlumno.Controls.Add(this.lblnRegistrosAlumno);
-            this.grbNavegacionAlumno.Controls.Add(this.btnUltimoAlumno);
-            this.grbNavegacionAlumno.Controls.Add(this.btnSiguienteAlumno);
-            this.grbNavegacionAlumno.Controls.Add(this.btnAnteriorAlumno);
-            this.grbNavegacionAlumno.Controls.Add(this.btnPrimerAlumno);
-            this.grbNavegacionAlumno.Location = new System.Drawing.Point(12, 364);
-            this.grbNavegacionAlumno.Name = "grbNavegacionAlumno";
-            this.grbNavegacionAlumno.Size = new System.Drawing.Size(383, 77);
-            this.grbNavegacionAlumno.TabIndex = 2;
-            this.grbNavegacionAlumno.TabStop = false;
-            this.grbNavegacionAlumno.Text = "Navegacion ";
+            this.grbNavegacionDocente.Controls.Add(this.lblnRegistrosDocente);
+            this.grbNavegacionDocente.Controls.Add(this.btnUltimoDocente);
+            this.grbNavegacionDocente.Controls.Add(this.btnSiguienteDocente);
+            this.grbNavegacionDocente.Controls.Add(this.btnAnteriorDocente);
+            this.grbNavegacionDocente.Controls.Add(this.btnPrimerDocente);
+            this.grbNavegacionDocente.Location = new System.Drawing.Point(12, 364);
+            this.grbNavegacionDocente.Name = "grbNavegacionDocente";
+            this.grbNavegacionDocente.Size = new System.Drawing.Size(383, 77);
+            this.grbNavegacionDocente.TabIndex = 2;
+            this.grbNavegacionDocente.TabStop = false;
+            this.grbNavegacionDocente.Text = "Navegacion ";
             // 
-            // lblnRegistrosAlumno
+            // lblnRegistrosDocente
             // 
-            this.lblnRegistrosAlumno.AutoSize = true;
-            this.lblnRegistrosAlumno.Location = new System.Drawing.Point(164, 45);
-            this.lblnRegistrosAlumno.Name = "lblnRegistrosAlumno";
-            this.lblnRegistrosAlumno.Size = new System.Drawing.Size(42, 16);
-            this.lblnRegistrosAlumno.TabIndex = 10;
-            this.lblnRegistrosAlumno.Text = "x de n";
+            this.lblnRegistrosDocente.AutoSize = true;
+            this.lblnRegistrosDocente.Location = new System.Drawing.Point(164, 45);
+            this.lblnRegistrosDocente.Name = "lblnRegistrosDocente";
+            this.lblnRegistrosDocente.Size = new System.Drawing.Size(42, 16);
+            this.lblnRegistrosDocente.TabIndex = 10;
+            this.lblnRegistrosDocente.Text = "x de n";
             // 
-            // btnUltimoAlumno
+            // btnUltimoDocente
             // 
-            this.btnUltimoAlumno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnUltimoAlumno.Location = new System.Drawing.Point(296, 27);
-            this.btnUltimoAlumno.Name = "btnUltimoAlumno";
-            this.btnUltimoAlumno.Size = new System.Drawing.Size(67, 47);
-            this.btnUltimoAlumno.TabIndex = 3;
-            this.btnUltimoAlumno.Text = ">|";
-            this.btnUltimoAlumno.UseVisualStyleBackColor = true;
-            this.btnUltimoAlumno.Click += new System.EventHandler(this.btnUltimoAlumno_Click);
+            this.btnUltimoDocente.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUltimoDocente.Location = new System.Drawing.Point(296, 27);
+            this.btnUltimoDocente.Name = "btnUltimoDocente";
+            this.btnUltimoDocente.Size = new System.Drawing.Size(67, 47);
+            this.btnUltimoDocente.TabIndex = 3;
+            this.btnUltimoDocente.Text = ">|";
+            this.btnUltimoDocente.Click += new System.EventHandler(this.btnUltimoDocente_Click);
             // 
-            // btnSiguienteAlumno
+            // btnSiguienteDocente
             // 
-            this.btnSiguienteAlumno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSiguienteAlumno.Location = new System.Drawing.Point(223, 27);
-            this.btnSiguienteAlumno.Name = "btnSiguienteAlumno";
-            this.btnSiguienteAlumno.Size = new System.Drawing.Size(67, 47);
-            this.btnSiguienteAlumno.TabIndex = 2;
-            this.btnSiguienteAlumno.Text = ">";
-            this.btnSiguienteAlumno.UseVisualStyleBackColor = true;
-            this.btnSiguienteAlumno.Click += new System.EventHandler(this.btnSiguienteAlumno_Click);
+            this.btnSiguienteDocente.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSiguienteDocente.Location = new System.Drawing.Point(223, 27);
+            this.btnSiguienteDocente.Name = "btnSiguienteDocente";
+            this.btnSiguienteDocente.Size = new System.Drawing.Size(67, 47);
+            this.btnSiguienteDocente.TabIndex = 2;
+            this.btnSiguienteDocente.Text = ">";
+            this.btnSiguienteDocente.UseVisualStyleBackColor = true;
+            this.btnSiguienteDocente.Click += new System.EventHandler(this.btnSiguienteDocente_Click);
             // 
-            // btnAnteriorAlumno
+            // btnAnteriorDocente
             // 
-            this.btnAnteriorAlumno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAnteriorAlumno.Location = new System.Drawing.Point(74, 26);
-            this.btnAnteriorAlumno.Name = "btnAnteriorAlumno";
-            this.btnAnteriorAlumno.Size = new System.Drawing.Size(68, 47);
-            this.btnAnteriorAlumno.TabIndex = 1;
-            this.btnAnteriorAlumno.Text = "<";
-            this.btnAnteriorAlumno.UseVisualStyleBackColor = true;
-            this.btnAnteriorAlumno.Click += new System.EventHandler(this.btnAnteriorAlumno_Click);
+            this.btnAnteriorDocente.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAnteriorDocente.Location = new System.Drawing.Point(74, 26);
+            this.btnAnteriorDocente.Name = "btnAnteriorDocente";
+            this.btnAnteriorDocente.Size = new System.Drawing.Size(68, 47);
+            this.btnAnteriorDocente.TabIndex = 1;
+            this.btnAnteriorDocente.Text = "<";
+            this.btnAnteriorDocente.UseVisualStyleBackColor = true;
+            this.btnAnteriorDocente.Click += new System.EventHandler(this.btnAnteriorDocente_Click);
             // 
-            // btnPrimerAlumno
+            // btnPrimerDocente
             // 
-            this.btnPrimerAlumno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrimerAlumno.Location = new System.Drawing.Point(0, 25);
-            this.btnPrimerAlumno.Name = "btnPrimerAlumno";
-            this.btnPrimerAlumno.Size = new System.Drawing.Size(68, 49);
-            this.btnPrimerAlumno.TabIndex = 0;
-            this.btnPrimerAlumno.Text = "|<";
-            this.btnPrimerAlumno.UseVisualStyleBackColor = true;
-            this.btnPrimerAlumno.Click += new System.EventHandler(this.btnPrimerAlumno_Click);
+            this.btnPrimerDocente.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrimerDocente.Location = new System.Drawing.Point(0, 25);
+            this.btnPrimerDocente.Name = "btnPrimerDocente";
+            this.btnPrimerDocente.Size = new System.Drawing.Size(68, 49);
+            this.btnPrimerDocente.TabIndex = 0;
+            this.btnPrimerDocente.Text = "|<";
+            this.btnPrimerDocente.UseVisualStyleBackColor = true;
+            this.btnPrimerDocente.Click += new System.EventHandler(this.btnPrimerDocente_Click);
             // 
             // grbEditar
             // 
             this.grbEditar.Controls.Add(this.groupBox3);
-            this.grbEditar.Controls.Add(this.btnEliminarAlumno);
-            this.grbEditar.Controls.Add(this.btnModificarAlumno);
-            this.grbEditar.Controls.Add(this.btnAgregarAlumno);
+            this.grbEditar.Controls.Add(this.btnEliminarDocente);
+            this.grbEditar.Controls.Add(this.btnModificarDocente);
+            this.grbEditar.Controls.Add(this.btnAgregarDocente);
             this.grbEditar.Location = new System.Drawing.Point(392, 364);
             this.grbEditar.Name = "grbEditar";
             this.grbEditar.Size = new System.Drawing.Size(336, 77);
@@ -353,80 +352,72 @@
             this.button8.Text = "|<";
             this.button8.UseVisualStyleBackColor = true;
             // 
-            // btnEliminarAlumno
+            // btnEliminarDocente
             // 
-            this.btnEliminarAlumno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEliminarAlumno.Location = new System.Drawing.Point(227, 30);
-            this.btnEliminarAlumno.Name = "btnEliminarAlumno";
-            this.btnEliminarAlumno.Size = new System.Drawing.Size(94, 47);
-            this.btnEliminarAlumno.TabIndex = 2;
-            this.btnEliminarAlumno.Text = "Eliminar";
-            this.btnEliminarAlumno.UseVisualStyleBackColor = true;
-            this.btnEliminarAlumno.Click += new System.EventHandler(this.btnEliminarAlumno_Click);
+            this.btnEliminarDocente.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEliminarDocente.Location = new System.Drawing.Point(227, 30);
+            this.btnEliminarDocente.Name = "btnEliminarDocente";
+            this.btnEliminarDocente.Size = new System.Drawing.Size(94, 47);
+            this.btnEliminarDocente.TabIndex = 2;
+            this.btnEliminarDocente.Text = "Eliminar";
+            this.btnEliminarDocente.UseVisualStyleBackColor = true;
+            this.btnEliminarDocente.Click += new System.EventHandler(this.btnEliminarDocente_Click);
             // 
-            // btnModificarAlumno
+            // btnModificarDocente
             // 
-            this.btnModificarAlumno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnModificarAlumno.Location = new System.Drawing.Point(109, 30);
-            this.btnModificarAlumno.Name = "btnModificarAlumno";
-            this.btnModificarAlumno.Size = new System.Drawing.Size(99, 47);
-            this.btnModificarAlumno.TabIndex = 1;
-            this.btnModificarAlumno.Text = "Modificar";
-            this.btnModificarAlumno.UseVisualStyleBackColor = true;
-            this.btnModificarAlumno.Click += new System.EventHandler(this.btnModificarAlumno_Click);
+            this.btnModificarDocente.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModificarDocente.Location = new System.Drawing.Point(109, 30);
+            this.btnModificarDocente.Name = "btnModificarDocente";
+            this.btnModificarDocente.Size = new System.Drawing.Size(99, 47);
+            this.btnModificarDocente.TabIndex = 1;
+            this.btnModificarDocente.Text = "Modificar";
+            this.btnModificarDocente.UseVisualStyleBackColor = true;
+            this.btnModificarDocente.Click += new System.EventHandler(this.btnModificarDocente_Click);
             // 
-            // btnAgregarAlumno
+            // btnAgregarDocente
             // 
-            this.btnAgregarAlumno.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAgregarAlumno.Location = new System.Drawing.Point(3, 30);
-            this.btnAgregarAlumno.Name = "btnAgregarAlumno";
-            this.btnAgregarAlumno.Size = new System.Drawing.Size(89, 47);
-            this.btnAgregarAlumno.TabIndex = 0;
-            this.btnAgregarAlumno.Text = "Nuevo";
-            this.btnAgregarAlumno.UseVisualStyleBackColor = true;
-            this.btnAgregarAlumno.Click += new System.EventHandler(this.btnAgregarAlumno_Click);
+            this.btnAgregarDocente.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAgregarDocente.Location = new System.Drawing.Point(3, 30);
+            this.btnAgregarDocente.Name = "btnAgregarDocente";
+            this.btnAgregarDocente.Size = new System.Drawing.Size(89, 47);
+            this.btnAgregarDocente.TabIndex = 0;
+            this.btnAgregarDocente.Text = "Nuevo";
+            this.btnAgregarDocente.UseVisualStyleBackColor = true;
+            this.btnAgregarDocente.Click += new System.EventHandler(this.btnAgregarDocente_Click);
             // 
-            // grbBusquedaAlumno
+            // grbBusquedaDocente
             // 
-            this.grbBusquedaAlumno.Controls.Add(this.grdAlumnos);
-            this.grbBusquedaAlumno.Controls.Add(this.txtBuscarAlumnos);
-            this.grbBusquedaAlumno.Location = new System.Drawing.Point(531, 35);
-            this.grbBusquedaAlumno.Name = "grbBusquedaAlumno";
-            this.grbBusquedaAlumno.Size = new System.Drawing.Size(616, 353);
-            this.grbBusquedaAlumno.TabIndex = 6;
-            this.grbBusquedaAlumno.TabStop = false;
-            this.grbBusquedaAlumno.Text = "Busqueda Alumno";
+            this.grbBusquedaDocente.Controls.Add(this.grdDocentes);
+            this.grbBusquedaDocente.Controls.Add(this.txtBuscarDocentes);
+            this.grbBusquedaDocente.Location = new System.Drawing.Point(531, 35);
+            this.grbBusquedaDocente.Name = "grbBusquedaDocente";
+            this.grbBusquedaDocente.Size = new System.Drawing.Size(616, 353);
+            this.grbBusquedaDocente.TabIndex = 6;
+            this.grbBusquedaDocente.TabStop = false;
+            this.grbBusquedaDocente.Text = "Busqueda Docente";
             // 
-            // txtBuscarAlumnos
+            // grdDocentes
             // 
-            this.txtBuscarAlumnos.Location = new System.Drawing.Point(0, 21);
-            this.txtBuscarAlumnos.Name = "txtBuscarAlumnos";
-            this.txtBuscarAlumnos.Size = new System.Drawing.Size(778, 22);
-            this.txtBuscarAlumnos.TabIndex = 0;
-            this.txtBuscarAlumnos.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtBuscarAlumnos_KeyUp);
-            // 
-            // grdAlumnos
-            // 
-            this.grdAlumnos.AllowUserToAddRows = false;
-            this.grdAlumnos.AllowUserToDeleteRows = false;
-            this.grdAlumnos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.grdAlumnos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.grdDocentes.AllowUserToAddRows = false;
+            this.grdDocentes.AllowUserToDeleteRows = false;
+            this.grdDocentes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grdDocentes.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id,
             this.codigo,
             this.nombre,
             this.direccionn,
             this.telefono});
-            this.grdAlumnos.Location = new System.Drawing.Point(3, 49);
-            this.grdAlumnos.Name = "grdAlumnos";
-            this.grdAlumnos.ReadOnly = true;
-            this.grdAlumnos.RowHeadersWidth = 51;
-            this.grdAlumnos.RowTemplate.Height = 24;
-            this.grdAlumnos.Size = new System.Drawing.Size(613, 287);
-            this.grdAlumnos.TabIndex = 1;
+            this.grdDocentes.Location = new System.Drawing.Point(3, 49);
+            this.grdDocentes.Name = "grdDocentes";
+            this.grdDocentes.ReadOnly = true;
+            this.grdDocentes.RowHeadersWidth = 51;
+            this.grdDocentes.RowTemplate.Height = 24;
+            this.grdDocentes.Size = new System.Drawing.Size(613, 287);
+            this.grdDocentes.TabIndex = 1;
             // 
             // id
             // 
-            this.id.DataPropertyName = "idAlumno";
+            this.id.DataPropertyName = "idDocente";
             this.id.HeaderText = "ID";
             this.id.MinimumWidth = 6;
             this.id.Name = "id";
@@ -470,53 +461,60 @@
             this.telefono.ReadOnly = true;
             this.telefono.Width = 125;
             // 
+            // txtBuscarDocentes
+            // 
+            this.txtBuscarDocentes.Location = new System.Drawing.Point(0, 21);
+            this.txtBuscarDocentes.Name = "txtBuscarDocentes";
+            this.txtBuscarDocentes.Size = new System.Drawing.Size(778, 22);
+            this.txtBuscarDocentes.TabIndex = 0;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.ClientSize = new System.Drawing.Size(1183, 512);
-            this.Controls.Add(this.grbBusquedaAlumno);
+            this.Controls.Add(this.grbBusquedaDocente);
             this.Controls.Add(this.grbEditar);
-            this.Controls.Add(this.grbNavegacionAlumno);
-            this.Controls.Add(this.grbDatosAlumnos);
+            this.Controls.Add(this.grbNavegacionDocente);
+            this.Controls.Add(this.grbDatosDocentes);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
-            this.Text = "ADMINISTRACION DE ALUMNOS";
+            this.Text = "ADMINISTRACION DE DOCENTES";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.grbDatosAlumnos.ResumeLayout(false);
-            this.grbDatosAlumnos.PerformLayout();
+            this.grbDatosDocentes.ResumeLayout(false);
+            this.grbDatosDocentes.PerformLayout();
             this.groupBox1.ResumeLayout(false);
-            this.grbNavegacionAlumno.ResumeLayout(false);
-            this.grbNavegacionAlumno.PerformLayout();
+            this.grbNavegacionDocente.ResumeLayout(false);
+            this.grbNavegacionDocente.PerformLayout();
             this.grbEditar.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
-            this.grbBusquedaAlumno.ResumeLayout(false);
-            this.grbBusquedaAlumno.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.grdAlumnos)).EndInit();
+            this.grbBusquedaDocente.ResumeLayout(false);
+            this.grbBusquedaDocente.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.grdDocentes)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox grbDatosAlumnos;
-        private System.Windows.Forms.Label lblIdAlumno;
+        private System.Windows.Forms.GroupBox grbDatosDocentes;
+        private System.Windows.Forms.Label lblIdDocente;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
-        private System.Windows.Forms.TextBox txtTelefonoAlumno;
-        private System.Windows.Forms.Label lblTelefonoAlumno;
-        private System.Windows.Forms.Label lblDireccionAlumno;
-        private System.Windows.Forms.TextBox txtDireccionAlumno;
-        private System.Windows.Forms.TextBox txtNombreAlumno;
-        private System.Windows.Forms.Label lblNombreAlumno;
-        private System.Windows.Forms.Label lblCodigoAlumno;
-        private System.Windows.Forms.TextBox txtCodigoAlumno;
-        private System.Windows.Forms.GroupBox grbNavegacionAlumno;
-        private System.Windows.Forms.Button btnPrimerAlumno;
-        private System.Windows.Forms.Label idAlumno;
-        private System.Windows.Forms.Button btnUltimoAlumno;
-        private System.Windows.Forms.Button btnSiguienteAlumno;
-        private System.Windows.Forms.Button btnAnteriorAlumno;
+        private System.Windows.Forms.TextBox txtTelefonoDocente;
+        private System.Windows.Forms.Label lblTelefonoDocente;
+        private System.Windows.Forms.Label lblDireccionDocente;
+        private System.Windows.Forms.TextBox txtDireccionDocente;
+        private System.Windows.Forms.TextBox txtNombreDocente;
+        private System.Windows.Forms.Label lblNombreDocente;
+        private System.Windows.Forms.Label lblCodigoDocente;
+        private System.Windows.Forms.TextBox txtCodigoDocente;
+        private System.Windows.Forms.GroupBox grbNavegacionDocente;
+        private System.Windows.Forms.Button btnPrimerDocente;
+        private System.Windows.Forms.Label idDocente;
+        private System.Windows.Forms.Button btnUltimoDocente;
+        private System.Windows.Forms.Button btnSiguienteDocente;
+        private System.Windows.Forms.Button btnAnteriorDocente;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
@@ -527,13 +525,13 @@
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
         private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button btnEliminarAlumno;
-        private System.Windows.Forms.Button btnModificarAlumno;
-        private System.Windows.Forms.Button btnAgregarAlumno;
-        private System.Windows.Forms.Label lblnRegistrosAlumno;
-        private System.Windows.Forms.GroupBox grbBusquedaAlumno;
-        private System.Windows.Forms.DataGridView grdAlumnos;
-        private System.Windows.Forms.TextBox txtBuscarAlumnos;
+        private System.Windows.Forms.Button btnEliminarDocente;
+        private System.Windows.Forms.Button btnModificarDocente;
+        private System.Windows.Forms.Button btnAgregarDocente;
+        private System.Windows.Forms.Label lblnRegistrosDocente;
+        private System.Windows.Forms.GroupBox grbBusquedaDocente;
+        private System.Windows.Forms.DataGridView grdDocentes;
+        private System.Windows.Forms.TextBox txtBuscarDocentes;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn codigo;
         private System.Windows.Forms.DataGridViewTextBoxColumn nombre;

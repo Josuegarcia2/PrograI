@@ -30,28 +30,30 @@ namespace miPrimerProyectoCsharp
 
            objAdaptador.SelectCommand = objComando; //Establecer el comando de selección.
 
-           objComando.CommandText = "SELECT * FROM Alumnos"; 
-           objAdaptador.Fill(objDS, "Alumnos"); //Tomando los datos  de la base de datos y llenando el DataSet.
-
-           return objDS; //Retornar el DataSet con los datos.
+           objComando.CommandText = "SELECT * FROM Docente";
+            
+           
+            objAdaptador.Fill(objDS, "Docente"); //Tomando los datos  de la base de datos y llenando el DataSet.
+            
+            return objDS; //Retornar el DataSet con los datos.
 
 
 
         }
-        public string administrarDatosAlumnos(String[] datos, String accion)
+        public string administrarDatosDocentes(String[] datos, String accion)
         {
             String sql = "";
             if (accion == "nuevo")
             {
-                sql = "INSERT INTO alumnos(codigo,nombre,direccion,telefono) VALUES (@codigo, @nombre, @direccion, @telefono)";
+                sql = "INSERT INTO Docente(codigo,nombre,direccion,telefono) VALUES (@codigo, @nombre, @direccion, @telefono)";
             }
             else if (accion == "modificar")
             {
-                sql = "UPDATE alumnos SET codigo=@codigo, nombre=@nombre, direccion=@direccion, telefono=@telefono WHERE idAlumno=@idAlumno";
+                sql = "UPDATE Docente SET codigo=@codigo, nombre=@nombre, direccion=@direccion, telefono=@telefono WHERE idDocente=@idDocente";
             }
             else if (accion == "eliminar")
             {
-                sql = "DELETE FROM alumnos WHERE idAlumno=@idAlumno";
+                sql = "DELETE FROM Docente WHERE idDocente=@idDocente";
             }
             return ejecutarSQL(sql, datos);
         }
@@ -63,7 +65,7 @@ namespace miPrimerProyectoCsharp
                 objComando.CommandText = sql;
 
                 objComando.Parameters.Clear();
-                objComando.Parameters.AddWithValue("@idAlumno", datos[0]);
+                objComando.Parameters.AddWithValue("@idDocente", datos[0]);
                 objComando.Parameters.AddWithValue("@codigo", datos[1]);
                 objComando.Parameters.AddWithValue("@nombre", datos[2]);
                 objComando.Parameters.AddWithValue("@direccion", datos[3]);
