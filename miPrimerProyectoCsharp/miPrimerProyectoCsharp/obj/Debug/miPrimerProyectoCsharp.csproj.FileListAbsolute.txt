@@ -22,3 +22,5 @@ C:\Users\garci\Downloads\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\o
 C:\Users\garci\Downloads\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.csproj.CoreCompileInputs.cache
 C:\Users\garci\Downloads\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.exe
 C:\Users\garci\Downloads\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\obj\Debug\miPrimerProyectoCsharp.pdb
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\bin\Debug\db_academica.mdf
+C:\Users\garci\OneDrive\Escritorio\PrograI\miPrimerProyectoCsharp\miPrimerProyectoCsharp\bin\Debug\db_academica_log.ldf
