@@ -63,13 +63,7 @@ namespace miPrimerProyectoCsharp
            ActualizarDs();
         }
 
-        
-
-        
-            
-
        
-
         private void estadoControles(Boolean estado)
         {
             grbDatosDocentes.Enabled = estado;
@@ -89,30 +83,53 @@ namespace miPrimerProyectoCsharp
             txtTelefonoDocente.Text = "";
         }
 
-
-       
-
-
         
         private void txtBuscarDocentes_KeyUp(object sender, KeyEventArgs e)
         {
-            filtrarDatos(txtBuscarDocentes.Text);
-          
+            
+            try
+            {
+                filtrarDatos(txtBuscarDocentes.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void filtrarDatos(String valor)
         {
-            DataView objDv = objDt.DefaultView;
-            objDv.RowFilter = "codigo like '%" + valor + "%' OR nombre like '%" + valor + "%'";
-            grdDocentes.DataSource = objDv;
-            seleccionarDocente();
-
+            try
+            {
+                DataView objDv = objDt.DefaultView;
+                objDv.RowFilter = "codigo like '%" + valor + "%' OR nombre like '" + valor + "%'";
+                grdDocentes.DataSource = objDv;
+                seleccionarDocente();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void seleccionarDocente()
         {
-            posicion = objDt.Rows.IndexOf(objDt.Rows.Find(grdDocentes.CurrentRow.Cells["id"].Value));
-            mostrarDatos();
+            try
+            {
+                if (grdDocentes.CurrentRow == null)
+                {
+                    MessageBox.Show("No hay filas");
+                    return;
+                }
+                string id = grdDocentes.CurrentRow.Cells["id"].Value.ToString();
+                posicion = objDt.Rows.IndexOf(objDt.Rows.Find(id));
+                mostrarDatos();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private void grdDocentes_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -161,7 +178,7 @@ namespace miPrimerProyectoCsharp
 
         private void btnAgregarDocente_Click(object sender, EventArgs e)
         {
-            if (btnAgregarDocente.Text == "nuevo")
+            if (btnAgregarDocente.Text == "Nuevo")
             {
                 btnAgregarDocente.Text = "Guardar";
                 btnModificarDocente.Text = "Cancelar";
