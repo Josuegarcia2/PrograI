@@ -287,3 +287,4 @@ C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclini
 C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclinicaodontologica\obj\Debug\net8.0\webappclinicaodontologica.genruntimeconfig.cache
 C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclinicaodontologica\obj\Debug\net8.0\ref\webappclinicaodontologica.dll
 C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclinicaodontologica\bin\Debug\net8.0\webappclinicaodontologica.staticwebassets.runtime.json
+C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclinicaodontologica\bin\Debug\net8.0\wwwroot\views\recepcionista.html

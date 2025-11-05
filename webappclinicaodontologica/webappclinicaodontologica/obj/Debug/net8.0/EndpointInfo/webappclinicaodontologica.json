@@ -634,24 +634,15 @@
   "components": {
     "schemas": {
       "LoginViewModel": {
-        "required": [
-          "contrasena",
-          "nombre_rol",
-          "usuario_nombre"
-        ],
         "type": "object",
         "properties": {
-          "usuario_nombre": {
-            "minLength": 1,
-            "type": "string"
+          "nombre": {
+            "type": "string",
+            "nullable": true
           },
           "contrasena": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "nombre_rol": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

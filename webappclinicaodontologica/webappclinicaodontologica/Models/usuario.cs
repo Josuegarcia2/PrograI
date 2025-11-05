@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webappclinicaodontologica.Models
 {
+    [Table("usuarios")]
     public class Usuario
     {
         [Key]

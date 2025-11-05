@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using webappclinicaodontologica.Models;
 using webappclinicaodontologica.Data;
+using webappclinicaodontologica.Models;
 
 namespace webappclinicaodontologica.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly MyDbContext _context;
@@ -17,19 +17,17 @@ namespace webappclinicaodontologica.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody] LoginViewModel login)
         {
             var usuario = await _context.Usuarios
                 .FirstOrDefaultAsync(u =>
-                    u.usuario_nombre == model.usuario_nombre &&
-                    u.contrasena == model.contrasena &&
-                    u.rol_id == model.rol_id);
+                    u.usuario_nombre == login.nombre &&
+                    u.contrasena == login.contrasena);
 
             if (usuario == null)
-                return Unauthorized("Credenciales inválidas");
+                return Unauthorized("Credenciales incorrectas");
 
             return Ok(usuario);
         }
-
     }
 }

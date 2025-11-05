@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using webappclinicaodontologica.Data;
 using webappclinicaodontologica.Models;
 
 namespace webappclinicaodontologica.Controllers
@@ -13,9 +14,9 @@ namespace webappclinicaodontologica.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private readonly Data.MyDbContext _context;
+        private readonly MyDbContext _context;
 
-        public UsuarioController(Data.MyDbContext context)
+        public UsuarioController(MyDbContext context)
         {
             _context = context;
         }

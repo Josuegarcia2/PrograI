@@ -22,7 +22,7 @@ namespace webappclinicaodontologica.Data
             modelBuilder.Entity<Paciente>().ToTable("pacientes");
             modelBuilder.Entity<Paciente>().HasKey(p => p.id_paciente);
         }
-        public DbSet<webappclinicaodontologica.Models.LoginViewModel> LoginViewModel { get; set; } = default!;
+        
     }
 }
 
