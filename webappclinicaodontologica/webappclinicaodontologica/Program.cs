@@ -1,32 +1,48 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using webappclinicaodontologica.Data; // Asegúrate de usar tu namespace real
 using webappclinicaodontologica.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
+// 🔧 Configurar servicios
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// ✅ Habilitar CORS para permitir llamadas desde login.html
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// 🔧 Configurar middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseStaticFiles();
 
-app.UseHttpsRedirection();
+app.UseRouting();
+
+app.UseCors("AllowAll"); // ✅ Activar CORS
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+// ✅ Si usas SPA o vistas estáticas
+app.MapFallbackToFile("index.html");
 
 app.Run();

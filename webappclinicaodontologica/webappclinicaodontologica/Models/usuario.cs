@@ -1,13 +1,26 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace webappclinicaodontologica.Models
 {
-    public class usuario
+    public class Usuario
     {
         [Key]
-        public int id_usuario { get; set; }
+        [Column("Id_Usuario")]
+        public int Id_Usuario { get; set; }
+
+        [Required]
+        [Column("usuario_nombre")]
+        [StringLength(100)]
         public string usuario_nombre { get; set; }
+
+        [Required]
+        [Column("contrasena")]
+        [StringLength(100)]
         public string contrasena { get; set; }
-        public int id_rol { get; set; }
+
+        [Required]
+        [Column("rol_id")]
+        public int rol_id { get; set; }
     }
 }

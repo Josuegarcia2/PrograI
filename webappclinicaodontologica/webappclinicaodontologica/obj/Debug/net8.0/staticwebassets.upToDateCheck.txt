@@ -1,0 +1,5 @@
+wwwroot\img\logo de la clinica.png
+wwwroot\img\user_2102647.png
+wwwroot\views\index.html
+wwwroot\views\recepcionista.html
+wwwroot\views\login.html
