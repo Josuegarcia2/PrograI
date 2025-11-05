@@ -3,8 +3,6 @@ namespace webappclinicaodontologica.Models
 {
     public class MyDbContext: DbContext
     {
-        public MyDbContext() { }
-
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
             public DbSet<usuario> usuarios { get; set; }
 
