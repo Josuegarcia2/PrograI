@@ -1,5 +1,114 @@
 [
   {
+    "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
+    "Method": "GetEmpleados",
+    "RelativePath": "api/Empleado",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[webappclinicaodontologica.Models.Empleado, webappclinicaodontologica, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
+    "Method": "CrearEmpleado",
+    "RelativePath": "api/Empleado",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "empleado",
+        "Type": "webappclinicaodontologica.Models.Empleado",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "webappclinicaodontologica.Models.Empleado",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
+    "Method": "GetEmpleado",
+    "RelativePath": "api/Empleado/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "webappclinicaodontologica.Models.Empleado",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
+    "Method": "EditarEmpleado",
+    "RelativePath": "api/Empleado/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "empleado",
+        "Type": "webappclinicaodontologica.Models.Empleado",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
+    "Method": "EliminarEmpleado",
+    "RelativePath": "api/Empleado/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "webappclinicaodontologica.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "api/Login",
@@ -9,7 +118,7 @@
     "Parameters": [
       {
         "Name": "login",
-        "Type": "webappclinicaodontologica.Models.LoginViewModel",
+        "Type": "webappclinicaodontologica.Models.ViewModels.LoginViewModel",
         "IsRequired": true
       }
     ],
@@ -37,7 +146,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.PacienteController",
-    "Method": "PostPaciente",
+    "Method": "CrearPaciente",
     "RelativePath": "api/Paciente",
     "HttpMethod": "POST",
     "IsController": true,
@@ -89,7 +198,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.PacienteController",
-    "Method": "PutPaciente",
+    "Method": "EditarPaciente",
     "RelativePath": "api/Paciente/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -110,7 +219,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.PacienteController",
-    "Method": "DeletePaciente",
+    "Method": "EliminarPaciente",
     "RelativePath": "api/Paciente/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -143,204 +252,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.RolController",
-    "Method": "PostRol",
-    "RelativePath": "api/Rol",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "rol",
-        "Type": "webappclinicaodontologica.Models.Rol",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "webappclinicaodontologica.Models.Rol",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.RolController",
-    "Method": "GetRol",
-    "RelativePath": "api/Rol/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "webappclinicaodontologica.Models.Rol",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.RolController",
-    "Method": "PutRol",
-    "RelativePath": "api/Rol/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "rol",
-        "Type": "webappclinicaodontologica.Models.Rol",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.RolController",
-    "Method": "DeleteRol",
-    "RelativePath": "api/Rol/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.UsuarioController",
-    "Method": "GetUsuarios",
-    "RelativePath": "api/Usuario",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[webappclinicaodontologica.Models.Usuario, webappclinicaodontologica, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.UsuarioController",
-    "Method": "PostUsuario",
-    "RelativePath": "api/Usuario",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "usuario",
-        "Type": "webappclinicaodontologica.Models.Usuario",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "webappclinicaodontologica.Models.Usuario",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.UsuarioController",
-    "Method": "GetUsuario",
-    "RelativePath": "api/Usuario/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "webappclinicaodontologica.Models.Usuario",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.UsuarioController",
-    "Method": "PutUsuario",
-    "RelativePath": "api/Usuario/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "usuario",
-        "Type": "webappclinicaodontologica.Models.Usuario",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.UsuarioController",
-    "Method": "DeleteUsuario",
-    "RelativePath": "api/Usuario/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.WeatherForecastController",

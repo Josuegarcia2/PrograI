@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webappclinicaodontologica.Data;
-using webappclinicaodontologica.Models;
+using webappclinicaodontologica.Models.ViewModels;
 
 namespace webappclinicaodontologica.Controllers
 {
@@ -19,15 +19,35 @@ namespace webappclinicaodontologica.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginViewModel login)
         {
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(u =>
-                    u.usuario_nombre == login.nombre &&
-                    u.contrasena == login.contrasena);
+            var empleado = await _context.Empleados
+                .Include(e => e.Rol)
+                .FirstOrDefaultAsync(e =>
+                    e.Usuario == login.Usuario &&
+                    e.Contrasena == login.Contrasena);
 
-            if (usuario == null)
-                return Unauthorized("Credenciales incorrectas");
+            if (empleado == null)
+                return Unauthorized("Usuario o contraseña incorrectos");
 
-            return Ok(usuario);
+            var panel = empleado.Rol.NombreRol.ToLower() switch
+            {
+                "recepcionista" => "PanelRecepcionista",
+                "doctor" => "PanelDoctor",
+                _ => "PanelGeneral"
+            };
+
+            return Ok(new
+            {
+                mensaje = "Login exitoso",
+                nombre = empleado.Nombre,
+                rol = empleado.Rol.NombreRol,
+                panelDestino = empleado.Rol.NombreRol switch
+                {
+                    "Recepcionista" => "PanelRecepcionista",
+                    "Doctor" => "PanelDoctor",
+                    _ => "PanelGeneral"
+                }
+            });
+
         }
     }
 }

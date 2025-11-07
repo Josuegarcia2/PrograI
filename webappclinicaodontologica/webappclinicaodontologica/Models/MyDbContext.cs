@@ -7,22 +7,20 @@ namespace webappclinicaodontologica.Data
     {
         public MyDbContext(DbContextOptions<MyDbContext> options) : base(options) { }
 
-        public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Rol> Roles { get; set; }
+        public DbSet<Empleado> Empleados { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Usuario>().ToTable("usuario");
-            modelBuilder.Entity<Usuario>().HasKey(u => u.Id_Usuario);
+            modelBuilder.Entity<Rol>().ToTable("Roles").HasKey(r => r.IdRol);
+            modelBuilder.Entity<Empleado>().ToTable("Empleados").HasKey(e => e.IdEmpleado);
+            modelBuilder.Entity<Paciente>().ToTable("Pacientes").HasKey(p => p.IdPaciente);
 
-            modelBuilder.Entity<Rol>().ToTable("rol");
-            modelBuilder.Entity<Rol>().HasKey(r => r.id_rol);
-
-            modelBuilder.Entity<Paciente>().ToTable("pacientes");
-            modelBuilder.Entity<Paciente>().HasKey(p => p.id_paciente);
+            modelBuilder.Entity<Empleado>()
+                .HasOne(e => e.Rol)
+                .WithMany(r => r.Empleados)
+                .HasForeignKey(e => e.IdRol);
         }
-        
     }
 }
-

@@ -2,114 +2,146 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Acceso SGCO</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <title>Login - SGCO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
         body {
-            background: linear-gradient(to right, #00b4d8, #90e0ef, #caf0f8);
+            background-color: #fff;
             height: 100vh;
-            margin: 0;
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-family: 'Segoe UI', sans-serif;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .login-box {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+        .login-container {
             width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-            .login-box h2 {
-                margin-bottom: 30px;
-                color: #0077b6;
-            }
-
-        .form-control {
+            max-width: 420px;
+            padding: 40px 30px;
+            background-color: #ffffff;
             border-radius: 10px;
-            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            z-index: 1;
         }
 
-        .btn-ingresar {
-            background-color: #00b4d8;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 16px;
-            width: 100%;
-            transition: background-color 0.3s ease;
-        }
-
-            .btn-ingresar:hover {
-                background-color: #0077b6;
+            .login-container img {
+                width: 100px;
+                margin-bottom: 15px;
             }
 
-        #msgError {
-            display: none;
-            color: red;
-            margin-top: 15px;
+            .login-container h3 {
+                font-weight: bold;
+                margin-bottom: 5px;
+            }
+
+            .login-container p {
+                font-size: 0.95rem;
+                color: #6c757d;
+                margin-bottom: 25px;
+            }
+
+        .decoracion-cuadro {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #17a2b8;
+            opacity: 0.3;
+            animation: flotar 10s infinite;
+        }
+
+        @keyframes flotar {
+            0% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
-    <div class="login-box">
-        <h2><i class="fa-solid fa-tooth"></i> Acceso SGCO</h2>
-        <form id="form-login">
-            <select id="rol" class="form-control">
-                <option value="1">Recepcionista</option>
-                <option value="2">Doctor</option>
-                <option value="3">Administrador</option>
-            </select>
 
-            <input type="text" id="usuario" class="form-control" placeholder="Usuario">
-            <input type="password" id="contrasena" class="form-control" placeholder="Contraseña">
-            <button id="btnIngresar" type="button" class="btn-ingresar">INGRESAR</button>
+    <!-- Decoración visual -->
+    <script>
+        for (let i = 0; i < 30; i++) {
+            const cuadro = document.createElement("div");
+            cuadro.className = "decoracion-cuadro";
+            cuadro.style.top = Math.random() * window.innerHeight + "px";
+            cuadro.style.left = Math.random() * window.innerWidth + "px";
+            document.body.appendChild(cuadro);
+        }
+    </script>
+
+    <!-- Formulario de login -->
+    <div class="login-container text-center">
+        <img src="/img/logo de la clinica.png" alt="Logo SGCO" />
+        <h3>SGCO</h3>
+        <p>Sistema de Gestión de Consultorios Odontológicos</p>
+
+        <form id="loginForm">
+            <div class="mb-3 text-start">
+                <label for="rol" class="form-label">Rol</label>
+                <select id="rol" class="form-select" required>
+                    <option value="">Seleccione su rol</option>
+                    <option value="1">Recepcionista</option>
+                    <option value="2">Doctor</option>
+                    <option value="3">Administrador</option>
+                </select>
+            </div>
+            <div class="mb-3 text-start">
+                <label for="usuario" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="usuario" placeholder="Ingrese su usuario" required />
+            </div>
+            <div class="mb-4 text-start">
+                <label for="contrasena" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="contrasena" placeholder="Ingrese su contraseña" required />
+            </div>
+            <button type="submit" class="btn btn-info w-100 py-2">INGRESAR</button>
         </form>
-        <div id="msgError">❌ Usuario o contraseña incorrectos</div>
+
+        <div id="errorMsg" class="alert alert-danger mt-3 d-none"></div>
     </div>
 
+    <!-- Script de login -->
     <script>
-        document.getElementById("btnIngresar").addEventListener("click", function () {
-            const nombre = document.getElementById("usuario").value.trim();
-            const contrasena = document.getElementById("contrasena").value.trim();
+        document.getElementById("loginForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
 
-            if (nombre === "" || contrasena === "") {
-                alert("Por favor, complete todos los campos.");
-                return;
-            }
+            const usuario = document.getElementById("usuario").value;
+            const contrasena = document.getElementById("contrasena").value;
+            const rol = document.getElementById("rol").value;
 
-            const datos = { nombre, contrasena };
-
-            fetch("http://localhost:7048/api/Login", {
+            const respuesta = await fetch("https://localhost:7148/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(datos)
-            })
-                .then(res => {
-                    if (!res.ok) throw new Error("Credenciales inválidas");
-                    return res.json();
-                })
-                .then(data => {
-                    localStorage.setItem("usuario", JSON.stringify(data));
-                    switch (data.rol_id) {
-                        case 1: window.location.href = "recepcionista.html"; break;
-                        case 2: window.location.href = "doc.html"; break;
-                        case 3: window.location.href = "admi.html"; break;
-                        default: alert("Rol no reconocido."); break;
-                    }
-                })
-                .catch(err => {
-                    document.getElementById("msgError").style.display = "block";
-                });
+                body: JSON.stringify({ usuario, contrasena, rol: parseInt(rol) })
+            });
+
+            if (respuesta.ok) {
+                const datos = await respuesta.json();
+                const panel = datos.panelDestino;
+
+                if (panel === "PanelRecepcionista") {
+                    window.location.href = "/views/recepcionista.html";
+                } else if (panel === "PanelDoctor") {
+                    window.location.href = "/views/Doctor.html";
+                } else {
+                    window.location.href = "/views/General.html";
+                }
+            } else {
+                const errorMsg = document.getElementById("errorMsg");
+                errorMsg.textContent = "Credenciales incorrectas o rol inválido";
+                errorMsg.classList.remove("d-none");
+            }
         });
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

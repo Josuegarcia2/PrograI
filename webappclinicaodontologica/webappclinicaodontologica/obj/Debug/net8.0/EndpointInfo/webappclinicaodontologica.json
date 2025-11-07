@@ -5,6 +5,191 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Empleado": {
+      "get": {
+        "tags": [
+          "Empleado"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Empleado"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Empleado"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Empleado"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Empleado"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empleado"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empleado"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empleado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empleado"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empleado"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empleado"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Empleado/{id}": {
+      "get": {
+        "tags": [
+          "Empleado"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empleado"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empleado"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Empleado"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Empleado"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empleado"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empleado"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Empleado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Empleado"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Login": {
       "post": {
         "tags": [
@@ -257,338 +442,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "Rol"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Rol"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Rol"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Rol"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rol"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rol"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rol"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Rol/{id}": {
-      "get": {
-        "tags": [
-          "Rol"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rol"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rol"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Rol"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Rol"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Rol"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Rol"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Rol"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Rol"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Usuario": {
-      "get": {
-        "tags": [
-          "Usuario"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Usuario"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Usuario"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Usuario"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Usuario"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Usuario"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Usuario"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Usuario"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Usuario"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Usuario"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Usuario"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Usuario/{id}": {
-      "get": {
-        "tags": [
-          "Usuario"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Usuario"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Usuario"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Usuario"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Usuario"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Usuario"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Usuario"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Usuario"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Usuario"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
       }
     },
     "/WeatherForecast": {
@@ -633,10 +486,47 @@
   },
   "components": {
     "schemas": {
+      "Empleado": {
+        "type": "object",
+        "properties": {
+          "idEmpleado": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasena": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRol": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rol": {
+            "$ref": "#/components/schemas/Rol"
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginViewModel": {
         "type": "object",
         "properties": {
-          "nombre": {
+          "usuario": {
             "type": "string",
             "nullable": true
           },
@@ -648,102 +538,60 @@
         "additionalProperties": false
       },
       "Paciente": {
-        "required": [
-          "apellido",
-          "correo",
-          "direccion",
-          "fecha_nacimiento",
-          "genero",
-          "nombre",
-          "telefono"
-        ],
         "type": "object",
         "properties": {
-          "id_paciente": {
+          "idPaciente": {
             "type": "integer",
             "format": "int32"
           },
           "nombre": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "apellido": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "correo": {
-            "maxLength": 100,
-            "minLength": 0,
             "type": "string",
-            "format": "email"
+            "nullable": true
           },
           "telefono": {
-            "maxLength": 15,
-            "minLength": 0,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "direccion": {
-            "maxLength": 150,
-            "minLength": 0,
-            "type": "string"
-          },
-          "fecha_nacimiento": {
             "type": "string",
-            "format": "date"
+            "nullable": true
+          },
+          "fechaNacimiento": {
+            "type": "string",
+            "format": "date-time"
           },
           "genero": {
-            "maxLength": 10,
-            "minLength": 0,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
       "Rol": {
-        "required": [
-          "nombre_rol"
-        ],
         "type": "object",
         "properties": {
-          "id_rol": {
+          "idRol": {
             "type": "integer",
             "format": "int32"
           },
-          "nombre_rol": {
-            "maxLength": 50,
-            "minLength": 0,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Usuario": {
-        "required": [
-          "contrasena",
-          "rol_id",
-          "usuario_nombre"
-        ],
-        "type": "object",
-        "properties": {
-          "id_Usuario": {
-            "type": "integer",
-            "format": "int32"
+          "nombreRol": {
+            "type": "string",
+            "nullable": true
           },
-          "usuario_nombre": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "contrasena": {
-            "maxLength": 100,
-            "minLength": 0,
-            "type": "string"
-          },
-          "rol_id": {
-            "type": "integer",
-            "format": "int32"
+          "empleados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Empleado"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
