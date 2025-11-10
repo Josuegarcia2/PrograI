@@ -19,35 +19,38 @@ namespace webappclinicaodontologica.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromBody] LoginViewModel login)
         {
+            if (string.IsNullOrEmpty(login.Usuario) || string.IsNullOrEmpty(login.Contrasena))
+                return BadRequest("Usuario o contraseña vacíos");
+
+            // Buscar empleado con su rol
             var empleado = await _context.Empleados
                 .Include(e => e.Rol)
                 .FirstOrDefaultAsync(e =>
                     e.Usuario == login.Usuario &&
-                    e.Contrasena == login.Contrasena);
+                    e.Contrasena == login.Contrasena &&
+                    e.Estado == "Activo");
 
             if (empleado == null)
                 return Unauthorized("Usuario o contraseña incorrectos");
 
-            var panel = empleado.Rol.NombreRol.ToLower() switch
+            // Determinar el panel de destino según el rol
+            string rol = empleado.Rol.NombreRol?.ToLower() ?? "";
+            string panelDestino = rol switch
             {
                 "recepcionista" => "PanelRecepcionista",
                 "doctor" => "PanelDoctor",
+                "administrador" => "PanelAdministrador",
                 _ => "PanelGeneral"
             };
 
             return Ok(new
             {
                 mensaje = "Login exitoso",
-                nombre = empleado.Nombre,
+                nombre = empleado.Nombre + " " + empleado.Apellido,
                 rol = empleado.Rol.NombreRol,
-                panelDestino = empleado.Rol.NombreRol switch
-                {
-                    "Recepcionista" => "PanelRecepcionista",
-                    "Doctor" => "PanelDoctor",
-                    _ => "PanelGeneral"
-                }
+                panelDestino
             });
-
         }
     }
 }
+

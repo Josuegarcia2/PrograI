@@ -115,32 +115,38 @@
 
             const usuario = document.getElementById("usuario").value;
             const contrasena = document.getElementById("contrasena").value;
-            const rol = document.getElementById("rol").value;
 
             const respuesta = await fetch("https://localhost:7148/api/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ usuario, contrasena, rol: parseInt(rol) })
+                body: JSON.stringify({ usuario, contrasena })
             });
 
             if (respuesta.ok) {
                 const datos = await respuesta.json();
+
+                // Guardar datos del usuario en localStorage
+                localStorage.setItem("nombreUsuario", datos.nombre);
+                localStorage.setItem("rolUsuario", datos.rol);
+
                 const panel = datos.panelDestino;
 
                 if (panel === "PanelRecepcionista") {
                     window.location.href = "/views/recepcionista.html";
                 } else if (panel === "PanelDoctor") {
                     window.location.href = "/views/Doctor.html";
-                } else {
-                    window.location.href = "/views/General.html";
+                } else if (panel === "PanelAdministrador") {
+                    window.location.href = "/views/Administrador.html";
                 }
+
             } else {
                 const errorMsg = document.getElementById("errorMsg");
-                errorMsg.textContent = "Credenciales incorrectas o rol inválido";
+                errorMsg.textContent = "Usuario o contraseña incorrectos";
                 errorMsg.classList.remove("d-none");
             }
         });
     </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
