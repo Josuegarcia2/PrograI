@@ -1,7 +1,7 @@
-wwwroot\views\recepcionista.html
+wwwroot\img\logo de la clinica.png
+wwwroot\img\user_2102647.png
 wwwroot\views\doctor.html
 wwwroot\views\index.html
-wwwroot\img\user_2102647.png
-wwwroot\img\logo de la clinica.png
 wwwroot\views\login.html
+wwwroot\views\recepcionista.html
 wwwroot\views\administrador.html

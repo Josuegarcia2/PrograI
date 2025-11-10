@@ -4,111 +4,197 @@
     <meta charset="UTF-8" />
     <title>Panel del Doctor - SGCO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body {
-            display: flex;
-            margin: 0;
-            min-height: 100vh;
-            background-color: #f8f9fa;
+        :root {
+            --verde-sgco: #198754;
         }
 
-        /* Barra lateral */
-        .sidebar {
-            width: 250px;
-            background-color: #198754;
-            color: white;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        body {
+            margin: 0;
+            font-family: "Segoe UI", sans-serif;
+            background-color: #f8fdf9;
         }
+
+        /* Barra superior */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: white !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+            .navbar .btn-outline-success {
+                border-color: var(--verde-sgco);
+                color: var(--verde-sgco);
+            }
+
+                .navbar .btn-outline-success:hover {
+                    background-color: var(--verde-sgco);
+                    color: white;
+                }
+
+        .text-success {
+            color: var(--verde-sgco) !important;
+        }
+
+        /* Menú lateral */
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #fff;
+            color: var(--verde-sgco);
+            padding: 20px;
+            transition: left 0.3s ease;
+            box-shadow: 3px 0 8px rgba(0,0,0,0.1);
+            z-index: 999;
+        }
+
+            .sidebar.show {
+                left: 0;
+            }
+
+            .sidebar .close-btn {
+                text-align: right;
+                font-size: 1.4rem;
+                cursor: pointer;
+                color: var(--verde-sgco);
+                margin-bottom: 20px;
+            }
+
+            .sidebar .logo-container {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+            .sidebar img {
+                max-width: 100px;
+            }
+
+            .sidebar h5 {
+                font-weight: bold;
+                color: var(--verde-sgco);
+                margin-top: 10px;
+            }
 
             .sidebar a {
                 display: block;
-                color: white;
+                color: var(--verde-sgco);
                 text-decoration: none;
                 margin-bottom: 15px;
                 font-size: 1rem;
-                transition: 0.3s;
+                transition: 0.2s;
             }
 
                 .sidebar a:hover {
-                    text-decoration: underline;
-                    transform: translateX(5px);
+                    color: #0b5e2c;
+                    transform: translateX(3px);
                 }
 
-        /* Contenido principal */
+        /* Contenido */
         .main-content {
-            flex-grow: 1;
+            margin-top: 100px;
             padding: 40px;
-            background-color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .logo {
-            max-width: 100px;
+        .card-panel {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 40px 30px;
+            text-align: center;
+            max-width: 600px;
         }
+
+            .card-panel h2 {
+                color: var(--verde-sgco);
+                font-weight: 700;
+                margin-bottom: 15px;
+            }
+
+            .card-panel p {
+                color: #6c757d;
+            }
     </style>
 </head>
+
 <body>
-
-    <!-- Menú lateral -->
-    <div class="sidebar">
-        <div>
-            <div class="text-center">
-                <img src="/img/logo de la clinica.png" alt="Logo SGCO" class="logo mb-2" />
-                <h5 class="fw-bold">CLÍNICA DENTAL SGCO</h5>
-            </div>
-            <hr />
-            <a href="#"><i class="fas fa-user-md"></i> Perfil</a>
-            <a href="#"><i class="fas fa-notes-medical"></i> Consultas</a>
-            <a href="#"><i class="fas fa-calendar-check"></i> Mis Citas</a>
-            <a href="#"><i class="fas fa-user-injured"></i> Pacientes</a>
+    <!-- Barra superior -->
+    <nav class="navbar navbar-expand-lg px-4 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <button class="btn btn-outline-success me-3" onclick="abrirMenu()">
+                <i class="bi bi-list"></i>
+            </button>
+            <img src="img/logo.png" alt="Logo Clínica" style="height:45px; margin-right:10px;">
+            <span id="nombreUsuarioNavbar" class="fw-bold text-success fs-5"></span>
         </div>
-
-        <div class="text-center mt-4">
-            <button id="logoutBtn" class="btn btn-danger w-100">
-                <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+        <div class="d-flex align-items-center">
+            <div class="dropdown me-3">
+                <button class="btn btn-outline-success dropdown-toggle d-flex align-items-center" type="button"
+                        id="perfilDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle fs-5 me-2"></i> Perfil
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="perfilDropdown">
+                    <li><a class="dropdown-item" href="#">Ver perfil</a></li>
+                    <li><a class="dropdown-item" href="#">Editar información</a></li>
+                </ul>
+            </div>
+            <button id="logoutBtn" class="btn btn-outline-success">
+                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
             </button>
         </div>
+    </nav>
+
+    <!-- Menú lateral -->
+    <div class="sidebar" id="menuLateral">
+        <div class="close-btn" onclick="cerrarMenu()">✖</div>
+        <div class="logo-container">
+            <img src="/img/logo de la clinica.png" alt="Logo SGCO" />
+            <h5>CLÍNICA DENTAL SGCO</h5>
+        </div>
+        <a href="#"><i class="bi bi-calendar-check me-2"></i> Mis Citas</a>
+        <a href="#"><i class="bi bi-tooth me-2"></i> Tratamientos</a>
+        <a href="#"><i class="bi bi-file-medical me-2"></i> Historial</a>
+        <a href="#"><i class="bi bi-stethoscope me-2"></i> Servicios</a>
     </div>
 
-    <!-- Contenido principal -->
-    <div class="main-content d-flex justify-content-center align-items-center">
-        <div class="text-center p-5 rounded shadow" style="max-width: 500px; width: 100%;">
-            <h2 class="mb-3">Panel del Doctor</h2>
-            <h5 id="bienvenida" class="text-success mb-3"></h5>
-            <p class="text-muted mb-4">
-                Bienvenido al módulo clínico para gestionar consultas, citas y pacientes.
-            </p>
-            <img src="/img/logo de la clinica.png" alt="Logo de la clínica" style="max-width: 250px;" />
-            <p class="mt-3 text-secondary">CLÍNICA DENTAL SGCO</p>
+    <!-- Contenido -->
+    <div class="main-content">
+        <div class="card-panel">
+            <h2>Panel del Doctor</h2>
+            <h5 id="bienvenida" class="mb-3"></h5>
+            <p>Bienvenido al módulo clínico para gestionar citas, tratamientos y pacientes.</p>
+            <img src="/img/logo de la clinica.png" alt="Logo de la clínica" style="max-width:250px;">
         </div>
     </div>
 
-    <!-- Script de seguridad y sesión -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        function abrirMenu() { document.getElementById("menuLateral").classList.add("show"); }
+        function cerrarMenu() { document.getElementById("menuLateral").classList.remove("show"); }
+
+        document.addEventListener("DOMContentLoaded", () => {
             const nombre = localStorage.getItem("nombreUsuario");
             const rol = localStorage.getItem("rolUsuario");
-
-            // Validar sesión activa y rol correcto
             if (!nombre || rol !== "Doctor") {
-                alert("Debe iniciar sesión como doctor para acceder a este panel.");
                 window.location.href = "/Login.html";
                 return;
             }
-
-            // Mostrar bienvenida personalizada
             document.getElementById("bienvenida").textContent = `¡Bienvenido, Dr(a). ${nombre}!`;
-
-            // Cerrar sesión
+            document.getElementById("nombreUsuarioNavbar").textContent = `Dr(a). ${nombre}`;
             document.getElementById("logoutBtn").addEventListener("click", () => {
-                localStorage.clear();
-                window.location.href = "/Login.html";
+                localStorage.clear(); window.location.href = "/Login.html";
             });
         });
     </script>
-
 </body>
 </html>
