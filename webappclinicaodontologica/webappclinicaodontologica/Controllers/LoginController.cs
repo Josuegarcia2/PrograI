@@ -22,25 +22,27 @@ namespace webappclinicaodontologica.Controllers
             if (string.IsNullOrEmpty(login.Usuario) || string.IsNullOrEmpty(login.Contrasena))
                 return BadRequest("Usuario o contraseña vacíos");
 
-            // Buscar empleado con su rol
+            // VALIDAR: USUARIO + CONTRASEÑA + ROL + ESTADO
             var empleado = await _context.Empleados
                 .Include(e => e.Rol)
                 .FirstOrDefaultAsync(e =>
                     e.Usuario == login.Usuario &&
                     e.Contrasena == login.Contrasena &&
+                    e.IdRol == login.IdRol &&          // ← VALIDACIÓN CORRECTA DEL ROL
                     e.Estado == "Activo");
 
             if (empleado == null)
-                return Unauthorized("Usuario o contraseña incorrectos");
+                return Unauthorized("Usuario, contraseña o rol incorrectos");
 
-            // Determinar el panel de destino según el rol
+            // Seleccionar panel correcto según el rol
             string rol = empleado.Rol.NombreRol?.ToLower() ?? "";
+
             string panelDestino = rol switch
             {
-                "recepcionista" => "PanelRecepcionista",
-                "doctor" => "PanelDoctor",
-                "administrador" => "PanelAdministrador",
-                _ => "PanelGeneral"
+                "recepcionista" => "/views/recepcionista.html",
+                "doctor" => "/views/doctor.html",
+                "administrador" => "/views/administrador.html",
+                _ => "/views/login.html"
             };
 
             return Ok(new
@@ -53,4 +55,3 @@ namespace webappclinicaodontologica.Controllers
         }
     }
 }
-

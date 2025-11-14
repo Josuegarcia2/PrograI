@@ -1,117 +1,118 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>SGCO CLÍNICA DENTAL – Inicio</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --azul-oscuro: #063970;
+            --azul-medio: #0D5B8C;
+            --celeste: #5FD3D4;
+            --blanco: #ffffff;
+        }
+
         body {
             margin: 0;
-            font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(135deg, #e0f7fa, #ffffff);
+            padding: 0;
             height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #E8F8FF, #DFF4FF, #F1FAFF);
+            font-family: 'Segoe UI', sans-serif;
             overflow: hidden;
         }
 
-        .welcome-container {
-            text-align: center;
-            background-color: white;
-            padding: 60px 40px;
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
-            position: relative;
-            z-index: 2;
-        }
-
-            .welcome-container img {
-                width: 120px;
-                margin-bottom: 20px;
-            }
-
-            .welcome-container h1 {
-                font-size: 28px;
-                font-weight: 700;
-                margin-bottom: 10px;
-                color: #0077b6;
-            }
-
-            .welcome-container p {
-                font-size: 16px;
-                color: #555;
-                margin-bottom: 30px;
-            }
-
-        .btn-iniciar {
-            background-color: #00b4d8;
-            color: white;
-            border: none;
-            padding: 12px 40px;
-            font-size: 16px;
-            border-radius: 50px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            transition: background-color 0.3s ease;
-        }
-
-            .btn-iniciar:hover {
-                background-color: #0077b6;
-            }
-
-        .background-squares {
+        /* LOGO GIGANTE SUAVE */
+        .logo-bg {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            width: 650px;
+            opacity: 0.08;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 1;
-            overflow: hidden;
         }
 
-        .square {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: rgba(0, 183, 255, 0.2);
-            animation: float 10s infinite linear;
+        /* TARJETA PRINCIPAL */
+        .card {
+            width: 420px;
+            padding: 40px;
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            z-index: 10;
+            animation: aparecer 0.8s ease;
         }
 
-        @keyframes float {
-            0% {
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
                 transform: translateY(0);
             }
-
-            100% {
-                transform: translateY(-100vh);
-            }
         }
+
+        .card img {
+            width: 90px;
+            margin-bottom: 15px;
+        }
+
+        .titulo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--azul-medio);
+        }
+
+        .sub {
+            font-size: 1rem;
+            color: #444;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background: var(--celeste);
+            color: var(--azul-oscuro);
+            font-weight: bold;
+            padding: 12px 35px;
+            border-radius: 40px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            box-shadow: 0 6px 20px rgba(95,211,212,0.35);
+            transition: 0.2s ease;
+        }
+
+            .btn:hover {
+                background: var(--azul-medio);
+                color: white;
+            }
     </style>
 </head>
+
 <body>
-    <div class="background-squares">
-        <!-- Genera 30 cuadrados flotantes -->
-        <script>
-      for (let i = 0; i < 30; i++) {
-        const square = document.createElement('div');
-        square.className = 'square';
-        square.style.left = `${Math.random() * 100}%`;
-        square.style.top = `${Math.random() * 100}%`;
-        square.style.animationDuration = `${5 + Math.random() * 10}s`;
-        document.querySelector('.background-squares').appendChild(square);
-      }
-        </script>
+
+    <!-- LOGO GIGANTE SUAVE DETRÁS -->
+    <img src="/img/logo dclinica.png" class="logo-bg">
+
+    <!-- TARJETA DE PRESENTACIÓN -->
+    <div class="card">
+        <img src="/img/logo dclinica.png" alt="Logo SGCO">
+
+        <div class="titulo">SGCO CLÍNICA DENTAL</div>
+        <div class="sub">Bienvenido al sistema de gestión clínica</div>
+
+        <button class="btn" onclick="window.location.href='login.html'">
+            INICIAR
+        </button>
     </div>
 
-    <div class="welcome-container">
-        <img src="/img/logo de la clinica.png" alt="Logo SGCO">
-        <h1>SGCO CLÍNICA DENTAL</h1>
-        <p>Bienvenido al sistema de gestión clínica</p>
-        <a href="login.html" class="btn-iniciar">INICIAR</a>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

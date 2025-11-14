@@ -1,7 +1,7 @@
-wwwroot\img\logo de la clinica.png
 wwwroot\img\user_2102647.png
-wwwroot\views\doctor.html
-wwwroot\views\index.html
-wwwroot\views\login.html
-wwwroot\views\recepcionista.html
 wwwroot\views\administrador.html
+wwwroot\views\doctor.html
+wwwroot\views\recepcionista.html
+wwwroot\views\login.html
+wwwroot\views\index.html
+wwwroot\img\logo dclinica.png

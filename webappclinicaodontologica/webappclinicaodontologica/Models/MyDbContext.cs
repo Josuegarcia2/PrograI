@@ -9,13 +9,12 @@ namespace webappclinicaodontologica.Data
 
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
-        public DbSet<Paciente> Pacientes { get; set; }
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Rol>().ToTable("Roles").HasKey(r => r.IdRol);
             modelBuilder.Entity<Empleado>().ToTable("Empleados").HasKey(e => e.IdEmpleado);
-            modelBuilder.Entity<Paciente>().ToTable("Pacientes").HasKey(p => p.IdPaciente);
+            
 
             modelBuilder.Entity<Empleado>()
                 .HasOne(e => e.Rol)

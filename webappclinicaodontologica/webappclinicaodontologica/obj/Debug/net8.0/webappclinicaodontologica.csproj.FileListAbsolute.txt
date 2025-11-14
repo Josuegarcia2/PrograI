@@ -578,3 +578,4 @@ C:\Users\Josue Garcia\Desktop\PrograI\webappclinicaodontologica\webappclinicaodo
 C:\Users\Josue Garcia\Desktop\PrograI\webappclinicaodontologica\webappclinicaodontologica\obj\Debug\net8.0\webappclinicaodontologica.genruntimeconfig.cache
 C:\Users\Josue Garcia\Desktop\PrograI\webappclinicaodontologica\webappclinicaodontologica\obj\Debug\net8.0\ref\webappclinicaodontologica.dll
 C:\Users\Josue Garcia\Desktop\PrograI\webappclinicaodontologica\webappclinicaodontologica\bin\Debug\net8.0\wwwroot\views\recepcionista.html
+C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclinicaodontologica\obj\Debug\net8.0\swae.build.ex.cache
