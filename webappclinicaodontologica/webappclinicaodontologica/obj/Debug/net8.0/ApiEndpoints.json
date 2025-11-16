@@ -21,7 +21,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
-    "Method": "CrearEmpleado",
+    "Method": "PostEmpleado",
     "RelativePath": "api/Empleado",
     "HttpMethod": "POST",
     "IsController": true,
@@ -73,7 +73,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
-    "Method": "EditarEmpleado",
+    "Method": "PutEmpleado",
     "RelativePath": "api/Empleado/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -94,7 +94,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
-    "Method": "EliminarEmpleado",
+    "Method": "DeleteEmpleado",
     "RelativePath": "api/Empleado/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,

@@ -1,12 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webappclinicaodontologica.Data;
 using webappclinicaodontologica.Models;
 
 namespace webappclinicaodontologica.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class RolController : ControllerBase
     {
         private readonly MyDbContext _context;
@@ -16,11 +21,13 @@ namespace webappclinicaodontologica.Controllers
             _context = context;
         }
 
+        // GET: api/Rol
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Rol>>> GetRoles()
         {
-            var roles = await _context.Roles.ToListAsync();
-            return Ok(roles);
+            return await _context.Roles.ToListAsync();
         }
+
+        
     }
 }

@@ -324,13 +324,13 @@
             "type": "string",
             "nullable": true
           },
-          "estado": {
-            "type": "string",
-            "nullable": true
-          },
           "idRol": {
             "type": "integer",
             "format": "int32"
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
           },
           "rol": {
             "$ref": "#/components/schemas/Rol"
@@ -363,7 +363,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "nombreRol": {
+          "rolNombre": {
             "type": "string",
             "nullable": true
           },

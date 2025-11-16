@@ -205,7 +205,7 @@
 
             const usuario = document.getElementById("usuario").value;
             const contrasena = document.getElementById("contrasena").value;
-            const rol = document.getElementById("rol").value;
+            const idRol = parseInt(document.getElementById("rol").value);
 
             const respuesta = await fetch("https://localhost:7148/api/login", {
                 method: "POST",
@@ -213,20 +213,28 @@
                 body: JSON.stringify({
                     usuario: usuario,
                     contrasena: contrasena,
-                    idRol: parseInt(rol)     // ← ESTE ES EL CAMBIO IMPORTANTÍSIMO
+                    idRol: idRol
                 })
             });
 
+            const datos = await respuesta.json();
+
             if (respuesta.ok) {
-                const datos = await respuesta.json();
-                window.location.href = datos.panelDestino;
+                // Guardar datos en el navegador
+                localStorage.setItem("nombreUsuario", datos.nombre);
+                localStorage.setItem("rolUsuario", datos.rol);
+
+                // Redirigir al panel correcto
+                window.location.href = datos.panel;
             } else {
                 const errorMsg = document.getElementById("errorMsg");
-                errorMsg.textContent = "Datos incorrectos";
+                errorMsg.textContent = datos || "Datos incorrectos";
                 errorMsg.classList.remove("d-none");
             }
         });
     </script>
+
+
 
 
 </body>

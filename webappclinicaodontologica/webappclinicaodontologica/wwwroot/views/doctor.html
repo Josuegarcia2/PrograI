@@ -1,200 +1,218 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Panel del Doctor - SGCO</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         :root {
-            --verde-sgco: #198754;
+            --verde: #1B8F5A;
+            --verde-oscuro: #146c43;
+            --fondo: #F3F9F6;
+            --texto: #0b3b2e;
+            --blanco: #FFFFFF;
         }
 
         body {
             margin: 0;
+            background: var(--fondo);
             font-family: "Segoe UI", sans-serif;
-            background-color: #f8fdf9;
+            overflow-x: hidden;
         }
 
-        /* Barra superior */
-        .navbar {
+        /* TOPBAR */
+        .topbar {
+            height: 70px;
+            background: var(--blanco);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.10);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
+            width: 100%;
             z-index: 1000;
-            background-color: white !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-            .navbar .btn-outline-success {
-                border-color: var(--verde-sgco);
-                color: var(--verde-sgco);
+            .topbar img {
+                height: 48px;
             }
 
-                .navbar .btn-outline-success:hover {
-                    background-color: var(--verde-sgco);
-                    color: white;
-                }
+            .topbar .nombre-doctor {
+                font-size: 1.35rem;
+                font-weight: 700;
+                color: var(--verde-oscuro);
+            }
 
-        .text-success {
-            color: var(--verde-sgco) !important;
+        .btn-outline-success {
+            border-color: var(--verde);
+            color: var(--verde);
         }
 
-        /* Menú lateral */
+            .btn-outline-success:hover {
+                background: var(--verde);
+                color: white;
+            }
+
+        /* SIDEBAR */
         .sidebar {
+            width: 260px;
             position: fixed;
-            top: 60px;
-            left: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: #fff;
-            color: var(--verde-sgco);
-            padding: 20px;
-            transition: left 0.3s ease;
-            box-shadow: 3px 0 8px rgba(0,0,0,0.1);
-            z-index: 999;
+            top: 70px;
+            left: 0;
+            bottom: 0;
+            background: var(--blanco);
+            padding: 30px 20px;
+            box-shadow: 3px 0 15px rgba(0,0,0,0.08);
         }
-
-            .sidebar.show {
-                left: 0;
-            }
-
-            .sidebar .close-btn {
-                text-align: right;
-                font-size: 1.4rem;
-                cursor: pointer;
-                color: var(--verde-sgco);
-                margin-bottom: 20px;
-            }
-
-            .sidebar .logo-container {
-                text-align: center;
-                margin-bottom: 30px;
-            }
-
-            .sidebar img {
-                max-width: 100px;
-            }
 
             .sidebar h5 {
                 font-weight: bold;
-                color: var(--verde-sgco);
-                margin-top: 10px;
+                color: var(--verde-oscuro);
+                text-align: center;
+                margin-bottom: 25px;
             }
 
             .sidebar a {
                 display: block;
-                color: var(--verde-sgco);
+                padding: 14px 20px;
+                margin-bottom: 10px;
                 text-decoration: none;
-                margin-bottom: 15px;
-                font-size: 1rem;
-                transition: 0.2s;
+                font-size: 1.1rem;
+                color: var(--texto);
+                border-radius: 10px;
+                transition: 0.25s;
             }
 
-                .sidebar a:hover {
-                    color: #0b5e2c;
-                    transform: translateX(3px);
+                .sidebar a i {
+                    margin-right: 12px;
+                    font-size: 1.3rem;
+                    color: var(--verde);
                 }
 
-        /* Contenido */
-        .main-content {
-            margin-top: 100px;
-            padding: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+                .sidebar a:hover {
+                    background: var(--verde);
+                    color: white;
+                    transform: translateX(5px);
+                }
+
+        /* CONTENIDO */
+        .contenido {
+            margin-left: 280px;
+            padding: 100px 40px;
         }
 
-        .card-panel {
-            background-color: white;
-            border-radius: 16px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            padding: 40px 30px;
+        .panel-card {
+            background: var(--blanco);
+            padding: 45px 35px;
+            border-radius: 18px;
             text-align: center;
-            max-width: 600px;
+            max-width: 850px;
+            margin: auto;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.10);
+            animation: fadeIn 0.8s ease;
         }
 
-            .card-panel h2 {
-                color: var(--verde-sgco);
+            .panel-card h2 {
+                font-size: 2rem;
                 font-weight: 700;
-                margin-bottom: 15px;
+                color: var(--verde-oscuro);
             }
 
-            .card-panel p {
-                color: #6c757d;
+            .panel-card h4 {
+                font-size: 1.35rem;
+                margin-top: 10px;
+                color: var(--texto);
             }
+
+            .panel-card p {
+                color: #3a5f52;
+                font-size: 1.1rem;
+            }
+
+            .panel-card img {
+                margin-top: 20px;
+                width: 190px;
+            }
+
+        /* Animación */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
 <body>
-    <!-- Barra superior -->
-    <nav class="navbar navbar-expand-lg px-4 d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-            <button class="btn btn-outline-success me-3" onclick="abrirMenu()">
-                <i class="bi bi-list"></i>
-            </button>
-            <img src="img/logo.png" alt="Logo Clínica" style="height:45px; margin-right:10px;">
-            <span id="nombreUsuarioNavbar" class="fw-bold text-success fs-5"></span>
-        </div>
-        <div class="d-flex align-items-center">
-            <div class="dropdown me-3">
-                <button class="btn btn-outline-success dropdown-toggle d-flex align-items-center" type="button"
-                        id="perfilDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle fs-5 me-2"></i> Perfil
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow-sm" aria-labelledby="perfilDropdown">
-                    <li><a class="dropdown-item" href="#">Ver perfil</a></li>
-                    <li><a class="dropdown-item" href="#">Editar información</a></li>
-                </ul>
-            </div>
-            <button id="logoutBtn" class="btn btn-outline-success">
-                <i class="bi bi-box-arrow-right"></i> Cerrar sesión
-            </button>
-        </div>
-    </nav>
 
-    <!-- Menú lateral -->
-    <div class="sidebar" id="menuLateral">
-        <div class="close-btn" onclick="cerrarMenu()">✖</div>
-        <div class="logo-container">
-            <img src="/img/logo de la clinica.png" alt="Logo SGCO" />
-            <h5>CLÍNICA DENTAL SGCO</h5>
+    <!-- NAV SUPERIOR -->
+    <div class="topbar">
+        <div class="d-flex align-items-center">
+            <img src="/img/logo dclinica.png">
+            <span class="nombre-doctor ms-3" id="nombreUsuarioNavbar"></span>
         </div>
-        <a href="#"><i class="bi bi-calendar-check me-2"></i> Mis Citas</a>
-        <a href="#"><i class="bi bi-tooth me-2"></i> Tratamientos</a>
-        <a href="#"><i class="bi bi-file-medical me-2"></i> Historial</a>
-        <a href="#"><i class="bi bi-stethoscope me-2"></i> Servicios</a>
+
+        <div class="d-flex align-items-center">
+            <button class="btn btn-outline-success me-3">
+                <i class="bi bi-person-circle me-2"></i> Perfil
+            </button>
+
+            <button class="btn btn-danger" onclick="cerrarSesion()">
+                <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
+            </button>
+        </div>
     </div>
 
-    <!-- Contenido -->
-    <div class="main-content">
-        <div class="card-panel">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h5>Panel del Doctor</h5>
+
+        <a href="#"><i class="bi bi-calendar2-heart"></i>Mis Citas</a>
+        <a href="#"><i class="bi bi-person-lines-fill"></i>Pacientes</a>
+        <a href="#"><i class="bi bi-journal-medical"></i>Historial Clínico</a>
+        <a href="#"><i class="bi bi-capsule-pill"></i>Tratamientos</a>
+        <a href="#"><i class="bi bi-clipboard2-pulse"></i>Resultados</a>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="contenido">
+        <div class="panel-card">
             <h2>Panel del Doctor</h2>
-            <h5 id="bienvenida" class="mb-3"></h5>
-            <p>Bienvenido al módulo clínico para gestionar citas, tratamientos y pacientes.</p>
-            <img src="/img/logo de la clinica.png" alt="Logo de la clínica" style="max-width:250px;">
+            <h4 id="bienvenida"></h4>
+            <p>Acceso a herramientas clínicas, citas, historiales y gestión avanzada de pacientes.</p>
+
+            <img src="/img/logo dclinica.png">
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function abrirMenu() { document.getElementById("menuLateral").classList.add("show"); }
-        function cerrarMenu() { document.getElementById("menuLateral").classList.remove("show"); }
-
         document.addEventListener("DOMContentLoaded", () => {
             const nombre = localStorage.getItem("nombreUsuario");
-            const rol = localStorage.getItem("rolUsuario");
-            if (!nombre || rol !== "Doctor") {
-                window.location.href = "/Login.html";
+            if (!nombre) {
+                window.location.href = "/views/login.html";
                 return;
             }
-            document.getElementById("bienvenida").textContent = `¡Bienvenido, Dr(a). ${nombre}!`;
             document.getElementById("nombreUsuarioNavbar").textContent = `Dr(a). ${nombre}`;
-            document.getElementById("logoutBtn").addEventListener("click", () => {
-                localStorage.clear(); window.location.href = "/Login.html";
-            });
+            document.getElementById("bienvenida").textContent = `¡Bienvenido(a), Dr(a). ${nombre}!`;
         });
+
+        function cerrarSesion() {
+            localStorage.clear();
+            window.location.href = "/views/login.html";
+        }
     </script>
+
 </body>
 </html>
