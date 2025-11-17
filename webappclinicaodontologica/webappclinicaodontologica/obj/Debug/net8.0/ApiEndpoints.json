@@ -114,7 +114,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
-    "Method": "PostEmpleado",
+    "Method": "CrearEmpleado",
     "RelativePath": "api/Empleado",
     "HttpMethod": "POST",
     "IsController": true,
@@ -126,17 +126,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "webappclinicaodontologica.Models.Empleado",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
@@ -166,7 +156,7 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.EmpleadoController",
-    "Method": "PutEmpleado",
+    "Method": "EditarEmpleado",
     "RelativePath": "api/Empleado/{id}",
     "HttpMethod": "PUT",
     "IsController": true,

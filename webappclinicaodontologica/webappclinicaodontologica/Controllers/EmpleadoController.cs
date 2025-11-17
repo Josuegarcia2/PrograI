@@ -26,7 +26,7 @@ namespace webappclinicaodontologica.Controllers
         public async Task<ActionResult<IEnumerable<Empleado>>> GetEmpleados()
         {
             return await _context.Empleados
-                .Include(e => e.Rol)
+                .OrderBy(e => e.IdEmpleado)
                 .ToListAsync();
         }
 
@@ -34,74 +34,66 @@ namespace webappclinicaodontologica.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Empleado>> GetEmpleado(int id)
         {
-            var empleado = await _context.Empleados
-                .Include(e => e.Rol)
-                .FirstOrDefaultAsync(e => e.IdEmpleado == id);
+            var emp = await _context.Empleados.FindAsync(id);
 
-            if (empleado == null)
+            if (emp == null)
                 return NotFound();
 
-            return empleado;
+            return emp;
         }
 
         // POST: api/Empleado
         [HttpPost]
-        public async Task<ActionResult<Empleado>> PostEmpleado(Empleado empleado)
+        public async Task<IActionResult> CrearEmpleado([FromBody] Empleado empleado)
         {
-            // Validar duplicados
-            var existe = await _context.Empleados
-                .AnyAsync(e => e.Usuario == empleado.Usuario);
+            if (empleado == null)
+                return BadRequest("Datos inválidos");
+
+            bool existe = await _context.Empleados
+                            .AnyAsync(e => e.Usuario == empleado.Usuario);
 
             if (existe)
-                return BadRequest("El usuario ya existe.");
+                return BadRequest("Usuario duplicado");
 
             _context.Empleados.Add(empleado);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetEmpleado), new { id = empleado.IdEmpleado }, empleado);
+            return Ok(empleado);
         }
 
         // PUT: api/Empleado/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmpleado(int id, Empleado empleado)
+        public async Task<IActionResult> EditarEmpleado(int id, [FromBody] Empleado empleado)
         {
             if (id != empleado.IdEmpleado)
-                return BadRequest("ID incorrecto");
+                return BadRequest("ID no coincide");
 
-            _context.Entry(empleado).State = EntityState.Modified;
+            // Validar duplicado solo si OTRO empleado usa ese usuario
+            bool existeOtro = await _context.Empleados
+                                .AnyAsync(e => e.Usuario == empleado.Usuario &&
+                                               e.IdEmpleado != id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!EmpleadoExists(id))
-                    return NotFound();
+            if (existeOtro)
+                return BadRequest("Usuario duplicado");
 
-                throw;
-            }
+            _context.Empleados.Update(empleado);
+            await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(empleado);
         }
 
         // DELETE: api/Empleado/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEmpleado(int id)
+        public async Task<ActionResult> DeleteEmpleado(int id)
         {
-            var empleado = await _context.Empleados.FindAsync(id);
-            if (empleado == null)
+            var emp = await _context.Empleados.FindAsync(id);
+            if (emp == null)
                 return NotFound();
 
-            _context.Empleados.Remove(empleado);
+            _context.Empleados.Remove(emp);
             await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
-
-        private bool EmpleadoExists(int id)
-        {
-            return _context.Empleados.Any(e => e.IdEmpleado == id);
+            return Ok(new { mensaje = "Empleado eliminado" });
         }
     }
 }

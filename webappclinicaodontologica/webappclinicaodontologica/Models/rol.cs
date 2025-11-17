@@ -1,22 +1,23 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using webappclinicaodontologica.Models;
+﻿
 
-namespace webappclinicaodontologica.Models
-{
-    [Table("Roles")]
-    public class Rol
+    using System.ComponentModel.DataAnnotations;
+    using System.Text.Json.Serialization;
+
+    namespace webappclinicaodontologica.Models
     {
-        [Key]
+        public class Rol
+        {
+            [Key]
+            public int IdRol { get; set; }
 
-        public int IdRol { get; set; }
-        public string RolNombre { get; set; }
+            public string RolNombre { get; set; }
 
-        public ICollection<Empleado> Empleados { get; set; }
-
-
+            [JsonIgnore]
+            public List<Empleado> Empleados { get; set; }
+        }
     }
-}
+
+
 
 
 
