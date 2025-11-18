@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Servicios - SGCO</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        body {
+            background: #f5fafc;
+            font-family: "Segoe UI";
+        }
+
+        h2 {
+            color: #0D5B8C;
+            font-weight: 800;
+        }
+
+        .card {
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, .08);
+            padding: 25px;
+        }
+
+        .btn-primary {
+            background-color: #0D5B8C;
+            border: none;
+        }
+
+        .btn-warning {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-4">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2>Gestión de Servicios</h2>
+            <button class="btn btn-primary" onclick="nuevoServicio()">
+                <i class="bi bi-plus-circle"></i> Nuevo Servicio
+            </button>
+        </div>
+
+        <!-- BUSCADOR -->
+        <input type="text" id="txtBuscar" class="form-control mb-3"
+               placeholder="Buscar servicio por nombre o descripción..." onkeyup="buscarServicio()">
+
+        <!-- TABLA -->
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table table-hover text-center" id="tablaServicios">
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Foto</th>
+                            <th>Servicio</th>
+                            <th>Precio</th>
+                            <th>Doctor 1</th>
+                            <th>Doctor 2</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyServicios"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="modalServicio" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header" style="background:#0D5B8C; color:white;">
+                    <h5 class="modal-title" id="tituloModal">Nuevo Servicio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="idServicio">
+
+                    <div class="row">
+
+                        <!-- FOTO -->
+                        <div class="col-md-4 text-center">
+                            <label class="form-label">Fotografía</label>
+                            <input type="file" id="fotoServicio" class="form-control mb-2">
+
+                            <img id="previewFoto"
+                                 src=""
+                                 style="width: 150px; height:150px; object-fit:cover; border-radius:10px; display:none; border:1px solid #ccc;">
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <label class="form-label">Nombre del servicio</label>
+                                    <input class="form-control" id="nombreServicio">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Precio ($)</label>
+                                    <input type="number" class="form-control" id="precio">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Estado</label>
+                                    <select id="estado" class="form-select">
+                                        <option value="Activo">Activo</option>
+                                        <option value="Inactivo">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label class="form-label">Descripción</label>
+                            <textarea id="descripcion" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">Doctor #1</label>
+                            <select id="doctor1" class="form-select"></select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Doctor #2</label>
+                            <select id="doctor2" class="form-select"></select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="guardarServicio()">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!-- BOOTSTRAP JS (NECESARIO PARA EL MODAL) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <!-- SCRIPT PRINCIPAL — YA FUNCIONAL -->
+    <script>
+        const API_URL = "https://localhost:7148/api/Servicio";
+        let listaDoctores = [];
+        let fotoUrl = "";
+
+        // CARGAR TABLA
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarServicios();
+            cargarDoctores();
+        });
+
+        function cargarServicios() {
+            fetch(API_URL)
+                .then(r => r.json())
+                .then(data => {
+                    let html = "";
+                    data.forEach(s => {
+                        html += `
+                                <tr>
+                                    <td>${s.idServicio}</td>
+
+                                    <td>
+                                        <img src="${s.fotoUrl || '/img/servicios/default.png'}"
+                                            style="width:50px; height:50px; border-radius:5px; object-fit:cover;">
+                                    </td>
+
+                                    <td>${s.nombreServicio}</td>
+                                    <td>$${s.precio.toFixed(2)}</td>
+                                    <td>${s.doctor1Nombre ?? "-"}</td>
+                                    <td>${s.doctor2Nombre ?? "-"}</td>
+                                    <td>${s.estado}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm me-2" onclick="editarServicio(${s.idServicio})">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="eliminarServicio(${s.idServicio})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            `;
+                    });
+
+                    document.getElementById("tbodyServicios").innerHTML = html;
+                });
+        }
+
+        // CARGAR DOCTORES
+        function cargarDoctores() {
+            fetch(`${API_URL}/doctores`)
+                .then(r => r.json())
+                .then(data => listaDoctores = data);
+        }
+
+        function llenarCombos() {
+            let c1 = document.getElementById("doctor1");
+            let c2 = document.getElementById("doctor2");
+
+            c1.innerHTML = `<option value="">-- Seleccione --</option>`;
+            c2.innerHTML = `<option value="">-- Seleccione --</option>`;
+
+            listaDoctores.forEach(d => {
+                c1.innerHTML += `<option value="${d.idEmpleado}">${d.nombre}</option>`;
+                c2.innerHTML += `<option value="${d.idEmpleado}">${d.nombre}</option>`;
+            });
+        }
+
+        // NUEVO SERVICIO
+        function nuevoServicio() {
+            fotoUrl = "";
+            document.getElementById("previewFoto").style.display = "none";
+
+            document.getElementById("idServicio").value = "";
+            document.getElementById("nombreServicio").value = "";
+            document.getElementById("precio").value = "";
+            document.getElementById("descripcion").value = "";
+            document.getElementById("estado").value = "Activo";
+
+            llenarCombos();
+
+            new bootstrap.Modal(document.getElementById("modalServicio")).show();
+        }
+
+        // EDITAR SERVICIO
+        function editarServicio(id) {
+            fetch(`${API_URL}/${id}`)
+                .then(r => r.json())
+                .then(s => {
+
+                    fotoUrl = s.fotoUrl || "";
+
+                    document.getElementById("idServicio").value = s.idServicio;
+                    document.getElementById("nombreServicio").value = s.nombreServicio;
+                    document.getElementById("precio").value = s.precio;
+                    document.getElementById("descripcion").value = s.descripcion;
+                    document.getElementById("estado").value = s.estado;
+
+                    llenarCombos();
+                    document.getElementById("doctor1").value = s.doctor1Id ?? "";
+                    document.getElementById("doctor2").value = s.doctor2Id ?? "";
+
+                    const preview = document.getElementById("previewFoto");
+                    if (fotoUrl) {
+                        preview.src = fotoUrl;
+                        preview.style.display = "block";
+                    }
+
+                    new bootstrap.Modal(document.getElementById("modalServicio")).show();
+                });
+        }
+
+        // SUBIR FOTO
+        document.getElementById("fotoServicio").addEventListener("change", async function () {
+            const file = this.files[0];
+            if (!file) return;
+
+            const fd = new FormData();
+            fd.append("archivo", file);
+
+            const resp = await fetch(`${API_URL}/subir-foto`, {
+                method: "POST",
+                body: fd
+            });
+
+            const data = await resp.json();
+            fotoUrl = data.url;
+
+            const preview = document.getElementById("previewFoto");
+            preview.src = fotoUrl;
+            preview.style.display = "block";
+        });
+
+        // GUARDAR SERVICIO (POST/PUT AUTOMÁTICO)
+        function guardarServicio() {
+            const id = document.getElementById("idServicio").value || 0;
+
+            let data = {
+                idServicio: Number(id),
+                nombreServicio: document.getElementById("nombreServicio").value,
+                precio: Number(document.getElementById("precio").value),
+                descripcion: document.getElementById("descripcion").value,
+                estado: document.getElementById("estado").value,
+                doctor1Id: document.getElementById("doctor1").value || null,
+                doctor2Id: document.getElementById("doctor2").value || null,
+                fotoUrl: fotoUrl
+            };
+
+            let metodo = id == 0 ? "POST" : "PUT";
+            let url = id == 0 ? API_URL : `${API_URL}/${id}`;
+
+            fetch(url, {
+                method: metodo,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+                .then(r => {
+                    if (!r.ok) throw r;
+                    return r.json();
+                })
+                .then(() => {
+                    Swal.fire("Éxito", "Servicio guardado correctamente", "success");
+                    cargarServicios();
+                    bootstrap.Modal.getInstance(document.getElementById("modalServicio")).hide();
+                })
+                .catch(() => {
+                    Swal.fire("Error", "No se pudo guardar el servicio", "error");
+                });
+        }
+
+        // ELIMINAR SERVICIO
+        function eliminarServicio(id) {
+            Swal.fire({
+                title: "Confirmar",
+                text: "¿Deseas eliminar el servicio?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then(res => {
+                if (res.isConfirmed) {
+                    fetch(`${API_URL}/${id}`, { method: "DELETE" })
+                        .then(r => {
+                            if (!r.ok) throw r;
+                            Swal.fire("Éxito", "Servicio eliminado", "success");
+                            cargarServicios();
+                        })
+                        .catch(() => Swal.fire("Error", "No se pudo eliminar", "error"));
+                }
+            });
+        }
+
+        // BUSCADOR
+        function buscarServicio() {
+            let texto = document.getElementById("txtBuscar").value.toLowerCase();
+            document.querySelectorAll("#tbodyServicios tr").forEach(fila => {
+                fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
+            });
+        }
+    </script>
+
+</body>
+
+</html>

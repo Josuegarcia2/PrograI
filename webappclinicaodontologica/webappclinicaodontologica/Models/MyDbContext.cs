@@ -9,6 +9,8 @@ namespace webappclinicaodontologica.Data
 
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
+        public DbSet<Servicio> Servicios { get; set; }
+
         public DbSet<Doctor> Doctores { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Cita> Citas { get; set; }
@@ -18,14 +20,29 @@ namespace webappclinicaodontologica.Data
         {
             modelBuilder.Entity<Rol>().ToTable("Roles").HasKey(r => r.IdRol);
             modelBuilder.Entity<Empleado>().ToTable("Empleados").HasKey(e => e.IdEmpleado);
-            
+            modelBuilder.Entity<Servicio>().ToTable("Servicios");
+
+
 
             modelBuilder.Entity<Empleado>()
                 .HasOne(e => e.Rol)
                 .WithMany(r => r.Empleados)
                 .HasForeignKey(e => e.IdRol);
 
+         
+        
+            modelBuilder.Entity<Servicio>()
+                .HasOne(s => s.Doctor1)
+                .WithMany()
+                .HasForeignKey(s => s.Doctor1Id)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Servicio>()
+                .HasOne(s => s.Doctor2)
+                .WithMany()
+                .HasForeignKey(s => s.Doctor2Id)
+                .OnDelete(DeleteBehavior.Restrict);
+        
         }
     }
 }

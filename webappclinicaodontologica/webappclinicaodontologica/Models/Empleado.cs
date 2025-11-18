@@ -25,13 +25,7 @@ namespace webappclinicaodontologica.Models
 
         public string Estado { get; set; }
 
-        
         [JsonIgnore]
         public Rol Rol { get; set; }
-
-        
-        [NotMapped]
-        [JsonIgnore]
-        public string NombreRol { get; set; }
     }
 }

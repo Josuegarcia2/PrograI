@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using webappclinicaodontologica.Data;
 using webappclinicaodontologica.Models;
+using webappclinicaodontologica.Models.DTO;
 
 namespace webappclinicaodontologica.Controllers
 {
@@ -21,39 +22,71 @@ namespace webappclinicaodontologica.Controllers
             _context = context;
         }
 
-        // GET: api/Empleado
+        // GET TODOS
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Empleado>>> GetEmpleados()
+        public async Task<ActionResult<IEnumerable<EmpleadoDTO>>> GetEmpleados()
         {
-            return await _context.Empleados
-                .OrderBy(e => e.IdEmpleado)
+            var empleados = await _context.Empleados
+                .Include(e => e.Rol)
+                .Select(e => new EmpleadoDTO
+                {
+                    IdEmpleado = e.IdEmpleado,
+                    Nombre = e.Nombre,
+                    Apellido = e.Apellido,
+                    Usuario = e.Usuario,
+                    Contrasena = e.Contrasena,
+                    IdRol = e.IdRol,
+                    Estado = e.Estado,
+                    NombreRol = e.Rol.RolNombre
+                })
                 .ToListAsync();
+
+            return empleados;
         }
 
-        // GET: api/Empleado/5
+
+        // GET por ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<Empleado>> GetEmpleado(int id)
+        public async Task<ActionResult<object>> GetEmpleado(int id)
         {
-            var emp = await _context.Empleados.FindAsync(id);
+            var emp = await _context.Empleados
+                .Include(e => e.Rol)
+                .Where(e => e.IdEmpleado == id)
+                .Select(e => new
+                {
+                    e.IdEmpleado,
+                    e.Nombre,
+                    e.Apellido,
+                    e.Usuario,
+                    e.Contrasena,
+                    e.IdRol,
+                    e.Estado,
+                    NombreRol = e.Rol.RolNombre
+                })
+                .FirstOrDefaultAsync();
 
             if (emp == null)
                 return NotFound();
 
-            return emp;
+            return Ok(emp);
         }
 
-        // POST: api/Empleado
+        // POST
         [HttpPost]
-        public async Task<IActionResult> CrearEmpleado([FromBody] Empleado empleado)
+        public async Task<IActionResult> CrearEmpleado([FromBody] EmpleadoDTO dto)
         {
-            if (empleado == null)
+            if (dto == null)
                 return BadRequest("Datos inválidos");
 
-            bool existe = await _context.Empleados
-                            .AnyAsync(e => e.Usuario == empleado.Usuario);
-
-            if (existe)
-                return BadRequest("Usuario duplicado");
+            var empleado = new Empleado
+            {
+                Nombre = dto.Nombre,
+                Apellido = dto.Apellido,
+                Usuario = dto.Usuario,
+                Contrasena = dto.Contrasena,
+                IdRol = dto.IdRol,
+                Estado = dto.Estado
+            };
 
             _context.Empleados.Add(empleado);
             await _context.SaveChangesAsync();
@@ -61,30 +94,36 @@ namespace webappclinicaodontologica.Controllers
             return Ok(empleado);
         }
 
-        // PUT: api/Empleado/5
+
+
+        // PUT
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditarEmpleado(int id, [FromBody] Empleado empleado)
+        public async Task<IActionResult> EditarEmpleado(int id, [FromBody] EmpleadoDTO dto)
         {
-            if (id != empleado.IdEmpleado)
+            if (id != dto.IdEmpleado)
                 return BadRequest("ID no coincide");
 
-            // Validar duplicado solo si OTRO empleado usa ese usuario
-            bool existeOtro = await _context.Empleados
-                                .AnyAsync(e => e.Usuario == empleado.Usuario &&
-                                               e.IdEmpleado != id);
+            var emp = await _context.Empleados.FindAsync(id);
+            if (emp == null)
+                return NotFound();
 
-            if (existeOtro)
-                return BadRequest("Usuario duplicado");
+            emp.Nombre = dto.Nombre;
+            emp.Apellido = dto.Apellido;
+            emp.Usuario = dto.Usuario;
+            emp.Contrasena = dto.Contrasena;
+            emp.IdRol = dto.IdRol;
+            emp.Estado = dto.Estado;
 
-            _context.Empleados.Update(empleado);
             await _context.SaveChangesAsync();
 
-            return Ok(empleado);
+            return Ok(emp);
         }
 
-        // DELETE: api/Empleado/5
+
+
+        // DELETE
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteEmpleado(int id)
+        public async Task<IActionResult> DeleteEmpleado(int id)
         {
             var emp = await _context.Empleados.FindAsync(id);
             if (emp == null)
@@ -96,4 +135,5 @@ namespace webappclinicaodontologica.Controllers
             return Ok(new { mensaje = "Empleado eliminado" });
         }
     }
+
 }

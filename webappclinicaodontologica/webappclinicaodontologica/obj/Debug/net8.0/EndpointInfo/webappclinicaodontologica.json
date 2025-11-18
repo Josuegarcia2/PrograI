@@ -163,7 +163,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Empleado"
+                    "$ref": "#/components/schemas/EmpleadoDTO"
                   }
                 }
               },
@@ -171,7 +171,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Empleado"
+                    "$ref": "#/components/schemas/EmpleadoDTO"
                   }
                 }
               },
@@ -179,7 +179,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Empleado"
+                    "$ref": "#/components/schemas/EmpleadoDTO"
                   }
                 }
               }
@@ -195,17 +195,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Empleado"
+                "$ref": "#/components/schemas/EmpleadoDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Empleado"
+                "$ref": "#/components/schemas/EmpleadoDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Empleado"
+                "$ref": "#/components/schemas/EmpleadoDTO"
               }
             }
           }
@@ -235,24 +235,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empleado"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empleado"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Empleado"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       },
@@ -275,17 +258,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Empleado"
+                "$ref": "#/components/schemas/EmpleadoDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/Empleado"
+                "$ref": "#/components/schemas/EmpleadoDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/Empleado"
+                "$ref": "#/components/schemas/EmpleadoDTO"
               }
             }
           }
@@ -383,6 +366,175 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Servicio": {
+      "get": {
+        "tags": [
+          "Servicio"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Servicio"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Servicio"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Servicio"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Servicio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Servicio/{id}": {
+      "get": {
+        "tags": [
+          "Servicio"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Servicio"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Servicio"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Servicio"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Servicio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Servicio"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Servicio/subir-foto": {
+      "post": {
+        "tags": [
+          "Servicio"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "archivo": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "archivo": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Servicio/doctores": {
+      "get": {
+        "tags": [
+          "Servicio"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -498,13 +650,7 @@
         },
         "additionalProperties": false
       },
-      "Empleado": {
-        "required": [
-          "apellido",
-          "contrasena",
-          "nombre",
-          "usuario"
-        ],
+      "EmpleadoDTO": {
         "type": "object",
         "properties": {
           "idEmpleado": {
@@ -512,26 +658,30 @@
             "format": "int32"
           },
           "nombre": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "apellido": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "usuario": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "contrasena": {
-            "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "idRol": {
             "type": "integer",
             "format": "int32"
           },
           "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreRol": {
             "type": "string",
             "nullable": true
           }
@@ -598,6 +748,50 @@
           },
           "rolNombre": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Servicio": {
+        "required": [
+          "nombreServicio",
+          "precio"
+        ],
+        "type": "object",
+        "properties": {
+          "idServicio": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreServicio": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "precio": {
+            "type": "number",
+            "format": "double"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "fotoUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "doctor1Id": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "doctor2Id": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           }
         },
