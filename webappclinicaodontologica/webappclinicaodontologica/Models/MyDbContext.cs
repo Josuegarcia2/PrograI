@@ -31,18 +31,7 @@ namespace webappclinicaodontologica.Data
 
          
         
-            modelBuilder.Entity<Servicio>()
-                .HasOne(s => s.Doctor1)
-                .WithMany()
-                .HasForeignKey(s => s.Doctor1Id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Servicio>()
-                .HasOne(s => s.Doctor2)
-                .WithMany()
-                .HasForeignKey(s => s.Doctor2Id)
-                .OnDelete(DeleteBehavior.Restrict);
-        
+          
         }
     }
 }

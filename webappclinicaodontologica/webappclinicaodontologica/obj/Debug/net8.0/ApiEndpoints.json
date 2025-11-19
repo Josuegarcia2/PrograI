@@ -218,33 +218,63 @@
     ]
   },
   {
-    "ContainingType": "webappclinicaodontologica.Controllers.ServicioController",
+    "ContainingType": "ServicioController",
     "Method": "GetServicios",
     "RelativePath": "api/Servicio",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[webappclinicaodontologica.Models.Servicio, webappclinicaodontologica, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
-    "ContainingType": "webappclinicaodontologica.Controllers.ServicioController",
-    "Method": "CrearServicio",
+    "ContainingType": "ServicioController",
+    "Method": "PostServicio",
     "RelativePath": "api/Servicio",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "servicio",
-        "Type": "webappclinicaodontologica.Models.Servicio",
-        "IsRequired": true
+        "Name": "IdServicio",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Nombre",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Precio",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Descripcion",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Estado",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "webappclinicaodontologica.Controllers.ServicioController",
+    "ContainingType": "ServicioController",
     "Method": "GetServicio",
     "RelativePath": "api/Servicio/{id}",
     "HttpMethod": "GET",
@@ -257,11 +287,21 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "webappclinicaodontologica.Models.Servicio",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
-    "ContainingType": "webappclinicaodontologica.Controllers.ServicioController",
-    "Method": "Actualizar",
+    "ContainingType": "ServicioController",
+    "Method": "PutServicio",
     "RelativePath": "api/Servicio/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -273,16 +313,36 @@
         "IsRequired": true
       },
       {
-        "Name": "servicio",
-        "Type": "webappclinicaodontologica.Models.Servicio",
-        "IsRequired": true
+        "Name": "IdServicio",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "Nombre",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Precio",
+        "Type": "System.Decimal",
+        "IsRequired": false
+      },
+      {
+        "Name": "Descripcion",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "Estado",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "webappclinicaodontologica.Controllers.ServicioController",
-    "Method": "Eliminar",
+    "ContainingType": "ServicioController",
+    "Method": "DeleteServicio",
     "RelativePath": "api/Servicio/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -292,32 +352,6 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.ServicioController",
-    "Method": "GetDoctores",
-    "RelativePath": "api/Servicio/doctores",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "webappclinicaodontologica.Controllers.ServicioController",
-    "Method": "SubirFoto",
-    "RelativePath": "api/Servicio/subir-foto",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "archivo",
-        "Type": "Microsoft.AspNetCore.Http.IFormFile",
-        "IsRequired": false
       }
     ],
     "ReturnTypes": []

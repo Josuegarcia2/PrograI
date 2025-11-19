@@ -377,7 +377,33 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Servicio"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Servicio"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Servicio"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -387,19 +413,48 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Servicio"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Servicio"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Servicio"
+                "required": [
+                  "Nombre"
+                ],
+                "type": "object",
+                "properties": {
+                  "IdServicio": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Nombre": {
+                    "type": "string"
+                  },
+                  "Precio": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Descripcion": {
+                    "type": "string"
+                  },
+                  "Estado": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "IdServicio": {
+                  "style": "form"
+                },
+                "Nombre": {
+                  "style": "form"
+                },
+                "Precio": {
+                  "style": "form"
+                },
+                "Descripcion": {
+                  "style": "form"
+                },
+                "Estado": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -429,7 +484,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Servicio"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Servicio"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Servicio"
+                }
+              }
+            }
           }
         }
       },
@@ -450,19 +522,48 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/Servicio"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Servicio"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Servicio"
+                "required": [
+                  "Nombre"
+                ],
+                "type": "object",
+                "properties": {
+                  "IdServicio": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "Nombre": {
+                    "type": "string"
+                  },
+                  "Precio": {
+                    "type": "number",
+                    "format": "double"
+                  },
+                  "Descripcion": {
+                    "type": "string"
+                  },
+                  "Estado": {
+                    "type": "string"
+                  }
+                }
+              },
+              "encoding": {
+                "IdServicio": {
+                  "style": "form"
+                },
+                "Nombre": {
+                  "style": "form"
+                },
+                "Precio": {
+                  "style": "form"
+                },
+                "Descripcion": {
+                  "style": "form"
+                },
+                "Estado": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -487,50 +588,6 @@
               "format": "int32"
             }
           }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Servicio/subir-foto": {
-      "post": {
-        "tags": [
-          "Servicio"
-        ],
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "archivo": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "archivo": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/Servicio/doctores": {
-      "get": {
-        "tags": [
-          "Servicio"
         ],
         "responses": {
           "200": {
@@ -755,8 +812,7 @@
       },
       "Servicio": {
         "required": [
-          "nombreServicio",
-          "precio"
+          "nombre"
         ],
         "type": "object",
         "properties": {
@@ -764,7 +820,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "nombreServicio": {
+          "nombre": {
             "minLength": 1,
             "type": "string"
           },
@@ -778,20 +834,6 @@
           },
           "estado": {
             "type": "string",
-            "nullable": true
-          },
-          "fotoUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "doctor1Id": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "doctor2Id": {
-            "type": "integer",
-            "format": "int32",
             "nullable": true
           }
         },
