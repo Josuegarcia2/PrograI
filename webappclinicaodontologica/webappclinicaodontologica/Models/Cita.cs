@@ -10,19 +10,13 @@ namespace webappclinicaodontologica.Models
         public int IdCita { get; set; }
 
         public int IdPaciente { get; set; }
-        public int IdDoctor { get; set; }
+        public string Doctor { get; set; }
 
         public DateTime Fecha { get; set; }
         public TimeSpan Hora { get; set; }
 
         public string Motivo { get; set; }
-        public string Estado { get; set; } = "Pendiente"; 
-
-        [ForeignKey("IdPaciente")]
-        public Paciente Paciente { get; set; }
-
-        [ForeignKey("IdDoctor")]
-        public Doctor Doctor { get; set; }
+        public string Estado { get; set; } = "Pendiente";
 
     }
 }

@@ -10,92 +10,121 @@ namespace webappclinicaodontologica.Controllers
     public class CitaController : ControllerBase
     {
         private readonly MyDbContext _context;
+        private readonly TimeSpan duracion = TimeSpan.FromMinutes(30);
 
         public CitaController(MyDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/Cita
+        // LISTAR CITAS
         [HttpGet]
-        public async Task<IActionResult> GetCitas()
+        public async Task<IEnumerable<object>> GetCitas()
         {
-            var citas = await _context.Citas
-                .Include(c => c.Paciente)
-                .Include(c => c.Doctor)
+            return await _context.Citas
+                .Join(_context.Pacientes,
+                    c => c.IdPaciente,
+                    p => p.IdPaciente,
+                    (c, p) => new {
+                        c.IdCita,
+                        c.IdPaciente,
+                        Paciente = p.Nombre,
+                        c.Doctor,
+                        c.Fecha,
+                        Hora = c.Hora.ToString(@"hh\:mm"),
+                        c.Motivo,
+                        c.Estado
+                    })
                 .ToListAsync();
-
-            return Ok(citas);
         }
 
-        // POST: api/Cita
-        [HttpPost]
-        public async Task<ActionResult<Cita>> CrearCita([FromBody] Cita cita)
+        // CITA POR ID
+        [HttpGet("{id}")]
+        public async Task<object> GetCita(int id)
         {
-            if (cita == null)
-                return BadRequest("Datos inválidos");
+            return await _context.Citas.FindAsync(id);
+        }
+
+        // HORAS DISPONIBLES
+        [HttpGet("horas-disponibles/{fecha}")]
+        public async Task<IEnumerable<string>> GetHorasDisponibles(DateTime fecha)
+        {
+            List<TimeSpan> horarios = new();
+
+            for (int h = 8; h <= 17; h++)
+            {
+                horarios.Add(new TimeSpan(h, 0, 0));
+                horarios.Add(new TimeSpan(h, 30, 0));
+            }
+
+            var citas = await _context.Citas
+                .Where(c => c.Fecha == fecha)
+                .ToListAsync();
+
+            List<string> libres = new();
+
+            foreach (var hora in horarios)
+            {
+                bool ocupado = citas.Any(c =>
+                    (hora >= c.Hora && hora < c.Hora.Add(duracion))
+                );
+
+                if (!ocupado)
+                    libres.Add(hora.ToString(@"hh\:mm"));
+            }
+
+            return libres;
+        }
+
+        // CREAR
+        [HttpPost]
+        public async Task<IActionResult> Crear([FromBody] Cita cita)
+        {
+            TimeSpan horaFin = cita.Hora.Add(duracion);
+
+            bool choque = await _context.Citas.AnyAsync(c =>
+                c.Fecha == cita.Fecha &&
+                (
+                    (cita.Hora >= c.Hora && cita.Hora < c.Hora.Add(duracion)) ||
+                    (horaFin > c.Hora && horaFin <= c.Hora.Add(duracion)) ||
+                    (c.Hora >= cita.Hora && c.Hora < horaFin)
+                )
+            );
+
+            if (choque)
+                return BadRequest(new { mensaje = "Este horario ya está ocupado." });
 
             _context.Citas.Add(cita);
             await _context.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Cita guardada correctamente" });
+            return Ok(new { mensaje = "Cita creada exitosamente." });
         }
 
-
-        // GET: api/Cita/Doctores
-        [HttpGet("Doctores")]
-        public async Task<IActionResult> GetDoctores()
-        {
-            var doctores = await _context.Doctores
-                .Where(d => d.Estado == true)
-                .ToListAsync();
-
-            return Ok(doctores);
-        }
-
-        // GET: api/Cita/Pacientes
-        [HttpGet("Pacientes")]
-        public async Task<IActionResult> GetPacientes()
-        {
-            var pacientes = await _context.Pacientes
-                .Where(p => p.Estado == true)
-                .ToListAsync();
-
-            return Ok(pacientes);
-        }
-
-        // DELETE: api/Cita/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Cancelar(int id)
-        {
-            var cita = await _context.Citas.FindAsync(id);
-
-            if (cita == null)
-                return NotFound();
-
-            cita.Estado = "Cancelada";
-            await _context.SaveChangesAsync();
-
-            return Ok(new { mensaje = "Cita cancelada" });
-        }
-
-        // PUT: api/Cita/5
+        // ACTUALIZAR
         [HttpPut("{id}")]
-        public async Task<IActionResult> Editar(int id, [FromBody] Cita datos)
+        public async Task<IActionResult> Editar(int id, [FromBody] Cita cita)
+        {
+            if (id != cita.IdCita)
+                return BadRequest();
+
+            _context.Entry(cita).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { mensaje = "Cita actualizada." });
+        }
+
+        // ELIMINAR
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Eliminar(int id)
         {
             var cita = await _context.Citas.FindAsync(id);
-
             if (cita == null)
                 return NotFound();
 
-            cita.Fecha = datos.Fecha;
-            cita.Hora = datos.Hora;
-            cita.Motivo = datos.Motivo;
-
+            _context.Citas.Remove(cita);
             await _context.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Cita actualizada" });
+            return Ok(new { mensaje = "Cita eliminada." });
         }
-
     }
 }
