@@ -10,14 +10,15 @@ namespace webappclinicaodontologica.Controllers
     public class CitaController : ControllerBase
     {
         private readonly MyDbContext _context;
-        private readonly TimeSpan duracion = TimeSpan.FromMinutes(30);
 
         public CitaController(MyDbContext context)
         {
             _context = context;
         }
 
-        // LISTAR CITAS
+        // ================================
+        // 🟦 LISTAR TODAS LAS CITAS
+        // ================================
         [HttpGet]
         public async Task<IEnumerable<object>> GetCitas()
         {
@@ -27,10 +28,9 @@ namespace webappclinicaodontologica.Controllers
                     p => p.IdPaciente,
                     (c, p) => new {
                         c.IdCita,
-                        c.IdPaciente,
                         Paciente = p.Nombre,
                         c.Doctor,
-                        c.Fecha,
+                        Fecha = c.Fecha.ToString("yyyy-MM-dd"),
                         Hora = c.Hora.ToString(@"hh\:mm"),
                         c.Motivo,
                         c.Estado
@@ -38,14 +38,18 @@ namespace webappclinicaodontologica.Controllers
                 .ToListAsync();
         }
 
-        // CITA POR ID
+        // ================================
+        // 🟦 CITA POR ID
+        // ================================
         [HttpGet("{id}")]
-        public async Task<object> GetCita(int id)
+        public async Task<Cita> GetCita(int id)
         {
             return await _context.Citas.FindAsync(id);
         }
 
-        // HORAS DISPONIBLES
+        // ================================
+        // 🟦 HORAS DISPONIBLES
+        // ================================
         [HttpGet("horas-disponibles/{fecha}")]
         public async Task<IEnumerable<string>> GetHorasDisponibles(DateTime fecha)
         {
@@ -57,63 +61,141 @@ namespace webappclinicaodontologica.Controllers
                 horarios.Add(new TimeSpan(h, 30, 0));
             }
 
-            var citas = await _context.Citas
+            var ocupadas = await _context.Citas
                 .Where(c => c.Fecha == fecha)
+                .Select(c => c.Hora)
                 .ToListAsync();
 
-            List<string> libres = new();
-
-            foreach (var hora in horarios)
-            {
-                bool ocupado = citas.Any(c =>
-                    (hora >= c.Hora && hora < c.Hora.Add(duracion))
-                );
-
-                if (!ocupado)
-                    libres.Add(hora.ToString(@"hh\:mm"));
-            }
-
-            return libres;
+            return horarios
+                .Where(h => !ocupadas.Contains(h))
+                .Select(h => h.ToString(@"hh\:mm"))
+                .ToList();
         }
 
-        // CREAR
-        [HttpPost]
-        public async Task<IActionResult> Crear([FromBody] Cita cita)
+        // ================================
+        // 🟦 CITAS DEL DÍA (Recepcionista)
+        // ================================
+        [HttpGet("hoy")]
+        public async Task<IActionResult> GetCitasDeHoy()
         {
-            TimeSpan horaFin = cita.Hora.Add(duracion);
+            var hoy = DateTime.Today;
 
-            bool choque = await _context.Citas.AnyAsync(c =>
-                c.Fecha == cita.Fecha &&
-                (
-                    (cita.Hora >= c.Hora && cita.Hora < c.Hora.Add(duracion)) ||
-                    (horaFin > c.Hora && horaFin <= c.Hora.Add(duracion)) ||
-                    (c.Hora >= cita.Hora && c.Hora < horaFin)
-                )
+            var citasHoy = await _context.Citas
+                .Where(c => c.Fecha.Date == hoy)
+                .OrderBy(c => c.Hora)
+                .Select(c => new
+                {
+                    c.IdCita,
+                    Paciente = _context.Pacientes
+                            .Where(p => p.IdPaciente == c.IdPaciente)
+                            .Select(p => p.Nombre).FirstOrDefault(),
+                    c.Doctor,
+                    Fecha = c.Fecha.ToString("yyyy-MM-dd"),
+                    Hora = c.Hora.ToString(@"hh\:mm"),
+                    c.Motivo,
+                    c.Estado
+                })
+                .ToListAsync();
+
+            return Ok(citasHoy);
+        }
+
+        // ================================
+        // 🟩 CITAS DEL DÍA (Doctor)
+        // ================================
+        [HttpGet("doctor/hoy")]
+        public async Task<IActionResult> GetCitasDoctorHoy()
+        {
+            var hoy = DateTime.Today;
+
+            var citas = await _context.Citas
+                .Where(c => c.Fecha.Date == hoy)
+                .OrderBy(c => c.Hora)
+                .Select(c => new
+                {
+                    c.IdCita,
+                    Paciente = _context.Pacientes
+                            .Where(p => p.IdPaciente == c.IdPaciente)
+                            .Select(p => p.Nombre).FirstOrDefault(),
+                    c.Doctor,
+                    Fecha = c.Fecha.ToString("yyyy-MM-dd"),
+                    Hora = c.Hora.ToString(@"hh\:mm"),
+                    c.Motivo,
+                    c.Estado
+                })
+                .ToListAsync();
+
+            return Ok(citas);
+        }
+
+        // ================================
+        // 🟦 CAMBIAR ESTADO (Doctor)
+        // ================================
+        [HttpPut("estado/{id}")]
+        public async Task<IActionResult> CambiarEstado(int id, [FromBody] string nuevoEstado)
+        {
+            var cita = await _context.Citas.FindAsync(id);
+            if (cita == null)
+                return NotFound();
+
+            cita.Estado = nuevoEstado;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { mensaje = "Estado actualizado correctamente." });
+        }
+
+        // ================================
+        // 🟦 CREAR CITA
+        // ================================
+        [HttpPost]
+        public async Task<IActionResult> Crear(Cita cita)
+        {
+            cita.Doctor = "Doctor General";
+            cita.Estado = "Pendiente";
+
+            bool existe = await _context.Citas.AnyAsync(c =>
+                c.Fecha.Date == cita.Fecha.Date &&
+                c.Hora == cita.Hora
             );
 
-            if (choque)
-                return BadRequest(new { mensaje = "Este horario ya está ocupado." });
+            if (existe)
+                return BadRequest(new { mensaje = "La hora seleccionada ya está ocupada." });
 
             _context.Citas.Add(cita);
             await _context.SaveChangesAsync();
 
-            return Ok(new { mensaje = "Cita creada exitosamente." });
+            return Ok(new { mensaje = "Cita creada correctamente." });
         }
 
-        // ACTUALIZAR
+        // ================================
+        // 🟦 EDITAR CITA
+        // ================================
         [HttpPut("{id}")]
-        public async Task<IActionResult> Editar(int id, [FromBody] Cita cita)
+        public async Task<IActionResult> Editar(int id, Cita cita)
         {
-            if (id != cita.IdCita)
-                return BadRequest();
+            var citaBD = await _context.Citas.FindAsync(id);
+            if (citaBD == null)
+                return NotFound();
 
-            _context.Entry(cita).State = EntityState.Modified;
+            bool existe = await _context.Citas.AnyAsync(c =>
+                c.IdCita != id &&
+                c.Fecha.Date == cita.Fecha.Date &&
+                c.Hora == cita.Hora
+            );
+
+            if (existe)
+                return BadRequest(new { mensaje = "La hora seleccionada ya está ocupada." });
+
+            citaBD.IdPaciente = cita.IdPaciente;
+            citaBD.Fecha = cita.Fecha;
+            citaBD.Hora = cita.Hora;
+            citaBD.Motivo = cita.Motivo;
+
             await _context.SaveChangesAsync();
-
-            return Ok(new { mensaje = "Cita actualizada." });
+            return Ok();
         }
 
-        // ELIMINAR
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> Eliminar(int id)
         {

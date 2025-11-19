@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Citas | Recepcionista</title>
+    <title>Citas - Recepcionista | SGCO</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -19,8 +19,22 @@
         }
 
         .card {
-            border-radius: 10px;
-            box-shadow: 0px 3px 10px rgba(0,0,0,.1);
+            border-radius: 14px;
+            box-shadow: 0px 4px 16px rgba(0,0,0,.1);
+        }
+
+        .btn-primary {
+            background: #0D5B8C;
+            border: none;
+        }
+
+            .btn-primary:hover {
+                background: #094868;
+            }
+
+        .modal-header {
+            background: #0D5B8C;
+            color: white;
         }
 
         .table thead {
@@ -28,9 +42,12 @@
             color: white;
         }
 
-        .btn-primary {
-            background: #0D5B8C;
-            border: none;
+        .info-box {
+            padding: 18px;
+            border-radius: 12px;
+            color: white;
+            font-size: 20px;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -39,16 +56,45 @@
 
     <div class="container py-4">
 
-        <div class="d-flex justify-content-between mb-3">
+        <!-- PANEL SUPERIOR -->
+        <div class="row mb-4">
+
+            <div class="col-md-4">
+                <div class="info-box" style="background:#0D5B8C;">
+                    <div id="totalCitasHoy">0</div>
+                    <small>Citas de Hoy</small>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="info-box" style="background:#1572A1;">
+                    <div id="proximaHoraLibre">--:--</div>
+                    <small>Próxima Hora Libre</small>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="info-box text-center" style="background:#51C4D3;">
+                    <button class="btn btn-light" onclick="toggleAgendaDia()">
+                        <i class="bi bi-calendar-week"></i> Ver Agenda del Día
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- TÍTULO Y BOTÓN -->
+        <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Gestión de Citas</h2>
 
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAgregar">
-                <i class="bi bi-plus-lg"></i> Nueva Cita
+                <i class="bi bi-plus-circle"></i> Nueva Cita
             </button>
         </div>
 
+        <!-- TABLA PRINCIPAL -->
         <div class="card p-3">
-            <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar...">
+            <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar citas...">
 
             <div class="table-responsive">
                 <table class="table table-hover" id="tablaCitas">
@@ -69,6 +115,25 @@
             </div>
         </div>
 
+        <!-- AGENDA DEL DÍA -->
+        <div class="card p-3 mt-4" id="agendaDia" style="display:none;">
+            <h5><i class="bi bi-calendar-week"></i> Citas de Hoy</h5>
+
+            <div class="table-responsive mt-3">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Hora</th>
+                            <th>Paciente</th>
+                            <th>Motivo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaCitasHoy"></tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
     <!-- MODAL AGREGAR -->
@@ -76,7 +141,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <div class="modal-header" style="background:#0D5B8C;color:white;">
+                <div class="modal-header">
                     <h5 class="modal-title">Nueva Cita</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -101,7 +166,6 @@
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button class="btn btn-primary" onclick="guardarCita()">Guardar</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -111,7 +175,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <div class="modal-header" style="background:#0D5B8C;color:white;">
+                <div class="modal-header">
                     <h5 class="modal-title">Editar Cita</h5>
                     <button class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
@@ -138,38 +202,84 @@
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button class="btn btn-primary" onclick="guardarEdicion()">Actualizar</button>
                 </div>
-
             </div>
         </div>
     </div>
 
-
-    <!-- JS -->
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const API_PACIENTES = "/api/Paciente";
         const API_CITAS = "/api/Cita";
+        const API_PACIENTES = "/api/Paciente";
 
-        // ======================
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarPacientes();
+            cargarCitas();
+            cargarDatosDelDia();
+        });
+
+        // PANEL DEL DÍA
+        function cargarDatosDelDia() {
+            fetch("/api/Cita/hoy")
+                .then(r => r.json())
+                .then(data => {
+
+                    // Total de citas hoy
+                    document.getElementById("totalCitasHoy").innerText = data.citas.length;
+
+                    // Próxima hora libre
+                    document.getElementById("proximaHoraLibre").innerText =
+                        data.proximaHora ?? "Sin espacios";
+
+                    // Tabla de agenda
+                    let html = "";
+                    data.citas.forEach(c => {
+                        html += `
+                                <tr>
+                                    <td>${c.hora}</td>
+                                    <td>${c.paciente}</td>
+                                    <td>${c.motivo}</td>
+                                    <td>${c.estado}</td>
+                                </tr>
+                            `;
+                    });
+                    document.getElementById("tablaCitasHoy").innerHTML = html;
+                });
+        }
+
+        function toggleAgendaDia() {
+            let panel = document.getElementById("agendaDia");
+
+            if (panel.style.display === "none") {
+                panel.style.display = "block";
+                cargarDatosDelDia();
+            } else {
+                panel.style.display = "none";
+            }
+        }
+
+        // BUSCADOR
+        document.getElementById("buscar").addEventListener("keyup", function () {
+            let texto = this.value.toLowerCase();
+            document.querySelectorAll("#tablaCitas tbody tr").forEach(fila => {
+                fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
+            });
+        });
+
         // CARGAR PACIENTES
-        // ======================
         function cargarPacientes(selectId = "IdPaciente") {
             fetch(API_PACIENTES)
                 .then(r => r.json())
                 .then(data => {
                     let html = "";
-                    data.forEach(p => {
-                        html += `<option value="${p.idPaciente}">${p.nombre}</option>`;
-                    });
+                    data.forEach(p => html += `<option value="${p.idPaciente}">${p.nombre}</option>`);
                     document.getElementById(selectId).innerHTML = html;
                 });
         }
 
-        // ======================
         // CARGAR HORAS DISPONIBLES
-        // ======================
-        function cargarHorasDisponibles(fecha, selectId = "Hora") {
+        function cargarHorasDisponibles(fecha, selectId) {
             fetch(`/api/Cita/horas-disponibles/${fecha}`)
                 .then(r => r.json())
                 .then(data => {
@@ -179,37 +289,12 @@
                 });
         }
 
-        // ======================
-        // AL CAMBIAR FECHA EN AGREGAR
-        // ======================
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarPacientes();
-            cargarCitas();
-
-            document.getElementById("Fecha").addEventListener("change", () => {
-                let f = document.getElementById("Fecha").value;
-                if (f) cargarHorasDisponibles(f, "Hora");
-            });
-
-            document.getElementById("editFecha").addEventListener("change", () => {
-                let f = document.getElementById("editFecha").value;
-                if (f) cargarHorasDisponibles(f, "editHora");
-            });
+        // EVENTO FECHA
+        document.getElementById("Fecha").addEventListener("change", () => {
+            cargarHorasDisponibles(document.getElementById("Fecha").value, "Hora");
         });
 
-        // ======================
-        // BUSCAR FILTRAR
-        // ======================
-        document.getElementById("buscar").addEventListener("keyup", function () {
-            let texto = this.value.toLowerCase();
-            document.querySelectorAll("#tablaCitas tbody tr").forEach(fila => {
-                fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
-            });
-        });
-
-        // ======================
-        // CARGAR CITAS
-        // ======================
+        // CARGAR CITAS PRINCIPALES
         function cargarCitas() {
             fetch(API_CITAS)
                 .then(r => r.json())
@@ -217,33 +302,26 @@
                     let filas = "";
                     data.forEach(c => {
                         filas += `
-                    <tr>
-                        <td>${c.idCita}</td>
-                        <td>${c.paciente}</td>
-                        <td>${c.doctor}</td>
-                        <td>${c.fecha.split("T")[0]}</td>
-                        <td>${c.hora}</td>
-                        <td>${c.motivo}</td>
-                        <td>${c.estado}</td>
-                        <td>
-                            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${c.idCita})">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="eliminarCita(${c.idCita})">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    `;
+                                    <tr>
+                                        <td>${c.idCita}</td>
+                                        <td>${c.paciente}</td>
+                                        <td>${c.doctor}</td>
+                                        <td>${c.fecha.split("T")[0]}</td>
+                                        <td>${c.hora}</td>
+                                        <td>${c.motivo}</td>
+                                        <td>${c.estado}</td>
+                                        <td>
+                                            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${c.idCita})"><i class="bi bi-pencil-square"></i></button>
+                                            <button class="btn btn-danger btn-sm" onclick="eliminarCita(${c.idCita})"><i class="bi bi-trash"></i></button>
+                                        </td>
+                                    </tr>`;
                     });
 
                     document.querySelector("#tablaCitas tbody").innerHTML = filas;
                 });
         }
 
-        // ======================
-        // GUARDAR CITA
-        // ======================
+        // GUARDAR
         function guardarCita() {
             let data = {
                 idPaciente: parseInt(document.getElementById("IdPaciente").value),
@@ -260,25 +338,28 @@
             })
                 .then(async r => {
                     if (!r.ok) {
-                        const res = await r.json();
-                        alert(res.mensaje);
+                        const error = await r.json();
+                        alert(error.mensaje);
                         return;
                     }
+
                     cargarCitas();
+                    cargarDatosDelDia();
                     bootstrap.Modal.getInstance(document.getElementById("modalAgregar")).hide();
                 });
         }
 
-        // ======================
-        // ABRIR EDITAR
-        // ======================
+        // EDITAR
         function abrirEditar(id) {
             fetch(API_CITAS + "/" + id)
                 .then(r => r.json())
                 .then(c => {
                     document.getElementById("editIdCita").value = c.idCita;
+
                     cargarPacientes("editIdPaciente");
-                    document.getElementById("editIdPaciente").value = c.idPaciente;
+                    setTimeout(() => {
+                        document.getElementById("editIdPaciente").value = c.idPaciente;
+                    }, 200);
 
                     document.getElementById("editFecha").value = c.fecha.split("T")[0];
 
@@ -286,7 +367,7 @@
 
                     setTimeout(() => {
                         document.getElementById("editHora").value = c.hora;
-                    }, 300);
+                    }, 200);
 
                     document.getElementById("editMotivo").value = c.motivo;
 
@@ -294,9 +375,7 @@
                 });
         }
 
-        // ======================
         // GUARDAR EDICIÓN
-        // ======================
         function guardarEdicion() {
             let id = document.getElementById("editIdCita").value;
 
@@ -316,22 +395,23 @@
             })
                 .then(() => {
                     cargarCitas();
+                    cargarDatosDelDia();
                     bootstrap.Modal.getInstance(document.getElementById("modalEditar")).hide();
                 });
         }
 
-        // ======================
         // ELIMINAR
-        // ======================
         function eliminarCita(id) {
-            if (!confirm("¿Eliminar esta cita?")) return;
+            if (!confirm("¿Seguro que desea eliminar esta cita?")) return;
 
             fetch(API_CITAS + "/" + id, { method: "DELETE" })
-                .then(() => cargarCitas());
+                .then(() => {
+                    cargarCitas();
+                    cargarDatosDelDia();
+                });
         }
 
     </script>
 
 </body>
 </html>
-

@@ -49,7 +49,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "webappclinicaodontologica.Models.Cita",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.CitaController",
@@ -90,6 +100,37 @@
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.CitaController",
+    "Method": "GetCitasDoctorHoy",
+    "RelativePath": "api/Cita/doctor/hoy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webappclinicaodontologica.Controllers.CitaController",
+    "Method": "CambiarEstado",
+    "RelativePath": "api/Cita/estado/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "nuevoEstado",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "webappclinicaodontologica.Controllers.CitaController",
     "Method": "GetHorasDisponibles",
     "RelativePath": "api/Cita/horas-disponibles/{fecha}",
     "HttpMethod": "GET",
@@ -113,6 +154,16 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "webappclinicaodontologica.Controllers.CitaController",
+    "Method": "GetCitasDeHoy",
+    "RelativePath": "api/Cita/hoy",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
   },
   {
     "ContainingType": "webappclinicaodontologica.Controllers.DoctorController",

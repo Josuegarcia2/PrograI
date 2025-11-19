@@ -10,7 +10,8 @@ namespace webappclinicaodontologica.Models
         public int IdCita { get; set; }
 
         public int IdPaciente { get; set; }
-        public string Doctor { get; set; }
+
+        public string Doctor { get; set; } = "Doctor General";
 
         public DateTime Fecha { get; set; }
         public TimeSpan Hora { get; set; }
