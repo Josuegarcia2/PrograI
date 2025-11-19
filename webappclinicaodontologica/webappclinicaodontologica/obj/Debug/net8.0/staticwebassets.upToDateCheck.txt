@@ -10,3 +10,4 @@ wwwroot\views\index.html
 wwwroot\views\login.html
 wwwroot\views\recepcionista.html
 wwwroot\views\servicios_admin.html
+wwwroot\views\servicios_recepcionista.html
