@@ -10,9 +10,29 @@
 
     <style>
         body {
-            background: #f4f7fb;
-            font-family: 'Segoe UI';
+            background: #eef3f8;
+            font-family: "Segoe UI";
         }
+
+        /* Botón X para salir */
+        .btn-salir {
+            background: white;
+            border: 2px solid #d1d9e6;
+            color: #4a4a4a;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .2s;
+        }
+
+            .btn-salir:hover {
+                background: #0D5B8C;
+                color: white;
+                border-color: #0D5B8C;
+            }
 
         h2 {
             color: #0D5B8C;
@@ -20,35 +40,68 @@
         }
 
         .card {
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        }
+
+        .table thead {
+            background: #0D5B8C;
+            color: white;
         }
 
         .btn-primary {
             background: #0D5B8C;
             border: none;
         }
+
+            .btn-primary:hover {
+                background: #094b6c;
+            }
+
+        .modern-input {
+            border-radius: 10px;
+            padding: 10px;
+            border: 1px solid #cdd6e1;
+            transition: .2s;
+        }
+
+            .modern-input:focus {
+                border-color: #0D5B8C;
+                box-shadow: 0 0 8px rgba(13,91,140,0.3);
+            }
     </style>
 </head>
 
 <body>
 
-    <div class="container mt-4">
+    <!-- BOTÓN SALIR -->
+    <div class="p-3 text-end">
+        <a href="/views/administrador.html" class="btn-salir">
+            <i class="bi bi-x-lg"></i>
+        </a>
+    </div>
 
+    <div class="container mt-2">
+
+        <!-- TÍTULO + BOTÓN NUEVO -->
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Gestión de Servicios</h2>
+            <h2 class="fw-bold">Gestión de Servicios</h2>
             <button class="btn btn-primary" onclick="nuevoServicio()">
                 <i class="bi bi-plus-circle"></i> Nuevo Servicio
             </button>
         </div>
 
-        <input type="text" id="txtBuscar" class="form-control mb-3"
-               placeholder="Buscar servicio..." onkeyup="buscarServicio()">
+        <!-- BUSCADOR -->
+        <input type="text" id="txtBuscar"
+               class="form-control modern-input mb-3"
+               placeholder="🔍 Buscar servicio..."
+               onkeyup="buscarServicio()">
 
+        <!-- TABLA -->
         <div class="card">
             <table class="table table-hover text-center">
-                <thead class="table-light">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Servicio</th>
@@ -77,16 +130,16 @@
                     <input type="hidden" id="idServicio">
 
                     <label class="form-label">Nombre</label>
-                    <input class="form-control mb-3" id="nombre">
+                    <input class="form-control modern-input mb-3" id="nombre">
 
                     <label class="form-label">Precio ($)</label>
-                    <input type="number" class="form-control mb-3" id="precio">
+                    <input type="number" class="form-control modern-input mb-3" id="precio">
 
                     <label class="form-label">Descripción</label>
-                    <textarea class="form-control mb-3" id="descripcion"></textarea>
+                    <textarea class="form-control modern-input mb-3" id="descripcion"></textarea>
 
                     <label class="form-label">Estado</label>
-                    <select id="estado" class="form-select mb-3">
+                    <select id="estado" class="form-select modern-input mb-3">
                         <option value="Activo">Activo</option>
                         <option value="Inactivo">Inactivo</option>
                     </select>
@@ -117,22 +170,22 @@
             let html = "";
             lista.forEach(s => {
                 html += `
-                <tr>
-                    <td>${s.idServicio}</td>
-                    <td>${s.nombre}</td>
-                    <td>$${s.precio.toFixed(2)}</td>
-                    <td>${s.estado}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick='editar(${JSON.stringify(s)})'>
-                            <i class="bi bi-pencil"></i>
-                        </button>
+                    <tr>
+                        <td>${s.idServicio}</td>
+                        <td>${s.nombre}</td>
+                        <td>$${s.precio.toFixed(2)}</td>
+                        <td>${s.estado}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick='editar(${JSON.stringify(s)})'>
+                                <i class="bi bi-pencil"></i>
+                            </button>
 
-                        <button class="btn btn-danger btn-sm" onclick='eliminar(${s.idServicio})'>
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
+                            <button class="btn btn-danger btn-sm" onclick='eliminar(${s.idServicio})'>
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
             });
 
             document.getElementById("tbodyServicios").innerHTML = html;
@@ -202,7 +255,7 @@
         }
 
         /* =============================
-              LIMPIAR CAMPOS
+              LIMPIAR
         ============================= */
         function limpiar() {
             idServicio.value = "";
@@ -213,14 +266,16 @@
         }
 
         /* =============================
-              BUSCAR EN TABLA
+              BUSCAR
         ============================= */
         function buscarServicio() {
             let texto = txtBuscar.value.toLowerCase();
             let filas = document.querySelectorAll("#tbodyServicios tr");
 
             filas.forEach(f => {
-                f.style.display = f.innerText.toLowerCase().includes(texto) ? "" : "none";
+                f.style.display = f.innerText.toLowerCase().includes(texto)
+                    ? ""
+                    : "none";
             });
         }
 

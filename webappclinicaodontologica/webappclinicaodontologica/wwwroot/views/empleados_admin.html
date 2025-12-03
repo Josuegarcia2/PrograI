@@ -45,12 +45,20 @@
                 box-shadow: 0 0 6px rgba(13,91,140,0.3);
             }
     </style>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body>
 
-    <div class="container mt-4">
+    <!-- BOTÓN SALIR -->
+    <div class="p-3 text-end">
+        <a href="/views/administrador.html" class="btn btn-outline-secondary rounded-circle">
+            <i class="bi bi-x-lg"></i>
+        </a>
+    </div>
+
+    <div class="container mt-2">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2 class="fw-bold" style="color:#0D5B8C;">Gestión de Empleados</h2>
             <button class="btn btn-primary" onclick="abrirNuevo()">
@@ -140,9 +148,6 @@
         const API = "https://localhost:7148/api/Empleado";
         const API_ROL = "https://localhost:7148/api/Rol";
 
-        /* ===============================
-              CARGAR ROLES EN SELECT
-        ================================ */
         async function cargarRoles() {
             const res = await fetch(API_ROL);
             const roles = await res.json();
@@ -155,9 +160,6 @@
             });
         }
 
-        /* ===============================
-              CARGAR EMPLEADOS
-        ================================ */
         async function cargarEmpleados() {
             const res = await fetch(API);
             const data = await res.json();
@@ -167,27 +169,24 @@
 
             data.forEach(emp => {
                 tbody.innerHTML += `
-                <tr>
-                    <td>${emp.idEmpleado}</td>
-                    <td>${emp.nombre} ${emp.apellido}</td>
-                    <td>${emp.usuario}</td>
-                    <td>${emp.nombreRol}</td>
-                    <td>${emp.estado}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="editarEmpleado(${emp.idEmpleado})">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminarEmpleado(${emp.idEmpleado})">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>`;
+                    <tr>
+                        <td>${emp.idEmpleado}</td>
+                        <td>${emp.nombre} ${emp.apellido}</td>
+                        <td>${emp.usuario}</td>
+                        <td>${emp.nombreRol}</td>
+                        <td>${emp.estado}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editarEmpleado(${emp.idEmpleado})">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminarEmpleado(${emp.idEmpleado})">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>`;
             });
         }
 
-        /* ===============================
-              ABRIR MODAL PARA NUEVO
-        ================================ */
         function abrirNuevo() {
             limpiarCampos();
             cargarRoles();
@@ -195,9 +194,6 @@
             new bootstrap.Modal(document.getElementById("modalEmpleado")).show();
         }
 
-        /* ===============================
-              EDITAR EMPLEADO
-        ================================ */
         async function editarEmpleado(id) {
             const res = await fetch(`${API}/${id}`);
             const emp = await res.json();
@@ -217,9 +213,6 @@
             new bootstrap.Modal(document.getElementById("modalEmpleado")).show();
         }
 
-        /* ===============================
-                    GUARDAR
-        ================================ */
         async function guardarEmpleado() {
             let emp = {
                 idEmpleado: parseInt(document.getElementById("idEmpleado").value) || 0,
@@ -231,8 +224,7 @@
                 estado: document.getElementById("estado").value
             };
 
-            // Validación básica
-            if (!emp.nombre || !emp.apellido || !emp.usuario || !emp.contrasena || !emp.idRol) {
+            if (!emp.nombre || !emp.apellido || !emp.usuario || !emp.contrasena) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Campos incompletos',
@@ -245,74 +237,39 @@
             let metodo = emp.idEmpleado === 0 ? "POST" : "PUT";
             let url = emp.idEmpleado === 0 ? API : `${API}/${emp.idEmpleado}`;
 
-            try {
-                const res = await fetch(url, {
-                    method: metodo,
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(emp)
-                });
+            const res = await fetch(url, {
+                method: metodo,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(emp)
+            });
 
-                // Si la API responde error
-                if (!res.ok) {
-
-                    let mensaje = "No se pudo guardar el empleado";
-
-                    // Lee el texto devuelto por la API
-                    const texto = await res.text();
-
-                    if (texto.includes("duplicado")) {
-                        mensaje = "❌ El usuario ya existe, intenta otro nombre de usuario.";
-                    }
-
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        html: mensaje,
-                        confirmButtonColor: '#d9534f'
-                    });
-
-                    return;
-                }
-
-                // ÉXITO
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Completado',
-                    text: emp.idEmpleado === 0 ? 'Empleado creado exitosamente' : 'Empleado actualizado exitosamente',
-                    confirmButtonColor: '#0D5B8C'
-                });
-
-                bootstrap.Modal.getInstance(document.getElementById('modalEmpleado')).hide();
-                cargarEmpleados();
-
-            } catch (error) {
-
+            if (!res.ok) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Error inesperado',
-                    text: 'Hubo un problema de conexión.',
+                    title: 'Error',
+                    text: 'No se pudo guardar el empleado.',
                     confirmButtonColor: '#d9534f'
                 });
-
-                console.error("ERROR:", error);
+                return;
             }
-        }
 
+            Swal.fire({
+                icon: 'success',
+                title: 'Completado',
+                text: emp.idEmpleado === 0 ? 'Empleado creado exitosamente' : 'Empleado actualizado exitosamente',
+                confirmButtonColor: '#0D5B8C'
+            });
 
-        /* ===============================
-                    ELIMINAR
-        ================================ */
-        async function eliminarEmpleado(id) {
-            if (!confirm("¿Seguro que deseas eliminar este empleado?")) return;
-
-            await fetch(`${API}/${id}`, { method: "DELETE" });
-
+            bootstrap.Modal.getInstance(document.getElementById('modalEmpleado')).hide();
             cargarEmpleados();
         }
 
-        /* ===============================
-                    BUSCAR
-        ================================ */
+        async function eliminarEmpleado(id) {
+            if (!confirm("¿Seguro que deseas eliminar este empleado?")) return;
+            await fetch(`${API}/${id}`, { method: "DELETE" });
+            cargarEmpleados();
+        }
+
         function filtrarTabla() {
             const filtro = document.getElementById("buscar").value.toLowerCase();
             const filas = document.querySelectorAll("#tablaEmpleados tbody tr");
@@ -322,9 +279,6 @@
             });
         }
 
-        /* ===============================
-                LIMPIAR FORM
-        ================================ */
         function limpiarCampos() {
             document.getElementById("idEmpleado").value = "";
             document.getElementById("nombre").value = "";

@@ -148,7 +148,6 @@
             <h5>SGCO ADMIN</h5>
         </div>
 
-        <!-- Rutas REALES corregidas -->
         <a href="/views/empleados_admin.html">
             <i class="bi bi-person-badge"></i> Empleados
         </a>
@@ -165,7 +164,7 @@
             <i class="bi bi-people"></i> Pacientes
         </a>
 
-        <a href="/views/reportes.html">
+        <a href="/views/reportes_admin.html">
             <i class="bi bi-bar-chart-line"></i> Reportes
         </a>
 
@@ -173,16 +172,13 @@
             <i class="bi bi-clipboard-check"></i> Bitácora
         </a>
     </div>
-    </div>
 
     <!-- TOPBAR -->
     <div class="topbar">
         <span class="nombre" id="nombreAdmin">Administrador</span>
 
         <div>
-            <button class="btn btn-outline-info me-3">
-                <i class="bi bi-person-circle me-1"></i> Perfil
-            </button>
+            <!-- Se ELIMINÓ el botón PERFIL aquí -->
 
             <button class="btn btn-danger" onclick="cerrarSesion()">
                 <i class="bi bi-box-arrow-right"></i> Cerrar sesión
@@ -219,7 +215,6 @@
             window.location.href = "/views/login.html";
         }
     </script>
-
 
 </body>
 </html>

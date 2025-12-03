@@ -1,0 +1,318 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reportes | SGCO Admin</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body {
+            background: #eef3f8;
+            font-family: "Segoe UI";
+        }
+
+        /* Botón X */
+        .btn-salir {
+            background: white;
+            border: 2px solid #d1d9e6;
+            color: #4a4a4a;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: .2s;
+        }
+
+            .btn-salir:hover {
+                background: #0d5b8c;
+                color: white;
+                border-color: #0d5b8c;
+            }
+
+        .box-main {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        .kpi-box {
+            background: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 14px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+            .kpi-box h2 {
+                font-size: 30px;
+                font-weight: 800;
+                color: #0D5B8C;
+            }
+
+        .chart-container {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .btn-pdf {
+            background: #0D5B8C;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Botón salir -->
+    <div class="p-3 text-end">
+        <a href="/views/administrador.html" class="btn-salir">
+            <i class="bi bi-x-lg"></i>
+        </a>
+    </div>
+
+    <div class="container mb-5" id="reporteArea">
+
+        <!-- Encabezado -->
+        <div class="box-main text-center mb-4">
+            <img src="/img/logo_dclinica.png" height="60" class="mb-2">
+
+            <h2 class="fw-bold text-primary">Reporte General del Sistema</h2>
+            <p class="text-secondary">Generado el: <span id="fechaGenerado"></span></p>
+
+            <!-- Filtros -->
+            <div class="row g-3 mt-3">
+                <div class="col-md-4">
+                    <label>Tipo de reporte</label>
+                    <select id="tipoReporte" class="form-select">
+                        <option value="citas">Citas</option>
+                        <option value="pacientes">Pacientes</option>
+                        <option value="servicios">Servicios</option>
+                        <option value="empleados">Empleados</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Fecha</label>
+                    <input type="date" id="fechaFiltro" class="form-control">
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <button class="btn btn-primary w-100" onclick="aplicarFiltros()">
+                        Aplicar Filtros
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="row text-center mb-4">
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h2 id="kpi1">0</h2>
+                    <p id="kpi1_label"></p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h2 id="kpi2">0</h2>
+                    <p id="kpi2_label"></p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h2 id="kpi3">0</h2>
+                    <p id="kpi3_label"></p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h2 id="kpi4">0</h2>
+                    <p id="kpi4_label"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficas -->
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="text-center mb-2">Distribución General</h5>
+                    <canvas id="chart1"></canvas>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="text-center mb-2">Comparativa</h5>
+                    <canvas id="chart2"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón PDF -->
+        <div class="text-center mt-4">
+            <button class="btn-pdf" onclick="descargarPDF()">
+                <i class="bi bi-file-earmark-pdf-fill"></i> Descargar PDF
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById("fechaGenerado").innerText = new Date().toLocaleString();
+
+        let chart1, chart2;
+
+        /* =======================
+             FUNCIÓN PRINCIPAL
+        ========================== */
+
+        async function aplicarFiltros() {
+            const tipo = document.getElementById("tipoReporte").value;
+
+            // Esta API la puedes cambiar por tus controladores reales
+            const API = `/api/Reportes/${tipo}`;
+
+            const res = await fetch(API);
+            const datos = await res.json();
+
+            actualizarKPIs(tipo, datos);
+            graficar(tipo, datos);
+        }
+
+        /* =======================
+                KPIs
+        ========================== */
+        function actualizarKPIs(tipo, data) {
+
+            switch (tipo) {
+
+                case "citas":
+                    document.getElementById("kpi1").innerText = data.total;
+                    document.getElementById("kpi1_label").innerText = "Total de citas";
+
+                    document.getElementById("kpi2").innerText = data.pendientes;
+                    document.getElementById("kpi2_label").innerText = "Pendientes";
+
+                    document.getElementById("kpi3").innerText = data.finalizadas;
+                    document.getElementById("kpi3_label").innerText = "Finalizadas";
+
+                    document.getElementById("kpi4").innerText = data.canceladas;
+                    document.getElementById("kpi4_label").innerText = "Canceladas";
+                    break;
+
+                case "pacientes":
+                    document.getElementById("kpi1").innerText = data.totalActivos;
+                    document.getElementById("kpi1_label").innerText = "Activos";
+
+                    document.getElementById("kpi2").innerText = data.totalInactivos;
+                    document.getElementById("kpi2_label").innerText = "Inactivos";
+
+                    document.getElementById("kpi3").innerText = data.nuevos;
+                    document.getElementById("kpi3_label").innerText = "Nuevos";
+
+                    document.getElementById("kpi4").innerText = data.recurrentes;
+                    document.getElementById("kpi4_label").innerText = "Recurrentes";
+                    break;
+
+                case "servicios":
+                    document.getElementById("kpi1").innerText = data.activos;
+                    document.getElementById("kpi1_label").innerText = "Servicios Activos";
+
+                    document.getElementById("kpi2").innerText = data.inactivos;
+                    document.getElementById("kpi2_label").innerText = "Inactivos";
+
+                    document.getElementById("kpi3").innerText = data.masUsado;
+                    document.getElementById("kpi3_label").innerText = "Más solicitado";
+
+                    document.getElementById("kpi4").innerText = data.menosUsado;
+                    document.getElementById("kpi4_label").innerText = "Menos solicitado";
+                    break;
+
+                case "empleados":
+                    document.getElementById("kpi1").innerText = data.activos;
+                    document.getElementById("kpi1_label").innerText = "Activos";
+
+                    document.getElementById("kpi2").innerText = data.inactivos;
+                    document.getElementById("kpi2_label").innerText = "Inactivos";
+
+                    document.getElementById("kpi3").innerText = data.doctores;
+                    document.getElementById("kpi3_label").innerText = "Doctores";
+
+                    document.getElementById("kpi4").innerText = data.recepcionistas;
+                    document.getElementById("kpi4_label").innerText = "Recepcionistas";
+                    break;
+            }
+        }
+
+        /* =======================
+                GRÁFICAS
+        ========================== */
+        function graficar(tipo, data) {
+            if (chart1) chart1.destroy();
+            if (chart2) chart2.destroy();
+
+            chart1 = new Chart(document.getElementById("chart1"), {
+                type: "doughnut",
+                data: {
+                    labels: Object.keys(data.grafico1),
+                    datasets: [{
+                        data: Object.values(data.grafico1),
+                        backgroundColor: ["#0D5B8C", "#3DC1D3", "#F4A261", "#E76F51"]
+                    }]
+                }
+            });
+
+            chart2 = new Chart(document.getElementById("chart2"), {
+                type: "bar",
+                data: {
+                    labels: Object.keys(data.grafico2),
+                    datasets: [{
+                        label: "Cantidad",
+                        data: Object.values(data.grafico2),
+                        backgroundColor: "#3DC1D3"
+                    }]
+                }
+            });
+        }
+
+        /* =======================
+               DESCARGAR PDF
+        ========================== */
+        async function descargarPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF("p", "mm", "a4");
+
+            const area = document.getElementById("reporteArea");
+            const canvas = await html2canvas(area, { scale: 2 });
+            const img = canvas.toDataURL("image/png");
+
+            const width = 210;
+            const height = canvas.height * width / canvas.width;
+
+            pdf.addImage(img, "PNG", 0, 0, width, height);
+            pdf.save("Reporte_Admin_SGCO.pdf");
+        }
+    </script>
+
+</body>
+</html>
