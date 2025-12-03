@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Citas - Recepcionista | SGCO</title>
+
+    <!-- BOOTSTRAP -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- CHART JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- PDF LIBS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        body {
+            background: #eef3f8;
+            font-family: "Segoe UI";
+        }
+
+        .box-main {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        .kpi-box {
+            background: white;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+            .kpi-box h2 {
+                font-size: 30px;
+                font-weight: 800;
+                color: #0D5B8C;
+            }
+
+        .chart-container {
+            background: white;
+            padding: 15px;
+            border-radius: 14px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .btn-pdf {
+            background: #0D5B8C;
+            color: white;
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 10px;
+        }
+
+        /* LOGO */
+        .logo-box img {
+            height: 60px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BOTÓN SALIR -->
+    <div class="p-3 text-end">
+        <a href="/views/recepcionista.html" class="btn btn-outline-secondary rounded-circle">
+            <i class="bi bi-x-lg"></i>
+        </a>
+    </div>
+
+    <div class="container mb-5" id="reporteArea">
+
+        <!-- ENCABEZADO -->
+        <div class="box-main mb-4 text-center">
+            <div class="logo-box mb-2">
+                <img src="/img/logo_dclinica.png" alt="logo">
+            </div>
+
+            <h2 class="fw-bold text-primary">Reporte y Estadísticas de Citas</h2>
+            <p class="text-secondary">Generado el: <span id="fechaGenerado"></span></p>
+
+            <!-- FILTROS -->
+            <div class="row mt-4 g-3">
+                <div class="col-md-4">
+                    <label>Filtro por tiempo</label>
+                    <select id="filtroTiempo" class="form-select">
+                        <option value="dia">Día</option>
+                        <option value="mes">Mes</option>
+                        <option value="anio">Año</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Fecha</label>
+                    <input type="date" id="fechaFiltro" class="form-control">
+                </div>
+
+                <div class="col-md-4 d-flex align-items-end">
+                    <button onclick="aplicarFiltros()" class="btn btn-primary w-100">Aplicar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- KPI -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="kpi-box">
+                    <h2 id="totalCitas">0</h2>
+                    <p>Total de Citas</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kpi-box">
+                    <h2 id="pendientes">0</h2>
+                    <p>Pendientes</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="kpi-box">
+                    <h2 id="completadas">0</h2>
+                    <p>Completadas</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- GRÁFICAS -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="text-center mb-2">Estados</h5>
+                    <canvas id="chartEstados"></canvas>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="chart-container">
+                    <h5 class="text-center mb-2">Citas por Hora</h5>
+                    <canvas id="chartHoras"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÓN PDF -->
+        <div class="text-center mt-4">
+            <button class="btn-pdf" onclick="descargarPDF()">
+                <i class="bi bi-file-earmark-pdf-fill me-1"></i> Descargar PDF
+            </button>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        const API = "https://localhost:7148/api/CitaReportes/filtrar";
+        let chartEstados, chartHoras;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("fechaGenerado").innerText =
+                new Date().toLocaleString();
+        });
+
+        /* ============================================================
+           🔵 APLICAR FILTROS
+        ============================================================ */
+        async function aplicarFiltros() {
+            const tipo = document.getElementById("filtroTiempo").value;
+            const fecha = document.getElementById("fechaFiltro").value;
+            if (!fecha) return;
+
+            const url = `${API}?tipo=${tipo}&fecha=${fecha}`;
+            const res = await fetch(url);
+            const datos = await res.json();
+
+            actualizarKPI(datos);
+            generarDonut(datos);
+            generarBarras(datos);
+        }
+
+        /* KPIs */
+        function actualizarKPI(data) {
+            document.getElementById("totalCitas").innerText = data.length;
+            document.getElementById("pendientes").innerText = data.filter(c => c.estado === "Pendiente").length;
+            document.getElementById("completadas").innerText = data.filter(c => c.estado === "Finalizada").length;
+        }
+
+        /* DONUT */
+        function generarDonut(data) {
+            if (chartEstados) chartEstados.destroy();
+
+            chartEstados = new Chart(document.getElementById("chartEstados"), {
+                type: "doughnut",
+                data: {
+                    labels: ["Pendiente", "Finalizada"],
+                    datasets: [{
+                        data: [
+                            data.filter(c => c.estado === "Pendiente").length,
+                            data.filter(c => c.estado === "Finalizada").length
+                        ],
+                        backgroundColor: ["#F4A261", "#2A9D8F"]
+                    }]
+                }
+            });
+        }
+
+        /* BARRAS */
+        function generarBarras(data) {
+            if (chartHoras) chartHoras.destroy();
+
+            chartHoras = new Chart(document.getElementById("chartHoras"), {
+                type: "bar",
+                data: {
+                    labels: data.map(c => c.hora),
+                    datasets: [{
+                        label: "Citas",
+                        data: data.map(() => 1),
+                        backgroundColor: "#4CC9F0"
+                    }]
+                }
+            });
+        }
+
+        /* DESCARGAR PDF */
+        async function descargarPDF() {
+            const { jsPDF } = window.jspdf;
+
+            const pdf = new jsPDF("p", "mm", "a4");
+            const elemento = document.getElementById("reporteArea");
+
+            const canvas = await html2canvas(elemento, { scale: 2 });
+            const img = canvas.toDataURL("image/png");
+
+            const imgWidth = 210;
+            const imgHeight = canvas.height * imgWidth / canvas.width;
+
+            pdf.addImage(img, "PNG", 0, 0, imgWidth, imgHeight);
+            pdf.save("Reporte_Citas_SGCO.pdf");
+        }
+    </script>
+
+</body>
+</html>
+
+
+
+</body>
+</html>

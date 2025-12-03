@@ -166,6 +166,27 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "webappclinicaodontologica.Controllers.CitaReportesController",
+    "Method": "Filtrar",
+    "RelativePath": "api/CitaReportes/filtrar",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "tipo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "fecha",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "webappclinicaodontologica.Controllers.DoctorController",
     "Method": "GetDoctores",
     "RelativePath": "api/Doctor",

@@ -27,10 +27,37 @@
             background: #0D5B8C;
             border: none;
         }
+
+        /* Botón X flotante */
+        #btnCerrarPanel {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            background: white;
+            color: #0D5B8C;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0px 2px 6px rgba(0,0,0,.2);
+            z-index: 2000;
+        }
+
+            #btnCerrarPanel:hover {
+                background: #e6e6e6;
+            }
     </style>
 </head>
 
 <body>
+
+    <!-- BOTÓN X PARA SALIR -->
+    <div id="btnCerrarPanel" onclick="window.location.href='recepcionista.html'">
+        <i class="bi bi-x-lg"></i>
+    </div>
 
     <div class="container py-4">
 
@@ -137,101 +164,109 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-const API = "/api/Paciente";
+        const API = "/api/Paciente";
 
-document.addEventListener("DOMContentLoaded", () => {
-    cargarPacientes();
-});
+        document.addEventListener("DOMContentLoaded", () => {
+            cargarPacientes();
 
-// CARGAR
-function cargarPacientes() {
-    fetch(API)
-        .then(r => r.json())
-        .then(data => {
-            let html = "";
-            data.forEach(p => {
-                html += `
-                <tr>
-                    <td>${p.idPaciente}</td>
-                    <td>${p.nombre}</td>
-                    <td>${p.telefono}</td>
-                    <td>${p.correo}</td>
-                    <td>${p.fechaNacimiento.split("T")[0]}</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm" onclick="abrirEditar(${p.idPaciente})"><i class="bi bi-pencil"></i></button>
-                        <button class="btn btn-danger btn-sm" onclick="eliminar(${p.idPaciente})"><i class="bi bi-trash"></i></button>
-                    </td>
-                </tr>
-                `;
+            // Buscador
+            document.getElementById("buscar").addEventListener("keyup", function () {
+                let texto = this.value.toLowerCase();
+                document.querySelectorAll("#tablaPacientes tr").forEach(fila => {
+                    fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
+                });
             });
-            document.getElementById("tablaPacientes").innerHTML = html;
         });
-}
 
-// CREAR
-function guardarPaciente() {
-    let data = {
-        nombre: document.getElementById("Nombre").value,
-        telefono: document.getElementById("Telefono").value,
-        correo: document.getElementById("Correo").value,
-        fechaNacimiento: document.getElementById("FechaNacimiento").value
-    };
+        // CARGAR
+        function cargarPacientes() {
+            fetch(API)
+                .then(r => r.json())
+                .then(data => {
+                    let html = "";
+                    data.forEach(p => {
+                        html += `
+                    <tr>
+                        <td>${p.idPaciente}</td>
+                        <td>${p.nombre}</td>
+                        <td>${p.telefono}</td>
+                        <td>${p.correo}</td>
+                        <td>${p.fechaNacimiento.split("T")[0]}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${p.idPaciente})"><i class="bi bi-pencil"></i></button>
+                            <button class="btn btn-danger btn-sm" onclick="eliminar(${p.idPaciente})"><i class="bi bi-trash"></i></button>
+                        </td>
+                    </tr>
+                    `;
+                    });
+                    document.getElementById("tablaPacientes").innerHTML = html;
+                });
+        }
 
-    fetch(API, {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-    }).then(() => {
-        cargarPacientes();
-        bootstrap.Modal.getInstance(document.getElementById("modalAgregar")).hide();
-    });
-}
+        // CREAR
+        function guardarPaciente() {
+            let data = {
+                nombre: Nombre.value,
+                telefono: Telefono.value,
+                correo: Correo.value,
+                fechaNacimiento: FechaNacimiento.value
+            };
 
-// ABRIR EDITAR
-function abrirEditar(id) {
-    fetch(API + "/" + id)
-        .then(r => r.json())
-        .then(p => {
-            document.getElementById("editIdPaciente").value = p.idPaciente;
-            document.getElementById("editNombre").value = p.nombre;
-            document.getElementById("editTelefono").value = p.telefono;
-            document.getElementById("editCorreo").value = p.correo;
-            document.getElementById("editFechaNacimiento").value = p.fechaNacimiento.split("T")[0];
+            fetch(API, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            }).then(() => {
+                cargarPacientes();
+                bootstrap.Modal.getInstance(modalAgregar).hide();
+            });
+        }
 
-            new bootstrap.Modal(document.getElementById("modalEditar")).show();
-        });
-}
+        // ABRIR EDITAR
+        function abrirEditar(id) {
+            fetch(API + "/" + id)
+                .then(r => r.json())
+                .then(p => {
+                    editIdPaciente.value = p.idPaciente;
+                    editNombre.value = p.nombre;
+                    editTelefono.value = p.telefono;
+                    editCorreo.value = p.correo;
+                    editFechaNacimiento.value = p.fechaNacimiento.split("T")[0];
 
-// GUARDAR EDICIÓN
-function guardarEdicion() {
-    let id = document.getElementById("editIdPaciente").value;
+                    new bootstrap.Modal(modalEditar).show();
+                });
+        }
 
-    let data = {
-        idPaciente: parseInt(id),
-        nombre: document.getElementById("editNombre").value,
-        telefono: document.getElementById("editTelefono").value,
-        correo: document.getElementById("editCorreo").value,
-        fechaNacimiento: document.getElementById("editFechaNacimiento").value
-    };
+        // GUARDAR EDICIÓN
+        function guardarEdicion() {
+            let id = editIdPaciente.value;
 
-    fetch(API + "/" + id, {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-    })
-    .then(() => {
-        cargarPacientes();
-        bootstrap.Modal.getInstance(document.getElementById("modalEditar")).hide();
-    });
-}
+            let data = {
+                idPaciente: parseInt(id),
+                nombre: editNombre.value,
+                telefono: editTelefono.value,
+                correo: editCorreo.value,
+                fechaNacimiento: editFechaNacimiento.value
+            };
 
-// ELIMINAR
-function eliminar(id) {
-    if (!confirm("¿Eliminar este paciente?")) return;
+            fetch(API + "/" + id, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(data)
+            })
+                .then(() => {
+                    cargarPacientes();
+                    bootstrap.Modal.getInstance(modalEditar).hide();
+                });
+        }
 
-    fetch(API + "/" + id, { method: "DELETE" })
-        .then(() => cargarPacientes());
-}
+        // ELIMINAR
+        function eliminar(id) {
+            if (!confirm("¿Eliminar este paciente?")) return;
+
+            fetch(API + "/" + id, { method: "DELETE" })
+                .then(() => cargarPacientes());
+        }
     </script>
 
 </body>

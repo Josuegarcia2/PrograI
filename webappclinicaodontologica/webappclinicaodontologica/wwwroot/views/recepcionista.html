@@ -161,7 +161,9 @@
             <h5>CLÍNICA DENTAL SGCO</h5>
         </div>
 
-        <a href="/views/citas_recepcionista.html"><i class="bi bi-calendar-check"></i> Citas</a>
+        <a href="/views/citas_recepcionista.html">
+            <i class="bi bi-calendar-check"></i> Citas
+        </a>
 
         <a href="/views/pacientes_recepcionista.html">
             <i class="bi bi-people"></i> Pacientes
@@ -171,11 +173,12 @@
             <i class="bi bi-tooth"></i> Servicios
         </a>
 
-        <a href="/views/reportes.html">
+        <a href="/views/reportes_recepcionista.html">
             <i class="bi bi-bar-chart-line"></i> Reportes
         </a>
 
     </div>
+
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="contenido">
@@ -195,23 +198,23 @@
             const nombre = localStorage.getItem("nombreUsuario");
             const rol = localStorage.getItem("rolUsuario");
 
-         
+
             if (!nombre || rol !== "Recepcionista") {
                 window.location.href = "/views/login.html";
                 return;
             }
 
-          
+
             document.getElementById("nombreUsuarioNavbar").textContent = nombre;
 
-      
+
             document.getElementById("bienvenida").textContent = `¡Bienvenida, ${nombre}!`;
 
-            
+
             cargarCitas();
         });
 
-        
+
         function cerrarSesion() {
             localStorage.clear();
             window.location.href = "/views/login.html";

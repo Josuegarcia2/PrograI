@@ -49,10 +49,37 @@
             font-size: 20px;
             font-weight: 600;
         }
+
+        /* Botón X flotante */
+        #btnCerrarPanel {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            background: white;
+            color: #0D5B8C;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0px 2px 6px rgba(0,0,0,.2);
+            z-index: 2000;
+        }
+
+            #btnCerrarPanel:hover {
+                background: #e6e6e6;
+            }
     </style>
 </head>
 
 <body>
+
+    <!-- BOTÓN X PARA SALIR AL PANEL -->
+    <div id="btnCerrarPanel" onclick="window.location.href='recepcionista.html'">
+        <i class="bi bi-x-lg"></i>
+    </div>
 
     <div class="container py-4">
 
@@ -69,7 +96,7 @@
             <div class="col-md-4">
                 <div class="info-box" style="background:#1572A1;">
                     <div id="proximaHoraLibre">--:--</div>
-                    <small>Próxima Hora Libre</small>
+                    <small>Última cita de hoy</small>
                 </div>
             </div>
 
@@ -217,41 +244,59 @@
             cargarPacientes();
             cargarCitas();
             cargarDatosDelDia();
+
+            // Buscador
+            const txtBuscar = document.getElementById("buscar");
+            txtBuscar.addEventListener("keyup", () => {
+                const texto = txtBuscar.value.toLowerCase();
+                document.querySelectorAll("#tablaCitas tbody tr").forEach(fila => {
+                    fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
+                });
+            });
+
+            // Evento fecha para horas disponibles (nuevo)
+            document.getElementById("Fecha").addEventListener("change", () => {
+                const fecha = document.getElementById("Fecha").value;
+                cargarHorasDisponibles(fecha, "Hora");
+            });
         });
 
-        // PANEL DEL DÍA
+        /* ============= PANEL DEL DÍA ============= */
         function cargarDatosDelDia() {
+            // Tu controlador actual de hoy devuelve una LISTA, no {citas, proximaHora}
             fetch("/api/Cita/hoy")
                 .then(r => r.json())
-                .then(data => {
+                .then(lista => {
 
                     // Total de citas hoy
-                    document.getElementById("totalCitasHoy").innerText = data.citas.length;
+                    document.getElementById("totalCitasHoy").innerText = lista.length;
 
-                    // Próxima hora libre
-                    document.getElementById("proximaHoraLibre").innerText =
-                        data.proximaHora ?? "Sin espacios";
+                    // Última hora de las citas de hoy (si hay)
+                    let proxima = "Sin citas hoy";
+                    if (lista.length > 0) {
+                        const ultima = lista[lista.length - 1];
+                        proxima = ultima.hora; // ya viene formateada en el controlador
+                    }
+                    document.getElementById("proximaHoraLibre").innerText = proxima;
 
-                    // Tabla de agenda
+                    // Llenar tabla de agenda
                     let html = "";
-                    data.citas.forEach(c => {
+                    lista.forEach(c => {
                         html += `
                                 <tr>
                                     <td>${c.hora}</td>
                                     <td>${c.paciente}</td>
                                     <td>${c.motivo}</td>
                                     <td>${c.estado}</td>
-                                </tr>
-                            `;
+                                </tr>`;
                     });
                     document.getElementById("tablaCitasHoy").innerHTML = html;
                 });
         }
 
         function toggleAgendaDia() {
-            let panel = document.getElementById("agendaDia");
-
-            if (panel.style.display === "none") {
+            const panel = document.getElementById("agendaDia");
+            if (panel.style.display === "none" || panel.style.display === "") {
                 panel.style.display = "block";
                 cargarDatosDelDia();
             } else {
@@ -259,76 +304,86 @@
             }
         }
 
-        // BUSCADOR
-        document.getElementById("buscar").addEventListener("keyup", function () {
-            let texto = this.value.toLowerCase();
-            document.querySelectorAll("#tablaCitas tbody tr").forEach(fila => {
-                fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
-            });
-        });
-
-        // CARGAR PACIENTES
+        /* ============= PACIENTES ============= */
         function cargarPacientes(selectId = "IdPaciente") {
             fetch(API_PACIENTES)
                 .then(r => r.json())
                 .then(data => {
                     let html = "";
-                    data.forEach(p => html += `<option value="${p.idPaciente}">${p.nombre}</option>`);
-                    document.getElementById(selectId).innerHTML = html;
+                    data.forEach(p => {
+                        html += `<option value="${p.idPaciente}">${p.nombre}</option>`;
+                    });
+                    const combo = document.getElementById(selectId);
+                    if (combo) combo.innerHTML = html;
                 });
         }
 
-        // CARGAR HORAS DISPONIBLES
+        /* ============= HORAS DISPONIBLES ============= */
         function cargarHorasDisponibles(fecha, selectId) {
+            if (!fecha) return;
+
             fetch(`/api/Cita/horas-disponibles/${fecha}`)
                 .then(r => r.json())
                 .then(data => {
                     let html = "";
-                    data.forEach(h => html += `<option value="${h}">${h}</option>`);
-                    document.getElementById(selectId).innerHTML = html;
+                    data.forEach(h => {
+                        html += `<option value="${h}">${h}</option>`;
+                    });
+                    const combo = document.getElementById(selectId);
+                    if (combo) combo.innerHTML = html;
                 });
         }
 
-        // EVENTO FECHA
-        document.getElementById("Fecha").addEventListener("change", () => {
-            cargarHorasDisponibles(document.getElementById("Fecha").value, "Hora");
-        });
-
-        // CARGAR CITAS PRINCIPALES
+        /* ============= CARGAR CITAS ============= */
         function cargarCitas() {
             fetch(API_CITAS)
                 .then(r => r.json())
                 .then(data => {
                     let filas = "";
                     data.forEach(c => {
+                        // c.fecha viene como "yyyy-MM-dd" o "yyyy-MM-ddTHH:mm:ss"
+                        let fechaTexto = c.fecha;
+                        if (fechaTexto.includes("T")) {
+                            fechaTexto = fechaTexto.split("T")[0];
+                        }
+
                         filas += `
-                                    <tr>
-                                        <td>${c.idCita}</td>
-                                        <td>${c.paciente}</td>
-                                        <td>${c.doctor}</td>
-                                        <td>${c.fecha.split("T")[0]}</td>
-                                        <td>${c.hora}</td>
-                                        <td>${c.motivo}</td>
-                                        <td>${c.estado}</td>
-                                        <td>
-                                            <button class="btn btn-warning btn-sm" onclick="abrirEditar(${c.idCita})"><i class="bi bi-pencil-square"></i></button>
-                                            <button class="btn btn-danger btn-sm" onclick="eliminarCita(${c.idCita})"><i class="bi bi-trash"></i></button>
-                                        </td>
-                                    </tr>`;
+                                <tr>
+                                    <td>${c.idCita}</td>
+                                    <td>${c.paciente}</td>
+                                    <td>${c.doctor}</td>
+                                    <td>${fechaTexto}</td>
+                                    <td>${c.hora}</td>
+                                    <td>${c.motivo}</td>
+                                    <td>${c.estado}</td>
+                                    <td>
+                                        <button class="btn btn-warning btn-sm" onclick="abrirEditar(${c.idCita})">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm" onclick="eliminarCita(${c.idCita})">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>`;
                     });
 
                     document.querySelector("#tablaCitas tbody").innerHTML = filas;
                 });
         }
 
-        // GUARDAR
+        /* ============= GUARDAR NUEVA CITA ============= */
         function guardarCita() {
-            let data = {
-                idPaciente: parseInt(document.getElementById("IdPaciente").value),
+            const idPaciente = parseInt(document.getElementById("IdPaciente").value);
+            const fecha = document.getElementById("Fecha").value;
+            const hora = document.getElementById("Hora").value;
+            const motivo = document.getElementById("Motivo").value;
+
+            const data = {
+                idPaciente: idPaciente,
                 doctor: "Doctor General",
-                fecha: document.getElementById("Fecha").value,
-                hora: document.getElementById("Hora").value,
-                motivo: document.getElementById("Motivo").value
+                fecha: fecha,
+                hora: hora,
+                motivo: motivo
             };
 
             fetch(API_CITAS, {
@@ -338,57 +393,86 @@
             })
                 .then(async r => {
                     if (!r.ok) {
-                        const error = await r.json();
-                        alert(error.mensaje);
+                        let error;
+                        try {
+                            error = await r.json();
+                            alert(error.mensaje || "Error al guardar la cita");
+                        } catch {
+                            alert("Error al guardar la cita");
+                        }
                         return;
                     }
 
                     cargarCitas();
                     cargarDatosDelDia();
-                    bootstrap.Modal.getInstance(document.getElementById("modalAgregar")).hide();
+
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("modalAgregar"));
+                    modal.hide();
                 });
         }
 
-        // EDITAR
+        /* ============= ABRIR MODAL EDITAR ============= */
         function abrirEditar(id) {
             fetch(API_CITAS + "/" + id)
                 .then(r => r.json())
                 .then(c => {
-                    document.getElementById("editIdCita").value = c.idCita;
 
+                    // Inputs
+                    const txtIdCita = document.getElementById("editIdCita");
+                    const txtFecha = document.getElementById("editFecha");
+                    const txtMotivo = document.getElementById("editMotivo");
+
+                    txtIdCita.value = c.idCita;
+
+                    // Cargar pacientes en el combo de edición
                     cargarPacientes("editIdPaciente");
+
+                    // Esperar un poquito para poner el valor
                     setTimeout(() => {
-                        document.getElementById("editIdPaciente").value = c.idPaciente;
-                    }, 200);
+                        const comboPac = document.getElementById("editIdPaciente");
+                        if (comboPac) comboPac.value = c.idPaciente;
+                    }, 150);
 
-                    document.getElementById("editFecha").value = c.fecha.split("T")[0];
+                    // Fecha
+                    let fechaTexto = c.fecha;
+                    if (fechaTexto.includes("T")) {
+                        fechaTexto = fechaTexto.split("T")[0];
+                    }
+                    txtFecha.value = fechaTexto;
 
-                    cargarHorasDisponibles(c.fecha.split("T")[0], "editHora");
+                    // Cargar horas disponibles de esa fecha
+                    cargarHorasDisponibles(fechaTexto, "editHora");
 
                     setTimeout(() => {
-                        document.getElementById("editHora").value = c.hora;
-                    }, 200);
+                        const comboHora = document.getElementById("editHora");
+                        if (comboHora) comboHora.value = c.hora;
+                    }, 150);
 
-                    document.getElementById("editMotivo").value = c.motivo;
+                    txtMotivo.value = c.motivo;
 
-                    new bootstrap.Modal(document.getElementById("modalEditar")).show();
+                    const modalEditar = new bootstrap.Modal(document.getElementById("modalEditar"));
+                    modalEditar.show();
                 });
         }
 
-        // GUARDAR EDICIÓN
+        /* ============= GUARDAR EDICIÓN ============= */
         function guardarEdicion() {
-            let id = document.getElementById("editIdCita").value;
+            const idCita = parseInt(document.getElementById("editIdCita").value);
+            const idPaciente = parseInt(document.getElementById("editIdPaciente").value);
+            const fecha = document.getElementById("editFecha").value;
+            const hora = document.getElementById("editHora").value;
+            const motivo = document.getElementById("editMotivo").value;
 
-            let data = {
-                idCita: parseInt(id),
-                idPaciente: parseInt(document.getElementById("editIdPaciente").value),
+            const data = {
+                idCita: idCita,
+                idPaciente: idPaciente,
                 doctor: "Doctor General",
-                fecha: document.getElementById("editFecha").value,
-                hora: document.getElementById("editHora").value,
-                motivo: document.getElementById("editMotivo").value
+                fecha: fecha,
+                hora: hora,
+                motivo: motivo
             };
 
-            fetch(API_CITAS + "/" + id, {
+            fetch(API_CITAS + "/" + idCita, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
@@ -396,13 +480,15 @@
                 .then(() => {
                     cargarCitas();
                     cargarDatosDelDia();
-                    bootstrap.Modal.getInstance(document.getElementById("modalEditar")).hide();
+
+                    const modal = bootstrap.Modal.getInstance(document.getElementById("modalEditar"));
+                    modal.hide();
                 });
         }
 
-        // ELIMINAR
+        /* ============= ELIMINAR ============= */
         function eliminarCita(id) {
-            if (!confirm("¿Seguro que desea eliminar esta cita?")) return;
+            if (!confirm("¿Seguro de eliminar esta cita?")) return;
 
             fetch(API_CITAS + "/" + id, { method: "DELETE" })
                 .then(() => {
@@ -410,7 +496,6 @@
                     cargarDatosDelDia();
                 });
         }
-
     </script>
 
 </body>
