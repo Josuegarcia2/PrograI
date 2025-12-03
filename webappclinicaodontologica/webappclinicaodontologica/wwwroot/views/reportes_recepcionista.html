@@ -17,78 +17,186 @@
 
     <style>
         body {
-            background: #eef3f8;
-            font-family: "Segoe UI";
+            background: #e9f1f7;
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        }
+
+        /* Contenedor principal del reporte (lo que se manda al PDF) */
+        #reporteArea {
+            max-width: 1100px;
+            margin: 0 auto 40px auto;
         }
 
         .box-main {
-            background: white;
-            padding: 25px;
+            background: #ffffff;
+            padding: 24px 28px;
             border-radius: 18px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-box img {
+            height: 60px;
+        }
+
+        .clinic-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #0D5B8C;
+            margin-bottom: 4px;
+        }
+
+        .clinic-subtitle {
+            font-size: 14px;
+            color: #6c757d;
+            margin: 0;
+        }
+
+        .report-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0D5B8C;
+        }
+
+        .date-text {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .filter-badge {
+            font-size: 13px;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: #e9f5ff;
+            color: #0D5B8C;
         }
 
         .kpi-box {
-            background: white;
-            padding: 18px;
-            border-radius: 14px;
+            background: #ffffff;
+            padding: 18px 16px;
+            border-radius: 16px;
             text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
         }
 
             .kpi-box h2 {
                 font-size: 30px;
                 font-weight: 800;
                 color: #0D5B8C;
+                margin-bottom: 4px;
             }
 
-        .chart-container {
-            background: white;
-            padding: 15px;
-            border-radius: 14px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        .kpi-label {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            color: #6c757d;
         }
+
+        .chart-container {
+            background: #ffffff;
+            padding: 16px 18px 14px 18px;
+            border-radius: 16px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+            height: 100%;
+        }
+
+            .chart-container h5 {
+                font-size: 15px;
+                font-weight: 600;
+                color: #0D5B8C;
+                margin-bottom: 8px;
+            }
 
         .btn-pdf {
             background: #0D5B8C;
             color: white;
             font-weight: 600;
-            padding: 10px 25px;
-            border-radius: 10px;
+            padding: 10px 26px;
+            border-radius: 999px;
+            border: none;
         }
 
-        /* LOGO */
-        .logo-box img {
-            height: 60px;
+            .btn-pdf:hover {
+                background: #0a4668;
+                color: #ffffff;
+            }
+
+        .btn-close-page {
+            position: fixed;
+            top: 16px;
+            right: 22px;
+            z-index: 50;
+        }
+
+        footer.reporte-footer {
+            font-size: 11px;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        @media print {
+            body {
+                background: #ffffff;
+            }
+
+            .btn-close-page {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- BOTÓN SALIR -->
-    <div class="p-3 text-end">
+    <!-- Botón flotante para salir -->
+    <div class="btn-close-page">
         <a href="/views/recepcionista.html" class="btn btn-outline-secondary rounded-circle">
             <i class="bi bi-x-lg"></i>
         </a>
     </div>
 
-    <div class="container mb-5" id="reporteArea">
+    <!-- CONTENIDO DEL REPORTE (esto es lo que se manda al PDF) -->
+    <div class="container" id="reporteArea">
 
         <!-- ENCABEZADO -->
-        <div class="box-main mb-4 text-center">
-            <div class="logo-box mb-2">
-                <img src="/img/logo_dclinica.png" alt="logo">
+        <div class="box-main mt-4 mb-3">
+            <div class="header-top">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="logo-box">
+                        <img src="/img/logo dclinica.png" alt="Logo clínica">
+                    </div>
+                    <div>
+                        <div class="clinic-title">Clínica Dental SGCO</div>
+                        <p class="clinic-subtitle mb-0">Sistema de Gestión Clínica Odontológica</p>
+                        <p class="clinic-subtitle mb-0">Reporte de control y seguimiento de citas</p>
+                    </div>
+                </div>
+
+                <div class="text-end">
+                    <div class="report-title">Reporte y Estadísticas de Citas</div>
+                    <div class="date-text">
+                        Generado el: <span id="fechaGenerado"></span><br>
+                        <span id="resumenFiltro" class="filter-badge mt-1 d-inline-block">
+                            Filtro no aplicado
+                        </span>
+                    </div>
+                </div>
             </div>
 
-            <h2 class="fw-bold text-primary">Reporte y Estadísticas de Citas</h2>
-            <p class="text-secondary">Generado el: <span id="fechaGenerado"></span></p>
-
             <!-- FILTROS -->
-            <div class="row mt-4 g-3">
+            <hr class="mt-3 mb-3">
+            <div class="row g-3 align-items-end">
                 <div class="col-md-4">
-                    <label>Filtro por tiempo</label>
-                    <select id="filtroTiempo" class="form-select">
+                    <label class="form-label mb-1">Filtro por tiempo</label>
+                    <select id="filtroTiempo" class="form-select form-select-sm">
                         <option value="dia">Día</option>
                         <option value="mes">Mes</option>
                         <option value="anio">Año</option>
@@ -96,61 +204,69 @@
                 </div>
 
                 <div class="col-md-4">
-                    <label>Fecha</label>
-                    <input type="date" id="fechaFiltro" class="form-control">
+                    <label class="form-label mb-1">Fecha base</label>
+                    <input type="date" id="fechaFiltro" class="form-control form-control-sm">
                 </div>
 
-                <div class="col-md-4 d-flex align-items-end">
-                    <button onclick="aplicarFiltros()" class="btn btn-primary w-100">Aplicar</button>
+                <div class="col-md-4 text-md-end">
+                    <button onclick="aplicarFiltros()" class="btn btn-primary w-100 w-md-auto">
+                        <i class="bi bi-funnel me-1"></i> Aplicar filtros
+                    </button>
                 </div>
             </div>
         </div>
 
-        <!-- KPI -->
-        <div class="row mb-4">
+        <!-- KPIs -->
+        <div class="row mb-4 g-3">
             <div class="col-md-4">
                 <div class="kpi-box">
                     <h2 id="totalCitas">0</h2>
-                    <p>Total de Citas</p>
+                    <div class="kpi-label">Total de Citas</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="kpi-box">
                     <h2 id="pendientes">0</h2>
-                    <p>Pendientes</p>
+                    <div class="kpi-label">Pendientes</div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="kpi-box">
                     <h2 id="completadas">0</h2>
-                    <p>Completadas</p>
+                    <div class="kpi-label">Completadas</div>
                 </div>
             </div>
         </div>
 
         <!-- GRÁFICAS -->
-        <div class="row g-4 mb-4">
+        <div class="row g-4 mb-3">
             <div class="col-md-6">
                 <div class="chart-container">
-                    <h5 class="text-center mb-2">Estados</h5>
-                    <canvas id="chartEstados"></canvas>
+                    <h5 class="text-center">Distribución por estado</h5>
+                    <canvas id="chartEstados" height="200"></canvas>
                 </div>
             </div>
 
             <div class="col-md-6">
                 <div class="chart-container">
-                    <h5 class="text-center mb-2">Citas por Hora</h5>
-                    <canvas id="chartHoras"></canvas>
+                    <h5 class="text-center">Citas por hora</h5>
+                    <canvas id="chartHoras" height="200"></canvas>
                 </div>
             </div>
         </div>
 
         <!-- BOTÓN PDF -->
-        <div class="text-center mt-4">
+        <div class="text-center my-3">
             <button class="btn-pdf" onclick="descargarPDF()">
                 <i class="bi bi-file-earmark-pdf-fill me-1"></i> Descargar PDF
             </button>
         </div>
+
+        <!-- PIE DE PÁGINA -->
+        <footer class="reporte-footer">
+            SGCO - Sistema de Gestión Clínica Odontológica ·
+            Reporte generado automáticamente para fines de control interno.
+        </footer>
 
     </div>
 
@@ -160,92 +276,166 @@
         let chartEstados, chartHoras;
 
         document.addEventListener("DOMContentLoaded", () => {
+            // Fecha de generación
             document.getElementById("fechaGenerado").innerText =
                 new Date().toLocaleString();
+
+            // Por defecto: hoy
+            const hoy = new Date().toISOString().slice(0, 10);
+            document.getElementById("fechaFiltro").value = hoy;
+
+            // Cargar datos iniciales (día actual)
+            aplicarFiltros();
         });
 
         /* ============================================================
-           🔵 APLICAR FILTROS
+           APLICAR FILTROS
         ============================================================ */
         async function aplicarFiltros() {
             const tipo = document.getElementById("filtroTiempo").value;
             const fecha = document.getElementById("fechaFiltro").value;
             if (!fecha) return;
 
-            const url = `${API}?tipo=${tipo}&fecha=${fecha}`;
-            const res = await fetch(url);
-            const datos = await res.json();
+            try {
+                const url = `${API}?tipo=${tipo}&fecha=${fecha}`;
+                const res = await fetch(url);
+                const datos = await res.json();
 
-            actualizarKPI(datos);
-            generarDonut(datos);
-            generarBarras(datos);
+                actualizarResumenFiltro(tipo, fecha);
+                actualizarKPI(datos);
+                generarDonut(datos);
+                generarBarras(datos);
+            } catch (err) {
+                console.error(err);
+                alert("No se pudieron cargar los datos del reporte.");
+            }
+        }
+
+        /* Resumen visual del filtro aplicado */
+        function actualizarResumenFiltro(tipo, fecha) {
+            const span = document.getElementById("resumenFiltro");
+            const fechaTexto = new Date(fecha).toLocaleDateString();
+
+            let tipoTexto = "";
+            if (tipo === "dia") tipoTexto = "Día";
+            else if (tipo === "mes") tipoTexto = "Mes";
+            else tipoTexto = "Año";
+
+            span.textContent = `Filtro: ${tipoTexto} · Base: ${fechaTexto}`;
         }
 
         /* KPIs */
         function actualizarKPI(data) {
             document.getElementById("totalCitas").innerText = data.length;
-            document.getElementById("pendientes").innerText = data.filter(c => c.estado === "Pendiente").length;
-            document.getElementById("completadas").innerText = data.filter(c => c.estado === "Finalizada").length;
+            document.getElementById("pendientes").innerText =
+                data.filter(c => c.estado === "Pendiente").length;
+            document.getElementById("completadas").innerText =
+                data.filter(c => c.estado === "Finalizada").length;
         }
 
-        /* DONUT */
+        /* DONUT ESTADOS */
         function generarDonut(data) {
             if (chartEstados) chartEstados.destroy();
+
+            const pendientes = data.filter(c => c.estado === "Pendiente").length;
+            const finalizadas = data.filter(c => c.estado === "Finalizada").length;
+            const otros = data.length - pendientes - finalizadas;
 
             chartEstados = new Chart(document.getElementById("chartEstados"), {
                 type: "doughnut",
                 data: {
-                    labels: ["Pendiente", "Finalizada"],
+                    labels: ["Pendiente", "Finalizada", "Otros"],
                     datasets: [{
-                        data: [
-                            data.filter(c => c.estado === "Pendiente").length,
-                            data.filter(c => c.estado === "Finalizada").length
-                        ],
-                        backgroundColor: ["#F4A261", "#2A9D8F"]
+                        data: [pendientes, finalizadas, otros],
+                        backgroundColor: ["#F4A261", "#2A9D8F", "#adb5bd"]
                     }]
+                },
+                options: {
+                    plugins: {
+                        legend: { position: "bottom" }
+                    }
                 }
             });
         }
 
-        /* BARRAS */
+        /* BARRAS POR HORA */
         function generarBarras(data) {
             if (chartHoras) chartHoras.destroy();
+
+            const horasMap = {};
+            data.forEach(c => {
+                const h = c.hora || "";
+                if (!horasMap[h]) horasMap[h] = 0;
+                horasMap[h]++;
+            });
+
+            const labels = Object.keys(horasMap);
+            const valores = Object.values(horasMap);
 
             chartHoras = new Chart(document.getElementById("chartHoras"), {
                 type: "bar",
                 data: {
-                    labels: data.map(c => c.hora),
+                    labels: labels,
                     datasets: [{
-                        label: "Citas",
-                        data: data.map(() => 1),
+                        label: "Cantidad de citas",
+                        data: valores,
                         backgroundColor: "#4CC9F0"
                     }]
+                },
+                options: {
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            precision: 0
+                        }
+                    }
                 }
             });
         }
 
-        /* DESCARGAR PDF */
+        
         async function descargarPDF() {
             const { jsPDF } = window.jspdf;
-
-            const pdf = new jsPDF("p", "mm", "a4");
             const elemento = document.getElementById("reporteArea");
 
-            const canvas = await html2canvas(elemento, { scale: 2 });
-            const img = canvas.toDataURL("image/png");
+            // Captura del área del reporte
+            const canvas = await html2canvas(elemento, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: "#ffffff"
+            });
+            const imgData = canvas.toDataURL("image/png");
 
-            const imgWidth = 210;
-            const imgHeight = canvas.height * imgWidth / canvas.width;
+            // PDF en A4 horizontal
+            const pdf = new jsPDF("landscape", "mm", "a4");
+            const pageWidth = pdf.internal.pageSize.getWidth();
+            const pageHeight = pdf.internal.pageSize.getHeight();
 
-            pdf.addImage(img, "PNG", 0, 0, imgWidth, imgHeight);
-            pdf.save("Reporte_Citas_SGCO.pdf");
+            // Calculamos el mejor escalado posible
+            const margin = 10;
+            const maxWidth = pageWidth - margin * 2;
+            const maxHeight = pageHeight - margin * 2;
+
+            const ratio = Math.min(
+                maxWidth / canvas.width,
+                maxHeight / canvas.height
+            );
+
+            const imgWidth = canvas.width * ratio;
+            const imgHeight = canvas.height * ratio;
+
+            const posX = (pageWidth - imgWidth) / 2;
+            const posY = (pageHeight - imgHeight) / 2;
+
+            pdf.addImage(imgData, "PNG", posX, posY, imgWidth, imgHeight, "", "FAST");
+
+            const hoy = new Date().toISOString().slice(0, 10);
+            pdf.save(`Reporte_Citas_SGCO_${hoy}.pdf`);
         }
     </script>
-
-</body>
-</html>
-
-
 
 </body>
 </html>

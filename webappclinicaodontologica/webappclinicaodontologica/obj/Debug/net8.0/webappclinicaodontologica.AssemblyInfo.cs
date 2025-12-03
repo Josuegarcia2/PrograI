@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("webappclinicaodontologica")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90afceec75963a6ef8fab59a1244d7120c60919d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc136037d1c0f90462d00422723528d77d97cf9c")]
 [assembly: System.Reflection.AssemblyProductAttribute("webappclinicaodontologica")]
 [assembly: System.Reflection.AssemblyTitleAttribute("webappclinicaodontologica")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

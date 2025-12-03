@@ -54,7 +54,7 @@
         .sidebar {
             width: 250px;
             position: fixed;
-            top: 65px; /* PARA QUE NO SE META EN LA TOPBAR */
+            top: 65px;
             left: 0;
             bottom: 0;
             background: white;
@@ -101,7 +101,7 @@
         .contenido {
             margin-left: 260px;
             padding: 40px;
-            padding-top: 110px; /* PARA QUE NO SE META BAJO LA TOPBAR */
+            padding-top: 110px;
         }
 
         .card-panel {
@@ -144,10 +144,7 @@
         </div>
 
         <div class="d-flex align-items-center">
-            <button class="btn btn-outline-info me-3">
-                <i class="bi bi-person-circle me-1"></i> Perfil
-            </button>
-
+            <!-- PERFIL ELIMINADO -->
             <button class="btn btn-danger" onclick="cerrarSesion()">
                 <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
             </button>
@@ -179,7 +176,6 @@
 
     </div>
 
-
     <!-- CONTENIDO PRINCIPAL -->
     <div class="contenido">
         <div class="card-panel">
@@ -198,29 +194,20 @@
             const nombre = localStorage.getItem("nombreUsuario");
             const rol = localStorage.getItem("rolUsuario");
 
-
             if (!nombre || rol !== "Recepcionista") {
                 window.location.href = "/views/login.html";
                 return;
             }
 
-
             document.getElementById("nombreUsuarioNavbar").textContent = nombre;
-
-
             document.getElementById("bienvenida").textContent = `¡Bienvenida, ${nombre}!`;
-
-
-            cargarCitas();
         });
-
 
         function cerrarSesion() {
             localStorage.clear();
             window.location.href = "/views/login.html";
         }
     </script>
-
 
 </body>
 

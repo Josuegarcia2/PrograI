@@ -9,142 +9,152 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
-        body {
-            background: #e6f7f8;
-            font-family: 'Segoe UI', sans-serif;
-            overflow-x: hidden;
+        :root {
+            --verde-principal: #0D6E6E;
+            --verde-oscuro: #0A5456;
+            --fondo: #E6F7F8;
+            --texto: #083b3b;
         }
 
-        /* ===================== */
-        /*      SIDEBAR          */
-        /* ===================== */
+        body {
+            background: var(--fondo);
+            font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+        }
+
+        /* ================================
+               TOPBAR
+        =================================*/
+        .topbar {
+            height: 65px;
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,.12);
+            padding: 0 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+            .topbar img {
+                height: 45px;
+            }
+
+        #doctorNameBadge {
+            padding: 8px 18px;
+            border: 2px solid var(--verde-principal);
+            border-radius: 12px;
+            background: white;
+            color: var(--verde-principal);
+            font-weight: 600;
+            transition: .3s ease;
+        }
+
+            #doctorNameBadge:hover {
+                background: var(--verde-principal);
+                color: white;
+            }
+
+        /* ================================
+               SIDEBAR
+        =================================*/
         .sidebar {
             width: 260px;
+            background: linear-gradient(180deg, var(--verde-principal), var(--verde-oscuro));
             height: 100vh;
             position: fixed;
-            background: linear-gradient(180deg, #0d6e6e, #0a5456);
+            top: 65px;
+            left: 0;
+            padding: 25px;
             color: white;
-            padding: 25px 20px;
-            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 2px 0 12px rgba(0,0,0,.2);
             border-radius: 0 20px 20px 0;
         }
 
             .sidebar h5 {
-                text-align: center;
                 font-size: 22px;
+                text-align: center;
                 margin-bottom: 25px;
                 padding-bottom: 10px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+                border-bottom: 1px solid rgba(255,255,255,.3);
             }
 
             .sidebar a {
+                text-decoration: none;
                 display: flex;
                 align-items: center;
                 gap: 12px;
                 padding: 12px 15px;
-                color: #ffffffdd;
-                margin-bottom: 10px;
-                border-radius: 10px;
+                color: #ffffffcc;
                 font-size: 16px;
-                text-decoration: none;
-                transition: all .25s ease;
+                margin-bottom: 8px;
+                border-radius: 10px;
+                transition: .25s ease;
             }
 
                 .sidebar a:hover {
-                    background: rgba(255, 255, 255, 0.25);
-                    padding-left: 20px;
+                    background: rgba(255,255,255,.25);
+                    padding-left: 22px;
+                    color: white;
                 }
 
-                .sidebar a i {
-                    font-size: 18px;
-                }
-
-        /* ===================== */
-        /*     TOP – BOTONES     */
-        /* ===================== */
-        .top-buttons {
-            position: absolute;
-            right: 40px;
-            top: 25px;
-            display: flex;
-            gap: 12px;
-        }
-
-        #nombreUsuarioNavbar {
-            font-weight: 600;
-            padding: 8px 18px;
-            border-radius: 10px;
-            border: 2px solid #0d6e6e;
-            color: #0d6e6e;
-            background: #e6f7f8;
-            transition: .25s;
-        }
-
-            #nombreUsuarioNavbar:hover {
-                background: #0d6e6e;
-                color: white;
-            }
-
-        .btn-danger {
-            padding: 8px 18px;
-            border-radius: 10px;
-            font-weight: 600;
-        }
-
-        /* ===================== */
-        /*  CONTENIDO PRINCIPAL  */
-        /* ===================== */
+        /* ================================
+               CONTENIDO
+        =================================*/
         .contenido {
             margin-left: 280px;
-            padding: 40px;
+            padding-top: 110px;
+            padding-right: 30px;
+            padding-left: 30px;
         }
 
-        /* ===================== */
-        /*   TARJETA CENTRAL     */
-        /* ===================== */
         .panel-card {
             background: white;
-            padding: 50px 40px;
+            padding: 40px;
             border-radius: 25px;
-            box-shadow: 0px 8px 22px rgba(0, 0, 0, 0.12);
-            text-align: center;
-            max-width: 950px;
+            max-width: 900px;
             margin: auto;
-            animation: fadeIn 0.5s ease-in-out;
+            text-align: center;
+            box-shadow: 0 8px 22px rgba(0,0,0,.15);
+            animation: fadeIn .4s ease-in-out;
         }
 
             .panel-card h2 {
-                font-size: 32px;
+                font-size: 30px;
+                color: var(--verde-principal);
                 font-weight: 800;
-                color: #0d6e6e;
-                margin-bottom: 10px;
             }
 
             .panel-card h4 {
-                color: #0a5456;
-                margin-bottom: 15px;
+                font-size: 20px;
+                margin-bottom: 8px;
+                color: var(--texto);
             }
 
             .panel-card p {
-                color: #444;
-                font-size: 16px;
+                color: #555;
             }
 
             .panel-card img {
                 width: 160px;
-                margin-top: 25px;
-                opacity: 0.95;
-                transition: .3s ease;
+                margin-top: 20px;
+                opacity: .95;
+                transition: .3s;
             }
 
                 .panel-card img:hover {
-                    transform: scale(1.08);
+                    transform: scale(1.07);
                 }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(15px);
+                transform: translateY(20px);
             }
 
             to {
@@ -157,28 +167,48 @@
 
 <body>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-        <h5>Panel del Doctor</h5>
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <div class="d-flex align-items-center">
+            <img src="/img/logo dclinica.png" alt="Logo Clínica">
+        </div>
 
-        <a href="/views/citas_doctor.html"><i class="bi bi-calendar2-heart"></i> Mis Citas</a>
-        <a href="/views/pacientes_doctor.html""><i class="bi bi-person-lines-fill"></i> Pacientes</a>
-        <a href="#"><i class="bi bi-journal-medical"></i> Historial Clínico</a>
-        <a href="#"><i class="bi bi-capsule-pill"></i> Tratamientos</a>
-        <a href="#"><i class="bi bi-clipboard2-pulse"></i> Resultados</a>
-    </div>
-
-    <!-- CONTENIDO -->
-    <div class="contenido">
-
-        <div class="top-buttons">
-            <button id="nombreUsuarioNavbar" class="btn"></button>
+        <div class="d-flex align-items-center gap-3">
+            <span id="doctorNameBadge"></span>
 
             <button onclick="cerrarSesion()" class="btn btn-danger">
                 <i class="bi bi-box-arrow-right"></i> Cerrar sesión
             </button>
         </div>
+    </div>
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h5>Panel del Doctor</h5>
 
+        <a href="/views/citas_doctor.html">
+            <i class="bi bi-calendar2-heart"></i> Mis Citas
+        </a>
+
+        <a href="/views/pacientes_doctor.html">
+            <i class="bi bi-person-lines-fill"></i> Pacientes
+        </a>
+
+        <a href="/views/historial_doctor.html">
+            <i class="bi bi-journal-medical"></i> Historial Clínico
+        </a>
+
+        <a href="/views/tratamientos_doctor.html">
+            <i class="bi bi-capsule-pill"></i> Tratamientos
+        </a>
+        <a href="/views/reporte_doctor.html">
+            <i class="bi bi-file-earmark-pdf"></i> Reporte
+        </a>
+    </div>
+
+
+
+    <!-- CONTENIDO -->
+    <div class="contenido">
         <div class="panel-card">
             <h2>Panel del Doctor</h2>
             <h4 id="bienvenida"></h4>
@@ -186,17 +216,18 @@
 
             <img src="/img/logo dclinica.png">
         </div>
-
     </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const nombre = localStorage.getItem("nombreUsuario");
+
             if (!nombre) {
                 window.location.href = "/views/login.html";
                 return;
             }
-            document.getElementById("nombreUsuarioNavbar").textContent = `Dr(a). ${nombre}`;
+
+            document.getElementById("doctorNameBadge").textContent = `Dr(a). ${nombre}`;
             document.getElementById("bienvenida").textContent = `¡Bienvenido(a), Dr(a). ${nombre}!`;
         });
 
@@ -207,5 +238,5 @@
     </script>
 
 </body>
-
 </html>
+

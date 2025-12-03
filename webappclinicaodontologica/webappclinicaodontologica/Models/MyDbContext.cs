@@ -14,6 +14,10 @@ namespace webappclinicaodontologica.Data
         public DbSet<Doctor> Doctores { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Cita> Citas { get; set; }
+        public DbSet<HistorialMedico> HistorialMedico { get; set; }
+        public DbSet<DetalleTratamiento> DetalleTratamiento { get; set; }
+
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

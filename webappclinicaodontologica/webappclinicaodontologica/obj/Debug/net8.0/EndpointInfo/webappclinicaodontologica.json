@@ -647,6 +647,123 @@
         }
       }
     },
+    "/api/Historial/paciente/{id}": {
+      "get": {
+        "tags": [
+          "Historial"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Historial": {
+      "post": {
+        "tags": [
+          "Historial"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistorialMedico"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistorialMedico"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistorialMedico"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Historial/{id}": {
+      "put": {
+        "tags": [
+          "Historial"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistorialMedico"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistorialMedico"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistorialMedico"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Historial"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Login": {
       "post": {
         "tags": [
@@ -1110,6 +1227,123 @@
         }
       }
     },
+    "/api/Tratamientos/paciente/{id}": {
+      "get": {
+        "tags": [
+          "Tratamientos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tratamientos": {
+      "post": {
+        "tags": [
+          "Tratamientos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleTratamiento"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleTratamiento"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleTratamiento"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Tratamientos/{id}": {
+      "put": {
+        "tags": [
+          "Tratamientos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleTratamiento"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleTratamiento"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetalleTratamiento"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Tratamientos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/WeatherForecast": {
       "get": {
         "tags": [
@@ -1186,6 +1420,24 @@
         },
         "additionalProperties": false
       },
+      "DetalleTratamiento": {
+        "type": "object",
+        "properties": {
+          "idPaciente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaAplicacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "observaciones": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Doctor": {
         "required": [
           "estado",
@@ -1249,6 +1501,36 @@
           "nombreRol": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistorialMedico": {
+        "type": "object",
+        "properties": {
+          "idHistorial": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idPaciente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaRegistro": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "diagnostico": {
+            "type": "string",
+            "nullable": true
+          },
+          "tratamientoSugerido": {
+            "type": "string",
+            "nullable": true
+          },
+          "idDoctor": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

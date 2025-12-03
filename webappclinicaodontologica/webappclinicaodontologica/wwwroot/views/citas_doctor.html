@@ -16,55 +16,74 @@
         h2 {
             color: #0D5B8C;
             font-weight: 700;
-            margin-bottom: 25px;
         }
 
         .card {
-            border-radius: 14px;
-            box-shadow: 0 4px 14px rgba(0,0,0,.1);
-            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0px 4px 16px rgba(0,0,0,.12);
+            padding: 25px;
+            background: white;
         }
 
-        .btn-estado {
-            border-radius: 8px;
-            padding: 6px 12px;
-        }
-
+        /* ESTADOS */
         .estado-pendiente {
-            background: #ffc107;
-            color: black;
+            background: #ffc107 !important;
+            color: #000 !important;
         }
 
         .estado-enproceso {
-            background: #0dcaf0;
-            color: white;
+            background: #17a2b8 !important;
+            color: white !important;
         }
 
         .estado-finalizada {
-            background: #28a745;
-            color: white;
+            background: #28a745 !important;
+            color: white !important;
         }
+
+        /* BOTÓN X FLOTANTE */
+        #btnCerrarPanel {
+            position: fixed;
+            top: 20px;
+            right: 25px;
+            background: white;
+            color: #0D5B8C;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0px 4px 12px rgba(0,0,0,.2);
+            font-size: 18px;
+            z-index: 2000;
+            transition: 0.2s;
+        }
+
+            #btnCerrarPanel:hover {
+                background: #e2e2e2;
+            }
     </style>
 </head>
 
 <body>
 
+    <!-- BOTÓN FLOTANTE PARA VOLVER AL PANEL -->
+    <div id="btnCerrarPanel" onclick="window.location.href='/views/doctor.html'">
+        <i class="bi bi-x-lg"></i>
+    </div>
+
     <div class="container py-4">
 
-        <div class="d-flex justify-content-between align-items-center">
-            <h2>Mis Citas de Hoy</h2>
+        <h2 class="mb-4">Mis Citas de Hoy</h2>
 
-            <a href="/views/doctor.html" class="btn btn-secondary">
-                <i class="bi bi-arrow-left-circle"></i> Volver al Panel
-            </a>
-        </div>
-
-        <div class="card mt-3">
+        <div class="card">
 
             <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar...">
 
-            <table class="table table-hover">
-                <thead>
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
                     <tr>
                         <th>Hora</th>
                         <th>Paciente</th>
@@ -103,19 +122,18 @@
                                     "estado-finalizada";
 
                         filas += `
-                        <tr>
-                            <td>${c.hora}</td>
-                            <td>${c.paciente}</td>
-                            <td>${c.motivo}</td>
-                            <td><span class="badge ${claseEstado}">${c.estado}</span></td>
-                            <td>
-                                <button class="btn btn-primary btn-sm"
-                                    onclick="cambiarEstado(${c.idCita}, '${c.estado}')">
-                                    Cambiar
-                                </button>
-                            </td>
-                        </tr>
-                    `;
+                                <tr>
+                                    <td>${c.hora}</td>
+                                    <td>${c.paciente}</td>
+                                    <td>${c.motivo}</td>
+                                    <td><span class="badge ${claseEstado} px-3 py-2">${c.estado}</span></td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm"
+                                            onclick="cambiarEstado(${c.idCita}, '${c.estado}')">
+                                            Cambiar
+                                        </button>
+                                    </td>
+                                </tr>`;
                     });
 
                     document.getElementById("tablaDoctor").innerHTML = filas;
@@ -155,4 +173,3 @@
 
 </body>
 </html>
-

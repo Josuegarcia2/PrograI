@@ -21,6 +21,8 @@
         .card {
             border-radius: 14px;
             box-shadow: 0 4px 14px rgba(0,0,0,.08);
+            background: white;
+            padding: 22px;
         }
 
         .table thead {
@@ -28,26 +30,44 @@
             color: white;
         }
 
-        .volver-btn {
-            background: #0B6B74;
-            color: white;
+        /* BOTÓN X FLOTANTE */
+        #btnCerrarPanel {
+            position: fixed;
+            top: 20px;
+            right: 25px;
+            background: white;
+            color: #0B6B74;
+            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0px 4px 12px rgba(0,0,0,.2);
+            font-size: 18px;
+            z-index: 2000;
+            transition: 0.2s;
         }
+
+            #btnCerrarPanel:hover {
+                background: #e2e2e2;
+            }
     </style>
 </head>
 
 <body>
 
+    <!-- X PARA VOLVER AL PANEL -->
+    <div id="btnCerrarPanel" onclick="window.location.href='/views/doctor.html'">
+        <i class="bi bi-x-lg"></i>
+    </div>
+
     <div class="container py-4">
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Pacientes Registrados</h2>
+        <h2 class="mb-4">Pacientes Registrados</h2>
 
-            <button class="btn volver-btn" onclick="window.location.href='doctor.html'">
-                <i class="bi bi-arrow-left"></i> Volver al Panel
-            </button>
-        </div>
-
-        <div class="card p-3">
+        <div class="card">
             <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar paciente...">
 
             <div class="table-responsive">
@@ -59,7 +79,6 @@
                             <th>Edad</th>
                             <th>Teléfono</th>
                             <th>Correo</th>
-                            <th>Dirección</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -84,15 +103,14 @@
 
                     data.forEach(p => {
                         filas += `
-                            <tr>
-                                <td>${p.idPaciente}</td>
-                                <td>${p.nombre}</td>
-                                <td>${p.edad || '-'}</td>
-                                <td>${p.telefono || '-'}</td>
-                                <td>${p.correo || '-'}</td>
-                                <td>${p.direccion || '-'}</td>
-                            </tr>
-                        `;
+                                <tr>
+                                    <td>${p.idPaciente}</td>
+                                    <td>${p.nombre}</td>
+                                    <td>${p.edad || '-'}</td>
+                                    <td>${p.telefono || '-'}</td>
+                                    <td>${p.correo || '-'}</td>
+                                </tr>
+                            `;
                     });
 
                     document.querySelector("#tablaPacientes tbody").innerHTML = filas;
