@@ -73,7 +73,7 @@ namespace webappclinicaodontologica.Controllers
 
         // POST
         [HttpPost]
-        public async Task<IActionResult> CrearEmpleado([FromBody] EmpleadoDTO dto)
+        public async Task<IActionResult> CrearEmpleado([FromBody] EmpleadoCreateDTO dto)
         {
             if (dto == null)
                 return BadRequest("Datos inválidos");
@@ -91,14 +91,15 @@ namespace webappclinicaodontologica.Controllers
             _context.Empleados.Add(empleado);
             await _context.SaveChangesAsync();
 
-            return Ok(empleado);
+            return Ok(new { mensaje = "Empleado creado", empleado });
         }
+
 
 
 
         // PUT
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditarEmpleado(int id, [FromBody] EmpleadoDTO dto)
+        public async Task<IActionResult> EditarEmpleado(int id, [FromBody] EmpleadoCreateDTO dto)
         {
             if (id != dto.IdEmpleado)
                 return BadRequest("ID no coincide");
@@ -116,8 +117,9 @@ namespace webappclinicaodontologica.Controllers
 
             await _context.SaveChangesAsync();
 
-            return Ok(emp);
+            return Ok(new { mensaje = "Empleado actualizado", emp });
         }
+
 
 
 

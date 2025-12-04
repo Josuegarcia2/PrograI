@@ -1,2 +1,0 @@
-C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclinicaodontologica\wwwroot\views\reportes_admin.html
-C:\Users\garci\OneDrive\Escritorio\PrograI\webappclinicaodontologica\webappclinicaodontologica\wwwroot\views\reporte_doctor.html

@@ -325,7 +325,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "webappclinicaodontologica.Models.DTO.EmpleadoDTO",
+        "Type": "webappclinicaodontologica.Models.DTO.EmpleadoCreateDTO",
         "IsRequired": true
       }
     ],
@@ -362,7 +362,7 @@
       },
       {
         "Name": "dto",
-        "Type": "webappclinicaodontologica.Models.DTO.EmpleadoDTO",
+        "Type": "webappclinicaodontologica.Models.DTO.EmpleadoCreateDTO",
         "IsRequired": true
       }
     ],

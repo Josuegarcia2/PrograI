@@ -541,17 +541,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EmpleadoDTO"
+                "$ref": "#/components/schemas/EmpleadoCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/EmpleadoDTO"
+                "$ref": "#/components/schemas/EmpleadoCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/EmpleadoDTO"
+                "$ref": "#/components/schemas/EmpleadoCreateDTO"
               }
             }
           }
@@ -604,17 +604,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EmpleadoDTO"
+                "$ref": "#/components/schemas/EmpleadoCreateDTO"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/EmpleadoDTO"
+                "$ref": "#/components/schemas/EmpleadoCreateDTO"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/EmpleadoDTO"
+                "$ref": "#/components/schemas/EmpleadoCreateDTO"
               }
             }
           }
@@ -1463,6 +1463,40 @@
           },
           "estado": {
             "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmpleadoCreateDTO": {
+        "type": "object",
+        "properties": {
+          "idEmpleado": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "contrasena": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRol": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

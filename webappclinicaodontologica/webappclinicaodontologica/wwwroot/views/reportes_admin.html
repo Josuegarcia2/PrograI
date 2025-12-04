@@ -1,0 +1,225 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Reportes | Administrador SGCO</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        body {
+            background: #eef3f8;
+            font-family: "Segoe UI";
+        }
+
+        .btn-x {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            width: 42px;
+            height: 42px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+        }
+
+        .card {
+            border-radius: 18px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        h2 {
+            font-weight: 800;
+            color: #0D47A1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Botón regresar -->
+    <div class="btn-x" onclick="window.location.href='administrador.html'">
+        <i class="bi bi-x-lg"></i>
+    </div>
+
+    <div class="container mt-4">
+
+        <h2 class="mb-3">Generador de Reportes</h2>
+
+        <!-- Selección del tipo de reporte -->
+        <div class="card p-3 mb-4">
+            <label class="fw-bold">Selecciona el tipo de reporte:</label>
+            <select id="tipoReporte" class="form-select mt-2" onchange="cargarCampos()">
+                <option value="">-- Elegir --</option>
+                <option value="pacientes">Pacientes Registrados</option>
+                <option value="citas">Citas Agendadas</option>
+                <option value="servicios">Servicios Disponibles</option>
+            </select>
+        </div>
+
+        <!-- Filtros -->
+        <div id="filtros" class="card p-3 mb-4" style="display:none;">
+            <h5 class="fw-bold">Filtros</h5>
+
+            <!-- FILTRO PARA CITAS -->
+            <div id="filtroCitas" style="display:none;">
+                <label>Desde:</label>
+                <input type="date" class="form-control mb-2" id="fechaInicio">
+
+                <label>Hasta:</label>
+                <input type="date" class="form-control mb-3" id="fechaFin">
+            </div>
+
+            <button class="btn btn-primary" onclick="generarReporte()">
+                Generar Reporte
+            </button>
+        </div>
+
+        <!-- RESULTADOS -->
+        <div id="contenedorReporte" class="card p-4" style="display:none;">
+            <h4 class="fw-bold mb-3" id="tituloReporte"></h4>
+
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle text-center" id="tablaReporte">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-danger mt-3" onclick="exportarPDF()">
+                <i class="bi bi-file-earmark-pdf"></i> Exportar PDF
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        const API_PAC = "/api/Paciente";
+        const API_CIT = "/api/Cita";
+        const API_SER = "/api/Servicio";
+
+        function cargarCampos() {
+            const tipo = document.getElementById("tipoReporte").value;
+            document.getElementById("filtros").style.display = tipo ? "block" : "none";
+
+            document.getElementById("filtroCitas").style.display = tipo === "citas" ? "block" : "none";
+        }
+
+        async function generarReporte() {
+            const tipo = document.getElementById("tipoReporte").value;
+            const tabla = document.getElementById("tablaReporte");
+            const thead = tabla.querySelector("thead");
+            const tbody = tabla.querySelector("tbody");
+
+            let datos = [];
+
+            if (tipo === "pacientes") {
+                datos = await fetch(API_PAC).then(r => r.json());
+
+                thead.innerHTML = `
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Edad</th>
+                            <th>Teléfono</th>
+                            <th>Correo</th>
+                        </tr>`;
+
+                tbody.innerHTML = datos.map(p => `
+                        <tr>
+                            <td>${p.idPaciente}</td>
+                            <td>${p.nombre}</td>
+                            <td>${p.edad}</td>
+                            <td>${p.telefono}</td>
+                            <td>${p.correo}</td>
+                        </tr>`).join("");
+            }
+
+            if (tipo === "citas") {
+                let f1 = fechaInicio.value;
+                let f2 = fechaFin.value;
+
+                datos = await fetch(API_CIT).then(r => r.json());
+
+                if (f1 && f2) {
+                    datos = datos.filter(c => c.fecha.split("T")[0] >= f1 && c.fecha.split("T")[0] <= f2);
+                }
+
+                thead.innerHTML = `
+                        <tr>
+                            <th>ID</th>
+                            <th>Paciente</th>
+                            <th>Doctor</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Motivo</th>
+                            <th>Estado</th>
+                        </tr>`;
+
+                tbody.innerHTML = datos.map(c => `
+                        <tr>
+                            <td>${c.idCita}</td>
+                            <td>${c.paciente}</td>
+                            <td>${c.doctor}</td>
+                            <td>${c.fecha.split("T")[0]}</td>
+                            <td>${c.hora}</td>
+                            <td>${c.motivo}</td>
+                            <td>${c.estado}</td>
+                        </tr>`).join("");
+            }
+
+            if (tipo === "servicios") {
+                datos = await fetch(API_SER).then(r => r.json());
+
+                thead.innerHTML = `
+                        <tr>
+                            <th>ID</th>
+                            <th>Servicio</th>
+                            <th>Precio</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                        </tr>`;
+
+                tbody.innerHTML = datos.map(s => `
+                        <tr>
+                            <td>${s.idServicio}</td>
+                            <td>${s.nombre}</td>
+                            <td>$${s.precio.toFixed(2)}</td>
+                            <td>${s.descripcion}</td>
+                            <td>${s.estado}</td>
+                        </tr>`).join("");
+            }
+
+            document.getElementById("tituloReporte").innerText =
+                tipo.charAt(0).toUpperCase() + tipo.slice(1);
+
+            document.getElementById("contenedorReporte").style.display = "block";
+        }
+
+        async function exportarPDF() {
+            const { jsPDF } = window.jspdf;
+            const card = document.getElementById("contenedorReporte");
+
+            const canvas = await html2canvas(card);
+            const img = canvas.toDataURL("image/png");
+
+            let pdf = new jsPDF("p", "mm", "a4");
+            let width = 210;
+            let height = canvas.height * width / canvas.width;
+
+            pdf.addImage(img, "PNG", 0, 0, width, height);
+            pdf.save("Reporte_Administrador.pdf");
+        }
+    </script>
+
+</body>
+
+</html>
