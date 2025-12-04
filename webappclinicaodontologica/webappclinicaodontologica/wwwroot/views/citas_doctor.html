@@ -18,6 +18,29 @@
             font-weight: 700;
         }
 
+        /* Tarjetas KPI */
+        .kpi-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.1);
+            text-align: center;
+        }
+
+        .kpi-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0D5B8C;
+        }
+
+        .kpi-label {
+            font-size: 13px;
+            color: #6c757d;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+
+        /* Tarjeta tabla */
         .card {
             border-radius: 16px;
             box-shadow: 0px 4px 16px rgba(0,0,0,.12);
@@ -78,6 +101,38 @@
 
         <h2 class="mb-4">Mis Citas de Hoy</h2>
 
+        <!-- TARJETAS KPI -->
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div id="totalHoy" class="kpi-number">0</div>
+                    <div class="kpi-label">Total de Citas</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div id="pendientesHoy" class="kpi-number">0</div>
+                    <div class="kpi-label">Pendientes</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div id="procesoHoy" class="kpi-number">0</div>
+                    <div class="kpi-label">En Proceso</div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-card">
+                    <div id="finalizadasHoy" class="kpi-number">0</div>
+                    <div class="kpi-label">Finalizadas</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA -->
         <div class="card">
 
             <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar...">
@@ -100,20 +155,32 @@
     </div>
 
     <script>
-
         const API_CITAS_DOCTOR = "/api/Cita/doctor/hoy";
 
-        // =======================
-        // Cargar citas del día
-        // =======================
         document.addEventListener("DOMContentLoaded", cargarCitas);
 
+        /* ===============================
+           Cargar citas del día
+        ================================ */
         function cargarCitas() {
             fetch(API_CITAS_DOCTOR)
                 .then(r => r.json())
                 .then(data => {
 
+                    // ========= TARJETAS SUPERIORES ========= //
+                    let total = data.length;
+                    let pendientes = data.filter(c => c.estado === "Pendiente").length;
+                    let enProceso = data.filter(c => c.estado === "En Proceso").length;
+                    let finalizadas = data.filter(c => c.estado === "Finalizada").length;
+
+                    document.getElementById("totalHoy").innerText = total;
+                    document.getElementById("pendientesHoy").innerText = pendientes;
+                    document.getElementById("procesoHoy").innerText = enProceso;
+                    document.getElementById("finalizadasHoy").innerText = finalizadas;
+
+                    // ========= TABLA ========= //
                     let filas = "";
+
                     data.forEach(c => {
 
                         let claseEstado =
@@ -127,11 +194,18 @@
                                     <td>${c.paciente}</td>
                                     <td>${c.motivo}</td>
                                     <td><span class="badge ${claseEstado} px-3 py-2">${c.estado}</span></td>
+
                                     <td>
-                                        <button class="btn btn-primary btn-sm"
-                                            onclick="cambiarEstado(${c.idCita}, '${c.estado}')">
-                                            Cambiar
-                                        </button>
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-primary btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                                                Cambiar
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" onclick="actualizarEstado(${c.idCita}, 'Pendiente')">Pendiente</a></li>
+                                                <li><a class="dropdown-item" onclick="actualizarEstado(${c.idCita}, 'En Proceso')">En Proceso</a></li>
+                                                <li><a class="dropdown-item" onclick="actualizarEstado(${c.idCita}, 'Finalizada')">Finalizada</a></li>
+                                            </ul>
+                                        </div>
                                     </td>
                                 </tr>`;
                     });
@@ -140,36 +214,40 @@
                 });
         }
 
-        // =======================
-        // Cambiar estado
-        // =======================
-        function cambiarEstado(id, estadoActual) {
+        /* ===============================
+           Actualizar estado de cita
+        ================================ */
+        function actualizarEstado(idCita, nuevoEstado) {
 
-            let nuevoEstado =
-                estadoActual === "Pendiente" ? "En Proceso" :
-                    estadoActual === "En Proceso" ? "Finalizada" :
-                        "Finalizada";
-
-            fetch(`/api/Cita/estado/${id}`, {
+            fetch(`/api/Cita/estado/${idCita}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(nuevoEstado)
             })
-                .then(r => r.json())
-                .then(() => cargarCitas());
+                .then(r => {
+                    if (!r.ok) throw new Error("Error al actualizar estado");
+                    return r.json();
+                })
+                .then(() => {
+                    cargarCitas();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("No se pudo cambiar el estado");
+                });
         }
 
-        // =======================
-        // Buscador
-        // =======================
+        /* ===============================
+           Buscador
+        ================================ */
         document.getElementById("buscar").addEventListener("keyup", function () {
             let texto = this.value.toLowerCase();
             document.querySelectorAll("#tablaDoctor tr").forEach(fila => {
                 fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
             });
         });
-
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

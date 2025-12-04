@@ -13,7 +13,6 @@
             font-family: 'Segoe UI';
         }
 
-        /* BOTÓN X FLOTANTE */
         #btnCerrarPanel {
             position: fixed;
             top: 15px;
@@ -35,78 +34,86 @@
                 background: #e6e6e6;
             }
 
-        /* TITULO */
         h2 {
             font-weight: 800;
             color: #0D5B8C;
         }
 
-        /* TARJETA */
-        .card {
+        .service-card {
             border-radius: 16px;
-            padding: 20px;
+            padding: 25px;
+            background: white;
             box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: .25s;
         }
 
-        /* TABLA MEJORADA */
-        table thead {
-            background: #0D5B8C;
-            color: white;
-            font-size: 15px;
-            letter-spacing: .5px;
-        }
-
-        table tbody tr:hover {
-            background: #e8f6ff !important;
-        }
+            .service-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 22px rgba(0,0,0,0.12);
+            }
 
         .search-box {
             border-radius: 12px;
             padding: 12px 18px;
             font-size: 17px;
         }
+
+        .modal-header {
+            background: #0D5B8C;
+            color: white;
+        }
+
+        .service-icon {
+            font-size: 60px;
+            color: #0D5B8C;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- BOTÓN X -->
     <div id="btnCerrarPanel" onclick="window.location.href='recepcionista.html'">
         <i class="bi bi-x-lg"></i>
     </div>
 
-    <!-- CONTENIDO -->
     <div class="container py-4">
-
         <h2 class="mb-4">Servicios Disponibles</h2>
 
-        <!-- BUSCADOR -->
-        <div class="card mb-3">
+        <div class="card mb-3 p-3">
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
-                <input type="text"
-                       id="buscar"
-                       class="form-control search-box"
-                       placeholder="Buscar servicio..."
-                       onkeyup="filtrarTabla()">
+                <input type="text" id="buscar" class="form-control search-box"
+                       placeholder="Buscar servicio..." onkeyup="filtrarServicios()">
             </div>
         </div>
 
-        <!-- TABLA -->
-        <div class="card">
-            <div class="table-responsive">
-                <table class="table table-hover text-center align-middle">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Servicio</th>
-                            <th>Precio</th>
-                            <th style="width:40%">Descripción</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbodyServicios"></tbody>
-                </table>
+        <div class="row g-4" id="contenedorServicios"></div>
+    </div>
+
+    <!-- Modal Detalle del Servicio -->
+    <div class="modal fade" id="modalServicio" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitulo"></h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-briefcase-fill service-icon"></i>
+                    </div>
+
+                    <h4 class="fw-bold text-center" id="modalNombre"></h4>
+                    <h5 class="text-success text-center" id="modalPrecio"></h5>
+
+                    <p class="mt-3" id="modalDescripcion"></p>
+
+                    <span class="badge bg-success" id="modalEstado"></span>
+                </div>
+
             </div>
         </div>
     </div>
@@ -116,59 +123,58 @@
     <script>
         const API = "/api/Servicio";
 
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarServicios();
-            validarSesion();
-        });
+        document.addEventListener("DOMContentLoaded", () => cargarServicios());
 
-        /* ===============================
-                VALIDAR SESIÓN
-        =============================== */
-        function validarSesion() {
-            const nombre = localStorage.getItem("nombreUsuario");
-            const rol = localStorage.getItem("rolUsuario");
-
-            if (!nombre || rol !== "Recepcionista") {
-                window.location.href = "/views/login.html";
-                return;
-            }
-        }
-
-        /* ===============================
-                CARGAR SERVICIOS
-        =============================== */
         async function cargarServicios() {
             const res = await fetch(API);
-            const data = await res.json();
+            const servicios = await res.json();
 
-            let tbody = document.getElementById("tbodyServicios");
-            tbody.innerHTML = "";
+            let html = "";
+            servicios.forEach(s => {
+                html += `
+                        <div class="col-md-4 col-lg-3">
+                            <div class="service-card" onclick='verServicio(${JSON.stringify(s)})'>
+                                <div class="text-center mb-2">
+                                    <i class="bi bi-briefcase-fill" style="font-size:40px;color:#0D5B8C"></i>
+                                </div>
 
-            data.forEach(s => {
-                tbody.innerHTML += `
-                        <tr>
-                            <td>${s.idServicio}</td>
-                            <td><b>${s.nombre}</b></td>
-                            <td>$${s.precio.toFixed(2)}</td>
-                            <td style="text-align: justify;">${s.descripcion}</td>
-                            <td><span class="badge bg-success">${s.estado}</span></td>
-                        </tr>`;
+                                <h5 class="fw-bold">${s.nombre}</h5>
+                                <h6 class="text-success">$${s.precio.toFixed(2)}</h6>
+
+                                <p class="text-muted" style="font-size:14px; height:70px; overflow:hidden;">
+                                    ${s.descripcion}
+                                </p>
+
+                                <span class="badge bg-success">${s.estado}</span>
+                            </div>
+                        </div>
+                    `;
+            });
+
+            document.getElementById("contenedorServicios").innerHTML = html;
+        }
+
+        function filtrarServicios() {
+            let filtro = document.getElementById("buscar").value.toLowerCase();
+            let tarjetas = document.querySelectorAll(".service-card");
+
+            tarjetas.forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(filtro) ? "" : "none";
             });
         }
 
-        /* ===============================
-                FILTRAR TABLA
-        =============================== */
-        function filtrarTabla() {
-            let filtro = document.getElementById("buscar").value.toLowerCase();
-            let filas = document.querySelectorAll("#tbodyServicios tr");
+        function verServicio(servicio) {
+            document.getElementById("modalTitulo").innerText = "Detalle del Servicio";
+            document.getElementById("modalNombre").innerText = servicio.nombre;
+            document.getElementById("modalPrecio").innerText = "$" + servicio.precio.toFixed(2);
+            document.getElementById("modalDescripcion").innerText = servicio.descripcion;
+            document.getElementById("modalEstado").innerText = servicio.estado;
 
-            filas.forEach(f => {
-                let texto = f.innerText.toLowerCase();
-                f.style.display = texto.includes(filtro) ? "" : "none";
-            });
+            new bootstrap.Modal(document.getElementById("modalServicio")).show();
         }
     </script>
 
 </body>
 </html>
+
+

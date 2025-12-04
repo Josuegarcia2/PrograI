@@ -2,57 +2,125 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Pacientes | SGCO ADMIN</title>
+    <title>Pacientes Registrados | SGCO Admin</title>
 
-    <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
-            background: #eef5fa;
+            background: #eef3f8;
             font-family: 'Segoe UI';
         }
 
+        /* Botón X flotante */
+        #btnSalir {
+            position: fixed;
+            top: 20px;
+            right: 25px;
+            background: white;
+            border: 2px solid #d1d9e6;
+            color: #0B436A;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: .2s;
+            box-shadow: 0px 2px 6px rgba(0,0,0,.15);
+            z-index: 999;
+        }
+
+            #btnSalir:hover {
+                background: #0B436A;
+                color: white;
+                border-color: #0B436A;
+            }
+
         h2 {
-            font-weight: 700;
-            color: #0D5B8C;
+            color: #0B436A;
+            font-weight: 800;
         }
 
         .card {
-            border-radius: 14px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
         }
 
+        /* KPIs */
+        .kpi-box {
+            padding: 15px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 3px 12px rgba(0,0,0,.08);
+            text-align: center;
+        }
+
+            .kpi-box h3 {
+                color: #0B436A;
+                font-weight: 800;
+            }
+
+        /* Tabla */
         .table thead {
-            background: #0D5B8C;
+            background: #0B436A;
             color: white;
         }
 
-        .btn-volver {
-            background: #0D5B8C;
-            color: white;
+        .btn-action {
+            border-radius: 6px;
+            padding: 4px 8px;
         }
     </style>
 </head>
 
 <body>
 
+    <!-- BOTÓN X FLOTANTE -->
+    <div id="btnSalir" onclick="window.location.href='/views/administrador.html'">
+        <i class="bi bi-x-lg"></i>
+    </div>
+
     <div class="container py-4">
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Pacientes Registrados</h2>
+        <h2 class="mb-4">Pacientes Registrados</h2>
 
-            <button class="btn btn-volver" onclick="window.location.href='administrador.html'">
-                <i class="bi bi-arrow-left"></i> Volver al Panel
-            </button>
+        <!-- KPIs -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h3 id="kpiTotal">0</h3>
+                    <p>Total de pacientes</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h3 id="kpiPromEdad">0</h3>
+                    <p>Promedio de edad</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h3 id="kpiNuevosDia">0</h3>
+                    <p>Registrados hoy</p>
+                </div>
+            </div>
         </div>
 
-        <div class="card p-3">
-            <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar paciente...">
+        <!-- Buscador -->
+        <div class="card p-3 mb-3">
+            <input type="text" id="buscar" class="form-control" placeholder="Buscar paciente...">
+        </div>
 
+        <!-- Tabla -->
+        <div class="card p-3">
             <div class="table-responsive">
-                <table class="table table-hover" id="tablaPacientes">
+                <table class="table table-hover text-center" id="tablaPacientes">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -61,52 +129,163 @@
                             <th>Teléfono</th>
                             <th>Correo</th>
                             <th>Dirección</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
                 </table>
             </div>
         </div>
-
     </div>
+
+    <!-- MODAL EDITAR -->
+    <div class="modal fade" id="modalEditar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Editar Paciente</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" id="editId">
+
+                    <label>Nombre</label>
+                    <input class="form-control mb-2" id="editNombre">
+
+                    <label>Edad</label>
+                    <input type="number" class="form-control mb-2" id="editEdad">
+
+                    <label>Teléfono</label>
+                    <input class="form-control mb-2" id="editTelefono">
+
+                    <label>Correo</label>
+                    <input class="form-control mb-2" id="editCorreo">
+
+                    <label>Dirección</label>
+                    <input class="form-control mb-2" id="editDireccion">
+
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="guardarCambios()">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         const API = "/api/Paciente";
 
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarPacientes();
-        });
+        document.addEventListener("DOMContentLoaded", () => cargarPacientes());
 
         function cargarPacientes() {
             fetch(API)
                 .then(r => r.json())
                 .then(data => {
-                    let filas = "";
-
-                    data.forEach(p => {
-                        filas += `
-                            <tr>
-                                <td>${p.idPaciente}</td>
-                                <td>${p.nombre}</td>
-                                <td>${p.edad || '-'}</td>
-                                <td>${p.telefono || '-'}</td>
-                                <td>${p.correo || '-'}</td>
-                                <td>${p.direccion || '-'}</td>
-                            </tr>
-                        `;
-                    });
-
-                    document.querySelector("#tablaPacientes tbody").innerHTML = filas;
+                    mostrarKPIs(data);
+                    renderPacientes(data);
                 });
         }
 
-        // Buscador en tiempo real
-        document.getElementById("buscar").addEventListener("keyup", function () {
-            let texto = this.value.toLowerCase();
-            document.querySelectorAll("#tablaPacientes tbody tr").forEach(fila => {
-                fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
+        function mostrarKPIs(data) {
+            document.getElementById("kpiTotal").innerText = data.length;
+
+            let edades = data.map(p => p.edad);
+            let prom = edades.reduce((a, b) => a + b, 0) / edades.length;
+            document.getElementById("kpiPromEdad").innerText = prom.toFixed(1);
+
+            let hoy = new Date().toISOString().split("T")[0];
+            let nuevos = data.filter(p => p.fechaRegistro && p.fechaRegistro.includes(hoy)).length;
+            document.getElementById("kpiNuevosDia").innerText = nuevos;
+        }
+
+        function renderPacientes(data) {
+            let filtro = document.getElementById("buscar").value.toLowerCase();
+
+            let html = "";
+
+            data.filter(p =>
+                p.nombre.toLowerCase().includes(filtro) ||
+                p.correo.toLowerCase().includes(filtro)
+            ).forEach(p => {
+
+                html += `
+            <tr>
+                <td>${p.idPaciente}</td>
+                <td>${p.nombre}</td>
+                <td>${p.edad}</td>
+                <td>${p.telefono}</td>
+                <td>${p.correo}</td>
+                <td>${p.direccion ?? "-"}</td>
+
+                <td>
+                    <button class="btn btn-warning btn-sm btn-action" onclick='editar(${JSON.stringify(p)})'>
+                        <i class="bi bi-pencil"></i>
+                    </button>
+
+                    <button class="btn btn-danger btn-sm btn-action" onclick='eliminar(${p.idPaciente})'>
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </td>
+            </tr>`;
             });
-        });
+
+            document.querySelector("#tablaPacientes tbody").innerHTML = html;
+        }
+
+        function editar(p) {
+            document.getElementById("editId").value = p.idPaciente;
+            document.getElementById("editNombre").value = p.nombre;
+            document.getElementById("editEdad").value = p.edad;
+            document.getElementById("editTelefono").value = p.telefono;
+            document.getElementById("editCorreo").value = p.correo;
+            document.getElementById("editDireccion").value = p.direccion ?? "";
+
+            new bootstrap.Modal(document.getElementById("modalEditar")).show();
+        }
+
+        async function guardarCambios() {
+            let id = document.getElementById("editId").value;
+
+            let data = new FormData();
+            data.append("Nombre", editNombre.value);
+            data.append("Edad", editEdad.value);
+            data.append("Telefono", editTelefono.value);
+            data.append("Correo", editCorreo.value);
+            data.append("Direccion", editDireccion.value);
+
+            await fetch(`${API}/${id}`, { method: "PUT", body: data });
+
+            Swal.fire("Actualizado", "Paciente modificado correctamente", "success");
+            cargarPacientes();
+            bootstrap.Modal.getInstance(document.getElementById("modalEditar")).hide();
+        }
+
+        function eliminar(id) {
+            Swal.fire({
+                title: "¿Eliminar paciente?",
+                text: "Esto eliminará sus registros asociados.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Eliminar",
+                cancelButtonText: "Cancelar"
+            }).then(async (r) => {
+                if (r.isConfirmed) {
+                    await fetch(`${API}/${id}`, { method: "DELETE" });
+                    Swal.fire("Eliminado", "Paciente eliminado", "success");
+                    cargarPacientes();
+                }
+            });
+        }
+
+        document.getElementById("buscar").addEventListener("keyup", cargarPacientes);
     </script>
 
 </body>

@@ -21,7 +21,6 @@
             font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
         }
 
-        /* Contenedor principal del reporte (lo que se manda al PDF) */
         #reporteArea {
             max-width: 1100px;
             margin: 0 auto 40px auto;
@@ -163,12 +162,13 @@
         </a>
     </div>
 
-    <!-- CONTENIDO DEL REPORTE (esto es lo que se manda al PDF) -->
+    <!-- CONTENIDO DEL REPORTE -->
     <div class="container" id="reporteArea">
 
         <!-- ENCABEZADO -->
         <div class="box-main mt-4 mb-3">
             <div class="header-top">
+
                 <div class="d-flex align-items-center gap-3">
                     <div class="logo-box">
                         <img src="/img/logo dclinica.png" alt="Logo clínica">
@@ -185,35 +185,31 @@
                     <div class="date-text">
                         Generado el: <span id="fechaGenerado"></span><br>
                         <span id="resumenFiltro" class="filter-badge mt-1 d-inline-block">
-                            Filtro no aplicado
+                            Filtro aplicado: Día · Fecha: --
                         </span>
                     </div>
                 </div>
+
             </div>
 
-            <!-- FILTROS -->
+            <!-- FILTRO SOLO POR DÍA -->
             <hr class="mt-3 mb-3">
-            <div class="row g-3 align-items-end">
-                <div class="col-md-4">
-                    <label class="form-label mb-1">Filtro por tiempo</label>
-                    <select id="filtroTiempo" class="form-select form-select-sm">
-                        <option value="dia">Día</option>
-                        <option value="mes">Mes</option>
-                        <option value="anio">Año</option>
-                    </select>
-                </div>
 
-                <div class="col-md-4">
-                    <label class="form-label mb-1">Fecha base</label>
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-6">
+                    <label class="form-label mb-1">Seleccionar fecha</label>
                     <input type="date" id="fechaFiltro" class="form-control form-control-sm">
                 </div>
 
-                <div class="col-md-4 text-md-end">
+                <div class="col-md-6 text-md-end">
                     <button onclick="aplicarFiltros()" class="btn btn-primary w-100 w-md-auto">
-                        <i class="bi bi-funnel me-1"></i> Aplicar filtros
+                        <i class="bi bi-funnel me-1"></i> Aplicar filtro
                     </button>
                 </div>
+
             </div>
+
         </div>
 
         <!-- KPIs -->
@@ -255,17 +251,15 @@
             </div>
         </div>
 
-        <!-- BOTÓN PDF -->
+        <!-- PDF -->
         <div class="text-center my-3">
             <button class="btn-pdf" onclick="descargarPDF()">
                 <i class="bi bi-file-earmark-pdf-fill me-1"></i> Descargar PDF
             </button>
         </div>
 
-        <!-- PIE DE PÁGINA -->
         <footer class="reporte-footer">
-            SGCO - Sistema de Gestión Clínica Odontológica ·
-            Reporte generado automáticamente para fines de control interno.
+            SGCO - Sistema de Gestión Clínica Odontológica · Reporte generado automáticamente para fines de control interno.
         </footer>
 
     </div>
@@ -276,52 +270,45 @@
         let chartEstados, chartHoras;
 
         document.addEventListener("DOMContentLoaded", () => {
-            // Fecha de generación
+
             document.getElementById("fechaGenerado").innerText =
                 new Date().toLocaleString();
 
-            // Por defecto: hoy
             const hoy = new Date().toISOString().slice(0, 10);
             document.getElementById("fechaFiltro").value = hoy;
 
-            // Cargar datos iniciales (día actual)
             aplicarFiltros();
         });
 
-        /* ============================================================
-           APLICAR FILTROS
-        ============================================================ */
+        /* =============================
+            APLICAR FILTRO SOLO POR DÍA
+        ==============================*/
         async function aplicarFiltros() {
-            const tipo = document.getElementById("filtroTiempo").value;
+
             const fecha = document.getElementById("fechaFiltro").value;
             if (!fecha) return;
 
+            const url = `${API}?tipo=dia&fecha=${fecha}`;
+
             try {
-                const url = `${API}?tipo=${tipo}&fecha=${fecha}`;
                 const res = await fetch(url);
                 const datos = await res.json();
 
-                actualizarResumenFiltro(tipo, fecha);
+                actualizarResumenFiltro(fecha);
                 actualizarKPI(datos);
                 generarDonut(datos);
                 generarBarras(datos);
+
             } catch (err) {
                 console.error(err);
                 alert("No se pudieron cargar los datos del reporte.");
             }
         }
 
-        /* Resumen visual del filtro aplicado */
-        function actualizarResumenFiltro(tipo, fecha) {
+        function actualizarResumenFiltro(fecha) {
             const span = document.getElementById("resumenFiltro");
             const fechaTexto = new Date(fecha).toLocaleDateString();
-
-            let tipoTexto = "";
-            if (tipo === "dia") tipoTexto = "Día";
-            else if (tipo === "mes") tipoTexto = "Mes";
-            else tipoTexto = "Año";
-
-            span.textContent = `Filtro: ${tipoTexto} · Base: ${fechaTexto}`;
+            span.textContent = `Filtro aplicado: Día · Fecha: ${fechaTexto}`;
         }
 
         /* KPIs */
@@ -333,8 +320,9 @@
                 data.filter(c => c.estado === "Finalizada").length;
         }
 
-        /* DONUT ESTADOS */
+        /* DONUT */
         function generarDonut(data) {
+
             if (chartEstados) chartEstados.destroy();
 
             const pendientes = data.filter(c => c.estado === "Pendiente").length;
@@ -358,8 +346,9 @@
             });
         }
 
-        /* BARRAS POR HORA */
+        /* BARRAS */
         function generarBarras(data) {
+
             if (chartHoras) chartHoras.destroy();
 
             const horasMap = {};
@@ -387,34 +376,29 @@
                         legend: { display: false }
                     },
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            precision: 0
-                        }
+                        y: { beginAtZero: true, precision: 0 }
                     }
                 }
             });
         }
 
-        
+        /* PDF */
         async function descargarPDF() {
             const { jsPDF } = window.jspdf;
             const elemento = document.getElementById("reporteArea");
 
-            // Captura del área del reporte
             const canvas = await html2canvas(elemento, {
                 scale: 2,
                 useCORS: true,
                 backgroundColor: "#ffffff"
             });
-            const imgData = canvas.toDataURL("image/png");
 
-            // PDF en A4 horizontal
+            const imgData = canvas.toDataURL("image/png");
             const pdf = new jsPDF("landscape", "mm", "a4");
+
             const pageWidth = pdf.internal.pageSize.getWidth();
             const pageHeight = pdf.internal.pageSize.getHeight();
 
-            // Calculamos el mejor escalado posible
             const margin = 10;
             const maxWidth = pageWidth - margin * 2;
             const maxHeight = pageHeight - margin * 2;
@@ -430,7 +414,7 @@
             const posX = (pageWidth - imgWidth) / 2;
             const posY = (pageHeight - imgHeight) / 2;
 
-            pdf.addImage(imgData, "PNG", posX, posY, imgWidth, imgHeight, "", "FAST");
+            pdf.addImage(imgData, "PNG", posX, posY, imgWidth, imgHeight);
 
             const hoy = new Date().toISOString().slice(0, 10);
             pdf.save(`Reporte_Citas_SGCO_${hoy}.pdf`);

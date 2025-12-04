@@ -1,12 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <title>Citas | SGCO Admin</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body {
@@ -14,14 +14,14 @@
             font-family: 'Segoe UI';
         }
 
-        /* Botón X */
+        /* Botón X  */
         .btn-salir {
             background: white;
             border: 2px solid #d1d9e6;
             color: #4a4a4a;
             border-radius: 50%;
-            width: 42px;
-            height: 42px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -31,17 +31,25 @@
             .btn-salir:hover {
                 background: #0B436A;
                 color: white;
-                border-color: #0B436A;
             }
 
-        h2 {
-            font-weight: 700;
-            color: #0B436A;
+        /* KPI */
+        .kpi-box {
+            background: white;
+            padding: 18px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
+            text-align: center;
         }
+
+            .kpi-box h3 {
+                font-weight: 800;
+                color: #0B436A;
+            }
 
         .card {
             border-radius: 14px;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+            box-shadow: 0 4px 14px rgba(0,0,0,.08);
         }
 
         .table thead {
@@ -49,16 +57,16 @@
             color: white;
         }
 
-        .btn-refresh {
-            background: #0B436A;
-            color: white;
+        .btn-action {
+            border-radius: 8px;
+            padding: 5px 10px;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- BOTÓN PARA SALIR -->
+    <!-- BOTÓN SALIR -->
     <div class="p-3 text-end">
         <a href="/views/administrador.html" class="btn-salir">
             <i class="bi bi-x-lg"></i>
@@ -67,17 +75,69 @@
 
     <div class="container py-4">
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <h2>Gestión de Citas</h2>
+        <h2 class="fw-bold mb-3" style="color:#0B436A;">Gestión de Citas</h2>
 
-            <button class="btn btn-refresh" onclick="cargarCitas()">
-                <i class="bi bi-arrow-clockwise"></i> Actualizar
-            </button>
+        <!-- KPI -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h3 id="kpiTotal">0</h3>
+                    <p>Total de citas</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h3 id="kpiPendientes">0</h3>
+                    <p>Pendientes</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h3 id="kpiProceso">0</h3>
+                    <p>En proceso</p>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="kpi-box">
+                    <h3 id="kpiFinalizadas">0</h3>
+                    <p>Finalizadas</p>
+                </div>
+            </div>
         </div>
 
-        <div class="card p-3">
-            <input type="text" id="buscar" class="form-control mb-3" placeholder="Buscar citas...">
+        <!-- Filtros -->
+        <div class="card p-3 mb-3">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <input class="form-control" id="buscar" placeholder="Buscar...">
+                </div>
 
+                <div class="col-md-3">
+                    <select id="filtroEstado" class="form-select">
+                        <option value="">Estado (Todos)</option>
+                        <option>Pendiente</option>
+                        <option>En Proceso</option>
+                        <option>Finalizada</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <input type="date" id="filtroFecha" class="form-control">
+                </div>
+
+                <div class="col-md-3 text-end">
+                    <button class="btn btn-primary" onclick="cargarCitas()">
+                        <i class="bi bi-arrow-clockwise"></i> Actualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TABLA -->
+        <div class="card p-3">
             <div class="table-responsive">
                 <table class="table table-hover" id="tablaCitas">
                     <thead>
@@ -89,6 +149,7 @@
                             <th>Hora</th>
                             <th>Motivo</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -98,45 +159,153 @@
 
     </div>
 
+    <!-- MODAL EDITAR -->
+    <div class="modal fade" id="modalEditar">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Editar Cita</h5>
+                    <button class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="editId">
+
+                    <label>Fecha</label>
+                    <input type="date" id="editFecha" class="form-control mb-2">
+
+                    <label>Hora</label>
+                    <input type="time" id="editHora" class="form-control mb-2">
+
+                    <label>Motivo</label>
+                    <input type="text" id="editMotivo" class="form-control mb-2">
+
+                    <label>Estado</label>
+                    <select id="editEstado" class="form-select">
+                        <option>Pendiente</option>
+                        <option>En Proceso</option>
+                        <option>Finalizada</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-primary" onclick="guardarCambios()">Guardar</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
         const API = "/api/Cita";
 
-        document.addEventListener("DOMContentLoaded", () => {
-            cargarCitas();
-        });
+        document.addEventListener("DOMContentLoaded", () => cargarCitas());
 
         function cargarCitas() {
             fetch(API)
                 .then(r => r.json())
                 .then(data => {
-                    let filas = "";
-
-                    data.forEach(c => {
-                        filas += `
-                                <tr>
-                                    <td>${c.idCita}</td>
-                                    <td>${c.paciente}</td>
-                                    <td>${c.doctor}</td>
-                                    <td>${c.fecha.split("T")[0]}</td>
-                                    <td>${c.hora}</td>
-                                    <td>${c.motivo}</td>
-                                    <td>${c.estado}</td>
-                                </tr>
-                            `;
-                    });
-
-                    document.querySelector("#tablaCitas tbody").innerHTML = filas;
+                    mostrarKPIs(data);
+                    renderCitas(data);
                 });
         }
 
-        // Buscador en tabla
-        document.getElementById("buscar").addEventListener("keyup", function () {
-            let texto = this.value.toLowerCase();
-            document.querySelectorAll("#tablaCitas tbody tr").forEach(fila => {
-                fila.style.display = fila.innerText.toLowerCase().includes(texto) ? "" : "none";
+        function mostrarKPIs(data) {
+            document.getElementById("kpiTotal").innerText = data.length;
+            document.getElementById("kpiPendientes").innerText = data.filter(x => x.estado === "Pendiente").length;
+            document.getElementById("kpiProceso").innerText = data.filter(x => x.estado === "En Proceso").length;
+            document.getElementById("kpiFinalizadas").innerText = data.filter(x => x.estado === "Finalizada").length;
+        }
+
+        function renderCitas(data) {
+            let filtro = document.getElementById("buscar").value.toLowerCase();
+            let estado = document.getElementById("filtroEstado").value;
+            let fecha = document.getElementById("filtroFecha").value;
+
+            let tbody = "";
+
+            data.filter(c =>
+                c.paciente.toLowerCase().includes(filtro) ||
+                c.doctor.toLowerCase().includes(filtro) ||
+                c.motivo.toLowerCase().includes(filtro)
+            ).filter(c =>
+                !estado || c.estado === estado
+            ).filter(c =>
+                !fecha || c.fecha.split("T")[0] === fecha
+            ).forEach(c => {
+
+                tbody += `
+                    <tr>
+                        <td>${c.idCita}</td>
+                        <td>${c.paciente}</td>
+                        <td>${c.doctor}</td>
+                        <td>${c.fecha.split("T")[0]}</td>
+                        <td>${c.hora}</td>
+                        <td>${c.motivo}</td>
+                        <td>${c.estado}</td>
+                        <td>
+                            <button class="btn btn-warning btn-sm btn-action" onclick='editar(${JSON.stringify(c)})'>
+                                <i class="bi bi-pencil"></i>
+                            </button>
+
+                            <button class="btn btn-danger btn-sm btn-action" onclick='eliminar(${c.idCita})'>
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>`;
             });
-        });
+
+            document.querySelector("#tablaCitas tbody").innerHTML = tbody;
+        }
+
+        function editar(cita) {
+            document.getElementById("editId").value = cita.idCita;
+            document.getElementById("editFecha").value = cita.fecha.split("T")[0];
+            document.getElementById("editHora").value = cita.hora;
+            document.getElementById("editMotivo").value = cita.motivo;
+            document.getElementById("editEstado").value = cita.estado;
+
+            new bootstrap.Modal(document.getElementById("modalEditar")).show();
+        }
+
+        async function guardarCambios() {
+            let id = document.getElementById("editId").value;
+
+            let data = new FormData();
+            data.append("Fecha", document.getElementById("editFecha").value);
+            data.append("Hora", document.getElementById("editHora").value);
+            data.append("Motivo", document.getElementById("editMotivo").value);
+            data.append("Estado", document.getElementById("editEstado").value);
+
+            await fetch(`${API}/${id}`, { method: "PUT", body: data });
+
+            Swal.fire("Guardado", "Los cambios fueron aplicados", "success");
+            cargarCitas();
+            bootstrap.Modal.getInstance(document.getElementById("modalEditar")).hide();
+        }
+
+        async function eliminar(id) {
+            Swal.fire({
+                title: "¿Eliminar cita?",
+                text: "Esto no se puede deshacer.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, eliminar",
+                cancelButtonText: "Cancelar"
+            }).then(async (r) => {
+                if (r.isConfirmed) {
+                    await fetch(`${API}/${id}`, { method: "DELETE" });
+                    Swal.fire("Eliminado", "La cita fue eliminada", "success");
+                    cargarCitas();
+                }
+            });
+        }
     </script>
 
 </body>
 </html>
+
